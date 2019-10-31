@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/main.css') }}" />
+    <title>Localizar Equipamento</title>
+</head>
+<body>
+    <p><b>Localizar Equipamentos</b></p>
+    <div id="localizarEquipamento">
+        <form action="{{ url_for('.localizar') }}" method="POST">
+            <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
+            <button type="submit">Buscar</button>
+        </form>
+        {% if equipamento != Null %}
+        Numero do Equipamento: {{ equipamento['numeroEquipamento'] }}, Marca: {{ equipamento['marca'] }},Modelo: {{ equipamento['modelo'] }},Status: {{ equipamento['status']}}<br />
+        {% endif %}
+        
+    </div>
+    <p>{{ mensagem }}</p>
+    <a href="{{url_for('.index')}}">Voltar</a>
+</body>
+</html>

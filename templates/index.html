@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/main.css') }}" />
+    <title>Equipamentos</title>
+</head>
+<body>
+    <p><b>Lista de Equipamentos</b></p>
+    <a href="{{url_for('.localizar')}}">Localizar</a>
+    <a href="{{url_for('.cadastrar')}}">Cadastrar</a>
+    <a href="{{url_for('.editar')}}">Editar</a>
+    <a href="{{url_for('.excluir')}}">Excluir</a>
+    <div class="container">
+        <div id="equipamentos">
+            {% for item in equipamentos %}
+            Numero do Equipamento: {{ item['numeroEquipamento'] }}, Marca: {{ item['marca'] }},Modelo: {{ item['modelo'] }},Status: {{ item['status']}}<br />
+            {% endfor %}
+        </div>
+		{{ mensagem }}
+    </div>
+</body>
+</html>
