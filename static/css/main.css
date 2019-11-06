@@ -1,49 +1,53 @@
-#ExcluirEquipamento {
-    left:0;
-    width:auto;
-
+@media only screen and (max-device-width: 900px) {
+    * {
+        font-size:10pt;
+    }
 }
 
-#container {
-    width:auto;
+header h1 {
+    background: #808080;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    padding:20px;
+}
+
+body {
+    margin-bottom: 46px;
 }
 
 a {
     -webkit-appearance: button;
     -moz-appearance: button;
-    text-decoration: none;
     color: initial;
+    padding:3px;
+ }
+    a:link {
+        text-decoration:none;
+    }
+    a:hover,button:hover {
+        background:#ff0000;
+        color:#ffffff;
+        
+    }
+
+#editarEquipamento {
+    text-align: center;
 }
-table {
+
+#menu {
+    width: 100%;
     padding: 10px;
+    font-size: 16pt;
+    display: inline-block;
 }
+
+h1 {
+    text-align:center;
+}
+
 th, td {
     border: 1px solid black;
     text-align:center;
-}
-table, th, td {
-    border: 1px solid black;
-    /*border-collapse: collapse;*/
-}
-th, td {
-    padding: 15px;
-}
-
-#excluirEquipamento {
-    /*padding:10px;*/
-}
-
-table#excluirEquipamento tr:nth-child(even) {
-    background-color: #eee;
-}
-
-td {
-    background-color: #fff;
-}
-
-th {
-    background-color: black;
-    color : white;
 }
 
 #mensagens {
@@ -51,12 +55,15 @@ th {
     font-size:30px;
 }
 
-.footer {
-    padding-left:10px;
+
+footer {
+    padding:3px;
     position: fixed;
-    left: 0;
     bottom: 0;
-    width: 100%;
-    background-color: rgba(128, 128, 128, 0.49);
-    color: darkblue;
+    height:30px;
+    background:#808080;
+    display:block;
+    width:100%;
+    text-align:center;
 }
+

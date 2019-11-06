@@ -4,25 +4,26 @@
 <head>
     <title>{% block title %}Localizar{% endblock title %} - Equipamentos</title>
 </head>
-<body>
+<body id="localizarEquipamento" class="col-sm-10 form-group-lg">
     <p><b>{% block h1 %}Localizar Equipamentos{% endblock h1 %}</p></b>
-    
+
     {% block content %}
-    
-    <div id="localizarEquipamento">
+
         <form action="{{ url_for('.localizar') }}" method="POST">
             <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
             <button type="submit">Buscar</button>
         </form>
         <br>
-        {% if equipamento != Null %}
-        <table id="localizarEquipamento">
-            <tr>
-                <th>Numero do equipamento</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Status</th>
-            </tr>
+        {% if equipamento != None and equipamento != Null %}
+        <table class="table" id="listaEquipamentosTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Numero do equipamento</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
             <tr>
                 <td> {{ equipamento['numeroEquipamento'] }}</td>
                 <td> {{ equipamento['marca'] }} </td>
@@ -31,10 +32,8 @@
             </tr>
         </table>
         {% endif %}
-
-    </div>
-    <br>
-    <a href="{{url_for('.index')}}">Voltar</a>
+        <br>
+        <a href="{{url_for('.index')}}">Voltar</a>
     {% endblock content %}
 </body>
 </html>
