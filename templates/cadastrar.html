@@ -1,22 +1,23 @@
 <!DOCTYPE html>
+{% extends 'baseLayout.html' %}
 <html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/main.css') }}" />
-    <title>Novo Equipamento</title>
+    <title>{% block title %}Cadastrar{% endblock title %} - Equipamentos</title>
 </head>
 <body>
-    <p><b>Cadastrar Equipamentos</b></p>
+    <p><b>{% block h1 %}Cadastrar Equipamentos{% endblock h1 %}</b></p>
+    {% block content %}
+
     <div id="cadastroEquipamento">
-        <a href="{{url_for('.index')}}">Voltar</a>
         <form action="{{url_for('.cadastrar')}}" method="POST">
             Numero do equipamento:<input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" /><br>
             Marca:<input type="text" id="marca" name="marca" autocomplete="on" /><br>
             Modelo:<input type="text" id="modelo" name="modelo" autocomplete="on" /><br>
             ATIVO:<input type="checkbox" id="status" name="status" value="ATIVO" checked /><br>
             INATIVO:<input type="checkbox" id="status" name="status" value="INATIVO" /><br>
-            <button type="submit">Cadastrar</button>
+            <button type="submit">Cadastrar</button> | <a href="{{url_for('.index')}}">Voltar</a>
         </form>
-		{{ mensagem }}
     </div>
+    {% endblock content %}
 </body>
 </html>

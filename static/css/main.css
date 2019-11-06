@@ -1,7 +1,62 @@
-#equipamentos{
-    list-style-type:none;
-    padding:10px;
-    background-color:greenyellow;
-    width:600px;
-    height:auto;
+#ExcluirEquipamento {
+    left:0;
+    width:auto;
+
+}
+
+#container {
+    width:auto;
+}
+
+a {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    text-decoration: none;
+    color: initial;
+}
+table {
+    padding: 10px;
+}
+th, td {
+    border: 1px solid black;
+    text-align:center;
+}
+table, th, td {
+    border: 1px solid black;
+    /*border-collapse: collapse;*/
+}
+th, td {
+    padding: 15px;
+}
+
+#excluirEquipamento {
+    /*padding:10px;*/
+}
+
+table#excluirEquipamento tr:nth-child(even) {
+    background-color: #eee;
+}
+
+td {
+    background-color: #fff;
+}
+
+th {
+    background-color: black;
+    color : white;
+}
+
+#mensagens {
+    text-align:center;
+    font-size:30px;
+}
+
+.footer {
+    padding-left:10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.49);
+    color: darkblue;
 }

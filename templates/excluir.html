@@ -1,38 +1,42 @@
 <!DOCTYPE html>
+{% extends 'baseLayout.html' %}
 <html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/main.css') }}" />
-    <title>Excluir Equipamento</title>
+    <title>{% block title %}Excluir{% endblock title %} - Equipamentos</title>
 </head>
-<body>
-    <p>
-        <b>Excluir Equipamentos</b>
-    </p>
-    <div id="localizarEquipamento">
-        <form action="{{ url_for('.excluir') }}" method="POST">
-            <!--<p>Digite o numero do equipamento</p>-->
-            <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
-            <button type="submit">Buscar</button>
-        </form>
-    </div>
+
+<p><b>{% block h1 %}Excluir Equipamentos{% endblock h1 %}</b></p>
+{% block content %}
+<div id="EcluirEquipamento">
+    <form action="{{ url_for('.excluir') }}" method="POST">
+        <!--<p>Digite o numero do equipamento</p>-->
+        <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+<br>
+<div id="ExcluirEquipamento">
+    {% if equipamento != Null %}
+    <form action="./remover/{{ equipamento['numeroEquipamento'] }}" method="POST">
+        <table id="excluirEquipamento">
+            <tr>
+                <th>Numero do equipamento</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td id="" name="numeroEquipamento">{{ equipamento['numeroEquipamento'] }}</td>
+                <td id="">{{ equipamento['marca'] }}</td>
+                <td id="">{{ equipamento['modelo'] }}</td>
+                <td id="">{{ equipamento['status'] }}</td>
+            </tr>
+        </table>
+        <input type="submit" value="Excluir">
+    </form>
+    {% endif %}
     <br>
-    <div id="ExcluirEquipamento">
-        {% if equipamento != Null %}
-        <form action="./remover" method="POST">
-            Numero do equipamento:<input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" value="{{ equipamento['numeroEquipamento'] }}" />
-            <br>
-            Marca:<input type="text" id="marca" name="marca" autocomplete="on" value="{{ equipamento['marca'] }}" />
-            <br>
-            Modelo:<input type="text" id="modelo" name="modelo" autocomplete="on" value="{{ equipamento['modelo'] }}" />
-            <br>
-            Status:<input type="text" id="status" name="status" value="{{ equipamento['status'] }}" />
-            <br>
-            <input type="submit" value="Excluir">
-        </form>
-        {% endif %}
-        <p>{{ mensagem }}</p>
-        <br>
-        <a href="{{url_for('.index')}}">Voltar</a>
-    </div>
-</body>
+    <a href="{{url_for('.index')}}">Voltar</a>
+</div>
+{% endblock content %}
 </html>

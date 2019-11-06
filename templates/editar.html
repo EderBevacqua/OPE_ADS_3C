@@ -1,38 +1,36 @@
 <!DOCTYPE html>
+{% extends 'baseLayout.html' %}
 <html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/main.css') }}" />
-    <title>Editar Equipamento</title>
+    <title>{% block title %}Editar{% endblock title %} - Equipamentos</title>
 </head>
-<body>
-    <p>
-        <b>Editar Equipamentos</b>
-    </p>
-    <div id="localizarEquipamento">
-        <form action="{{ url_for('.editar') }}" method="POST">
-            <!--<p>Digite o numero do equipamento</p>-->
-            <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
-            <button type="submit">Buscar</button>
-        </form>
-    </div>
-    <br>
-    <div id="editarEquipamento">
-        {% if equipamento != Null %}
-        <form action="./atualizar" method="POST">
-            Numero do equipamento:<input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" value="{{ equipamento['numeroEquipamento'] }}" />
-            <br>
-            Marca:<input type="text" id="marca" name="marca" autocomplete="on" value="{{ equipamento['marca'] }}" />
-            <br>
-            Modelo:<input type="text" id="modelo" name="modelo" autocomplete="on" value="{{ equipamento['modelo'] }}" />
-            <br>
-            Status:<input type="text" id="status" name="status" value="{{ equipamento['status'] }}" />
-            <br>
-            <input type="submit" value="Gravar">
-        </form>
-        {% endif %}
-        <p>{{ mensagem }}</p>
+
+<p><b>{% block h1 %}Editar Equipamentos{% endblock h1 %}</b></p>
+{% block content %}
+<div id="localizarEquipamento">
+    <form action="{{ url_for('.editar') }}" method="POST">
+        <!--<p>Digite o numero do equipamento</p>-->
+        <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+<br>
+<div id="editarEquipamento">
+    {% if equipamento != Null %}
+    <form action="./atualizar/{{ equipamento['numeroEquipamento'] }}" method="POST">
+        Numero do equipamento:<input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" value="{{ equipamento['numeroEquipamento'] }}" />
         <br>
-        <a href="{{url_for('.index')}}">Voltar</a>
-    </div>
-</body>
+        Marca:<input type="text" id="marca" name="marca" autocomplete="on" value="{{ equipamento['marca'] }}" />
+        <br>
+        Modelo:<input type="text" id="modelo" name="modelo" autocomplete="on" value="{{ equipamento['modelo'] }}" />
+        <br>
+        Status:<input type="text" id="status" name="status" value="{{ equipamento['status'] }}" />
+        <br>
+        <input type="submit" value="Gravar" />
+    </form>
+    {% endif %}
+    <br>
+    <a href="{{url_for('.index')}}">Voltar</a>
+</div>
+{% endblock content %}
 </html>

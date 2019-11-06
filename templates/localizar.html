@@ -1,22 +1,40 @@
 <!DOCTYPE html>
+{% extends 'baseLayout.html' %}
 <html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/main.css') }}" />
-    <title>Localizar Equipamento</title>
+    <title>{% block title %}Localizar{% endblock title %} - Equipamentos</title>
 </head>
 <body>
-    <p><b>Localizar Equipamentos</b></p>
+    <p><b>{% block h1 %}Localizar Equipamentos{% endblock h1 %}</p></b>
+    
+    {% block content %}
+    
     <div id="localizarEquipamento">
         <form action="{{ url_for('.localizar') }}" method="POST">
             <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
             <button type="submit">Buscar</button>
         </form>
+        <br>
         {% if equipamento != Null %}
-        Numero do Equipamento: {{ equipamento['numeroEquipamento'] }}, Marca: {{ equipamento['marca'] }},Modelo: {{ equipamento['modelo'] }},Status: {{ equipamento['status']}}<br />
+        <table id="localizarEquipamento">
+            <tr>
+                <th>Numero do equipamento</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td> {{ equipamento['numeroEquipamento'] }}</td>
+                <td> {{ equipamento['marca'] }} </td>
+                <td> {{ equipamento['modelo'] }}</td>
+                <td> {{ equipamento['status'] }}</td>
+            </tr>
+        </table>
         {% endif %}
-        
+
     </div>
-    <p>{{ mensagem }}</p>
+    <br>
     <a href="{{url_for('.index')}}">Voltar</a>
+    {% endblock content %}
 </body>
 </html>

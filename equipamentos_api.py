@@ -26,7 +26,7 @@ def cadastrar():
         if equipamento == None:
             return render_template("index.html", equipamentos=service_listar(), mensagem = "Equipamento não pôde ser cadastrado! \n")
         else:
-            return render_template("index.html", equipamentos=service_listar(), mensagem = "Cadastrado!")
+            return render_template('index.html', equipamentos=service_listar(), mensagem='Cadastrado')
     return render_template("cadastrar.html")
 
 @equipamentos_app.route('/equipamentos/localizar', methods=['POST','GET'])
@@ -48,15 +48,14 @@ def editar():
         return render_template("editar.html", equipamento=equipamento)
     return render_template("editar.html")
  
-@equipamentos_app.route('/equipamentos/atualizar', methods=['POST'])
-def alterar_equipamento():
-    numeroEquipamento=request.form.get("numeroEquipamento")
+@equipamentos_app.route('/equipamentos/atualizar/<int:numeroEquipamento>', methods=['POST'])
+def alterar_equipamento(numeroEquipamento):
     marca=request.form.get("marca")
     modelo=request.form.get("modelo")
     status=request.form.get("status")
-    if marca ==None:
+    if marca == None:
         return render_template("index.html", mensagem='erro, equipamento sem marca')
-    if modelo ==None:
+    if modelo==None:
         return render_template("index.html", mensagem='erro, equipamento sem modelo')
     atualizado = service_atualiza(numeroEquipamento, marca, modelo,status)
     if atualizado != None:
@@ -71,16 +70,16 @@ def excluir():
         return render_template("excluir.html", equipamento=equipamento)
     return render_template("excluir.html")
 
-@equipamentos_app.route('/equipamentos/remover', methods=['POST'])
-def remover_equipamento():
-    if request.form and request.method == 'POST':
-        numeroEquipamento=request.form.get("numeroEquipamento")
+@equipamentos_app.route('/equipamentos/remover/<int:numeroEquipamento>', methods=['POST'])
+def remover_equipamento(numeroEquipamento):
+    if request.method=="POST":
+        #equipamentoData=request.get_json()
         removido = service_remover(numeroEquipamento)
         if removido == 1:
             return render_template("index.html", equipamentos=service_listar(), mensagem='Equipamento removido')
     return render_template("index.html", equipamentos=service_listar(), mensagem='Erro ao tentar remover equipamento')
 
-@equipamentos_app.route('/equipamentos/resetar', methods=['DELETE'])
+@equipamentos_app.route('/equipamentos/resetar', methods=['POST'])
 def resetar():
     service_resetar()
-    return jsonify("Base de equipamentos reiniciada"), 202
+    return jsonify("Base de equipamentos reiniciada")

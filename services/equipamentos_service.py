@@ -8,7 +8,7 @@ from infra.equipamentos_dao import \
 from model.equipamento import Equipamento
 
 def listar():
-    return [equipamento.__dict__() for equipamento in dao_listar()]
+    return [Equipamento.__dict__() for Equipamento in dao_listar()]
 
 def localizar(numeroEquipamento):
     equipamento = dao_consultar(numeroEquipamento)
