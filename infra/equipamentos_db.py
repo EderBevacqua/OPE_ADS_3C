@@ -3,7 +3,7 @@ import sqlite3
 db_name = "equipamentos.db"
 table_name = "equipamento"
 
-sql_create_table = f"CREATE TABLE IF NOT EXISTS {table_name} (numeroEquipamento integer PRIMARY KEY not null, marca text, modelo text, status TEXT NOT NULL DEFAULT 'ATIVO' CHECK(status IN ('ATIVO','INATIVO')));"
+sql_create_table = f"CREATE TABLE IF NOT EXISTS {table_name} (numeroEquipamento integer PRIMARY KEY not null, marca text, modelo text, status TEXT DEFAULT 'ATIVO' CHECK(status IN ('ATIVO','INATIVO')));"
 
 def createTable(cursor, sql):
     cursor.execute(sql)
