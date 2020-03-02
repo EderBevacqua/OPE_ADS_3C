@@ -17,7 +17,7 @@ def localizar(numeroEquipamento):
     return equipamento.__dict__()
 
 def criar(equipamento_data):
-    if localizar(equipamento_data['numeroEquipamento']) == None:
+    if equipamento_data != None:
         equipamento = Equipamento.criar(equipamento_data)
         return dao_cadastrar(equipamento)
     return None

@@ -2,7 +2,7 @@ import sqlite3
 from model.equipamento import Equipamento
 from contextlib import closing
 
-db_name = "equipamentos.db"
+db_name = "BaseDeDados.db"
 model_name = "equipamento"
 
 def con():
@@ -37,8 +37,8 @@ def consultar(numeroEquipamento):
 
 def cadastrar(equipamento):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql = f"INSERT INTO {model_name} (numeroEquipamento, marca, modelo, status) VALUES (?,?,?,?)"
-        result = cursor.execute(sql, (equipamento.numeroEquipamento, equipamento.marca, equipamento.modelo, equipamento.status))
+        sql = f"INSERT INTO {model_name} (marca, modelo, status) VALUES (?,?,?)"
+        result = cursor.execute(sql, ( equipamento.marca, equipamento.modelo, equipamento.status))
         connection.commit()
         if cursor.lastrowid:
             return equipamento.__dict__()

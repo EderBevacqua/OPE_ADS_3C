@@ -20,14 +20,20 @@ def index():
 
 @equipamentos_app.route('/equipamentos/cadastrar', methods=['POST','GET'])
 def cadastrar():
-    if request.method == 'POST':
-        novo_equipamento = {"numeroEquipamento":request.form["numeroEquipamento"], "marca" :request.form["marca"], "modelo" : request.form["modelo"], "status" : request.form["status"]}
-        equipamento = service_criar(novo_equipamento)
-        if equipamento == None:
-            return render_template("index.html", equipamentos=service_listar(), mensagem = "Equipamento nao pode ser cadastrado! \n")
-        else:
-            return render_template('index.html', equipamentos=service_listar(), mensagem='Equipamento cadastrado')
-    return render_template("cadastrar.html")
+    try:
+        if request.method == 'POST':
+            if not "status" in request.form:
+                novo_equipamento = {"numeroEquipamento":"", "marca" :request.form["marca"], "modelo" :request.form["modelo"], "status" :"ATIVO"}
+            else:
+                novo_equipamento = {"numeroEquipamento":"", "marca" :request.form["marca"], "modelo" :request.form["modelo"], "status" :request.form["status"]}
+            equipamento = service_criar(novo_equipamento)
+            if equipamento == None:
+                return render_template("index.html", equipamentos=service_listar(), mensagem = "Equipamento nao pode ser cadastrado! \n")
+            else:
+                return render_template('index.html', equipamentos=service_listar(), mensagem='Equipamento cadastrado')
+        return render_template("cadastrar.html")
+    except ValueError:
+        return render_template("cadastrar.html", mensagem="Digite um NUMERO valido para o equipamento")
 
 @equipamentos_app.route('/equipamentos/localizar', methods=['POST','GET'])
 def localizar():
@@ -90,7 +96,7 @@ def remover_equipamento(numeroEquipamento):
             return render_template("index.html", equipamentos=service_listar(), mensagem='Equipamento removido')
     return render_template("index.html", equipamentos=service_listar(), mensagem='Erro ao tentar remover equipamento')
 
-@equipamentos_app.route('/equipamentos/resetar', methods=['POST'])
+@equipamentos_app.route('/equipamentos/resetar', methods=['GET'])
 def resetar():
     service_resetar()
     return jsonify("Base de equipamentos reiniciada")
