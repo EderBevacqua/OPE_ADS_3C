@@ -1,0 +1,37 @@
+{% extends 'userLayout.html' %}
+<head>
+    <title>{% block title %}Editar{% endblock title %}</title>
+</head>
+<body class="col-sm-10 form-group-lg">
+    <p><b>{% block h1 %}Editar Usuario{% endblock h1 %}</b></p>
+    {% block content %}
+    <form action="{{ url_for('cadastroUsuario_app.editar') }}" method="POST">
+        <input type="text" id="numeroMatricula" name="numeroMatricula" autocomplete="on" />
+        <button type="submit">Buscar</button>
+    </form>
+    <br>
+    {% if usuario != None and usuario != Null %}
+    <form class="was-validated" action="./atualizar/{{ usuario['numeroMatricula'] }}" method="POST">
+        <div class="form-group">
+            <label for="numeroEquipamento">Numero da Matricula:</label>
+            <input class="form-control" type="text" placeholder="{{ usuario['numeroMatricula'] }}" readonly />
+        </div>
+        <div class="form-group">
+            <label for="cargo">Cargo:</label>
+            <input class="form-control" type="text" id="cargo" name="cargo" placeholder="Cargo" value="{{ usuario['cargo'] }}" autocomplete="on" required>
+            <div class="valid-feedback">ok</div>
+            <div class="invalid-feedback">Digite seu cargo</div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="text" id="email" name="email" placeholder="Email" value="{{ usuario['email'] }}" autocomplete="on" required>
+            <div class="valid-feedback">ok</div>
+            <div class="invalid-feedback">Digite seu Email</div>
+        </div>
+        <button type="submit">Atualizar</button>
+    </form>
+    {% endif %}
+    <br>
+    <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
+    {% endblock content %}
+</body>

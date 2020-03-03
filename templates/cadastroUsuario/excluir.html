@@ -1,0 +1,36 @@
+{% extends 'userLayout.html' %}
+<head>
+    <title>{% block title %}Excluir{% endblock title %}</title>
+</head>
+<body id="ExcluirEquipamento" class="col-sm-10 form-group-lg">
+    <p><b>{% block h1 %}Excluir Usuario{% endblock h1 %}</b></p>
+    {% block content %}
+    <form action="{{ url_for('.excluir') }}" method="POST">
+        <!--<p>Digite o numero do equipamento</p>-->
+        <input type="text" id="numeroMatricula" name="numeroMatricula" autocomplete="on" />
+        <button type="submit">Buscar</button>
+    </form>
+    <br>
+    {% if usuario != None and usuario != Null %}
+    <form action="./remover/{{ usuario['numeroMatricula'] }}" method="POST">
+        <table class="table" id="listaEquipamentosTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Numero da Matricula</th>
+                    <th>Cargo</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tr>
+                <td> {{ equipamento['numeroMatricula'] }}</td>
+                <td> {{ equipamento['Cargo'] }} </td>
+                <td> {{ equipamento['Email'] }}</td>
+            </tr>
+        </table>
+        <button type="submit">Excluir</button>
+    </form>
+    {% endif %}
+    <br>
+    <a href="{{url_for('.usuarios')}}">Voltar</a>
+    {% endblock content %}
+</body>

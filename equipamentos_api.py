@@ -7,16 +7,16 @@ from services.equipamentos_service import \
     atualizar as service_atualiza, \
     resetar as service_resetar
 
-equipamentos_app = Blueprint('equipamentos_app', __name__, template_folder='templates')
+equipamentos_app = Blueprint('equipamentos_app', __name__, template_folder='templates/equipamento')
+
+#@equipamentos_app.route('/equipamentos')
+#def listar_equipamentos():
+#    lista = service_listar()
+#    return jsonify(lista)
 
 @equipamentos_app.route('/equipamentos')
-def listar_equipamentos():
-    lista = service_listar()
-    return jsonify(lista)
-
-@equipamentos_app.route('/')
-def index():
-    return render_template("index.html", equipamentos=service_listar())
+def equipamentos():
+    return render_template("equipamentos.html", equipamentos=service_listar())
 
 @equipamentos_app.route('/equipamentos/cadastrar', methods=['POST','GET'])
 def cadastrar():

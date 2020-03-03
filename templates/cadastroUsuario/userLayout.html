@@ -2,12 +2,12 @@
 <!doctype html>
 <html>
 <head>
-    <title>{% block title %}{% endblock title %} - Equipamentos</title>
+    <title>{% block title %}{% endblock title %} - Cadastro de Usuarios</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% block css %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='../../static/css/main.css') }}" />
     {% endblock css %}
 </head>
 <body>
@@ -15,11 +15,11 @@
         <h1>{% block h1 %}{% endblock h1 %}</h1>
         {% block nav %}
         <div id="menu" class="btn">
-            <a href="{{url_for('.localizar')}}">Localizar</a>
-            | <a href="{{url_for('.cadastrar')}}">Cadastrar</a>
-            | <a href="{{url_for('.editar')}}">Editar</a>
-            | <a href="{{url_for('.excluir')}}">Excluir</a>
-            | <a href="{{url_for('.index')}}">Listar equipamentos</a>
+            <a href="{{url_for('cadastroUsuario_app.localizar')}}">Localizar</a>
+            | <a href="{{url_for('cadastroUsuario_app.cadastrar')}}">Cadastrar</a>
+            | <a href="{{url_for('cadastroUsuario_app.editar')}}">Editar</a>
+            | <a href="{{url_for('cadastroUsuario_app.excluir')}}">Excluir</a>
+            | <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Listar Usuarios</a>
         </div>
         {% endblock nav %}
     </header>
@@ -31,18 +31,16 @@
         <table class="table" id="listaEquipamentosTable">
             <thead class="thead-dark">
                 <tr>
-                    <th>Numero Equipamento</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Status</th>
+                    <th>Numero Matricula</th>
+                    <th>Cargo</th>
+                    <th>Email</th>
                 </tr>
             </thead>
             {% for item in equipamentos %}
             <tr>
-                <td>{{ item['numeroEquipamento'] }}</td>
-                <td>{{ item['marca']  }}</td>
-                <td>{{ item['modelo'] }}</td>
-                <td>{{ item['status']}}</td>
+                <td>{{ item['numeroMatricula'] }}</td>
+                <td>{{ item['cargo']  }}</td>
+                <td>{{ item['email'] }}</td>
             </tr>
             {% endfor %}
         </table>

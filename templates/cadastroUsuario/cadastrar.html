@@ -1,0 +1,31 @@
+{% extends 'userLayout.html' %}
+<head>
+    <title>{% block title %}Cadastrar{% endblock title %}</title>
+</head>
+<body id="cadastroEquipamento" class="col-sm-10 form-group-lg">
+    <p><b>{% block h1 %}Cadastrar Usuario{% endblock h1 %}</b></p>
+    {% block content %}
+
+    <form class="was-validated" action="{{url_for('cadastroUsuario_app.cadastrar')}}" method="POST">
+        <div class="form-group">
+            <label for="numeroMatricula">Numero da Matricula:</label>
+            <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" placeholder="Numero da Matricula" autocomplete="on" required>
+            <div class="valid-feedback">ok</div>
+            <div class="invalid-feedback">Digite o numero da Matricula</div>
+        </div>
+        <div class="form-group">
+            <label for="cargo">Cargo:</label>
+            <input class="form-control" type="text" id="cargo" name="cargo" placeholder="Cargo" autocomplete="on" required>
+            <div class="valid-feedback">ok</div>
+            <div class="invalid-feedback">Digite seu cargo</div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="text" id="email" name="email" placeholder="Email" autocomplete="on" required>
+            <div class="valid-feedback">ok</div>
+            <div class="invalid-feedback">Digite seu Email</div>
+        </div>
+        <button type="submit">Cadastrar</button> | <a href="{{url_for('.usuarios')}}">Voltar</a>
+    </form>
+    {% endblock content %}
+</body>
