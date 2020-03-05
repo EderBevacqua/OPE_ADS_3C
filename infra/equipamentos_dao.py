@@ -3,7 +3,7 @@ from model.equipamento import Equipamento
 from contextlib import closing
 
 db_name = "BaseDeDados.db"
-model_name = "equipamento"
+model_name = "equipamentos"
 
 def con():
     return sqlite3.connect(db_name)

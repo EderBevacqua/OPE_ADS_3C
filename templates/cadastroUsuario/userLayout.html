@@ -24,22 +24,20 @@
         {% endblock nav %}
     </header>
     <div class="col-sm-10 form-group-lg container">
-        
-        
 
         {% block content %}
         <table class="table" id="listaEquipamentosTable">
             <thead class="thead-dark">
                 <tr>
                     <th>Numero Matricula</th>
-                    <th>Cargo</th>
+                    <th>departamento</th>
                     <th>Email</th>
                 </tr>
             </thead>
-            {% for item in equipamentos %}
+            {% for item in usuarios %}
             <tr>
                 <td>{{ item['numeroMatricula'] }}</td>
-                <td>{{ item['cargo']  }}</td>
+                <td>{{ item['departamento']  }}</td>
                 <td>{{ item['email'] }}</td>
             </tr>
             {% endfor %}

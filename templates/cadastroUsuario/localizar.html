@@ -7,28 +7,28 @@
 
     {% block content %}
 
-    <form action="{{ url_for('.localizar') }}" method="POST">
+    <form action="{{ url_for('cadastroUsuario_app.localizar') }}" method="POST">
         <input type="text" id="numeroMatricula" name="numeroMatricula" autocomplete="on" />
         <button type="submit">Buscar</button>
     </form>
     <br>
-    {% if usuario != None and usuario != Null %}
+    {% if usuarios != None and usuarios != Null %}
     <table class="table" id="listaEquipamentosTable">
         <thead class="thead-dark">
             <tr>
                 <th>Numero da Matricula</th>
-                <th>Cargo</th>
+                <th>departamento</th>
                 <th>Email</th>
             </tr>
         </thead>
         <tr>
-            <td> {{ equipamento['numeroMatricula'] }}</td>
-            <td> {{ equipamento['Cargo'] }} </td>
-            <td> {{ equipamento['Email'] }}</td>
+            <td> {{ usuarios['numeroMatricula'] }}</td>
+            <td> {{ usuarios['departamento'] }} </td>
+            <td> {{ usuarios['Email'] }}</td>
         </tr>
     </table>
     {% endif %}
     <br>
-    <a href="{{url_for('.usuarios')}}">Voltar</a>
+    <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
     {% endblock content %}
 </body>

@@ -14,10 +14,10 @@
             <div class="invalid-feedback">Digite o numero da Matricula</div>
         </div>
         <div class="form-group">
-            <label for="cargo">Cargo:</label>
-            <input class="form-control" type="text" id="cargo" name="cargo" placeholder="Cargo" autocomplete="on" required>
+            <label for="departamento">departamento:</label>
+            <input class="form-control" type="text" id="departamento" name="departamento" placeholder="departamento" autocomplete="on" required>
             <div class="valid-feedback">ok</div>
-            <div class="invalid-feedback">Digite seu cargo</div>
+            <div class="invalid-feedback">Digite seu departamento</div>
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
@@ -25,7 +25,7 @@
             <div class="valid-feedback">ok</div>
             <div class="invalid-feedback">Digite seu Email</div>
         </div>
-        <button type="submit">Cadastrar</button> | <a href="{{url_for('.usuarios')}}">Voltar</a>
+        <button type="submit">Cadastrar</button> | <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
     </form>
     {% endblock content %}
 </body>

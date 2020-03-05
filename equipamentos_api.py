@@ -28,9 +28,9 @@ def cadastrar():
                 novo_equipamento = {"numeroEquipamento":"", "marca" :request.form["marca"], "modelo" :request.form["modelo"], "status" :request.form["status"]}
             equipamento = service_criar(novo_equipamento)
             if equipamento == None:
-                return render_template("index.html", equipamentos=service_listar(), mensagem = "Equipamento nao pode ser cadastrado! \n")
+                return render_template("equipamentos.html", equipamentos=service_listar(), mensagem = "Equipamento nao pode ser cadastrado! \n")
             else:
-                return render_template('index.html', equipamentos=service_listar(), mensagem='Equipamento cadastrado')
+                return render_template('equipamentos.html', equipamentos=service_listar(), mensagem='Equipamento cadastrado')
         return render_template("cadastrar.html")
     except ValueError:
         return render_template("cadastrar.html", mensagem="Digite um NUMERO valido para o equipamento")
@@ -70,8 +70,8 @@ def alterar_equipamento(numeroEquipamento):
     status=request.form.get("status")
     atualizado = service_atualiza(numeroEquipamento, marca, modelo,status)
     if atualizado != None:
-        return render_template("index.html", equipamentos=service_listar(), mensagem='Alteracao efetuada com sucesso')
-    return render_template("index.html", equipamentos=service_listar(), mensagem='Alteracao nao efetuada')
+        return render_template("equipamentos.html", equipamentos=service_listar(), mensagem='Alteracao efetuada com sucesso')
+    return render_template("equipamentos.html", equipamentos=service_listar(), mensagem='Alteracao nao efetuada')
     
 @equipamentos_app.route('/equipamentos/excluir', methods=['POST','GET'])
 def excluir():
@@ -93,8 +93,8 @@ def remover_equipamento(numeroEquipamento):
         #equipamentoData=request.get_json()
         removido = service_remover(numeroEquipamento)
         if removido == 1:
-            return render_template("index.html", equipamentos=service_listar(), mensagem='Equipamento removido')
-    return render_template("index.html", equipamentos=service_listar(), mensagem='Erro ao tentar remover equipamento')
+            return render_template("equipamentos.html", equipamentos=service_listar(), mensagem='Equipamento removido')
+    return render_template("equipamentos.html", equipamentos=service_listar(), mensagem='Erro ao tentar remover equipamento')
 
 @equipamentos_app.route('/equipamentos/resetar', methods=['GET'])
 def resetar():

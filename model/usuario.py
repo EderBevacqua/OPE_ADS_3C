@@ -1,17 +1,17 @@
 class Usuario():
-    def __init__(self, id, numeroMatricula, cargo, email):
+    def __init__(self, id, numeroMatricula, departamento, email):
         self.id = id
         self.numeroMatricula = numeroMatricula
-        self.cargo=cargo
-        self.modelo = email
+        self.departamento=departamento
+        self.email = email
 
     def atualizar(self, dados):
         try:
             id = dados["id"]
             numeroMatricula = dados["numeroMatricula"]
-            marca= dados["cargo"]
+            marca= dados["departamento"]
             modelo = dados["email"]
-            self.id, self.numeroMatricula, self.cargo, self.email = id, numeroMatricula, cargo, email
+            self.id, self.numeroMatricula, self.departamento, self.email = id, numeroMatricula, departamento, email
             return self
         except Exception as e:
             print("Problema ao criar novo usuario!")
@@ -21,7 +21,7 @@ class Usuario():
         d = dict()
         d["id"]=self.id
         d["numeroMatricula"]= self.numeroMatricula
-        d["cargo"]= self.cargo
+        d["departamento"]= self.departamento
         d["email"]= self.email
         return d
 
@@ -30,9 +30,9 @@ class Usuario():
         try:
             id = dados["id"]
             numeroMatricula= dados["numeroMatricula"]
-            cargo = dados["cargo"]
+            departamento = dados["departamento"]
             email = dados["email"]
-            return Usuario(id=id, numeroMatricula=numeroMatricula, cargo=cargo, email=email)
+            return Usuario(id=id, numeroMatricula=numeroMatricula, departamento=departamento, email=email)
         except Exception as e:
             print("Problema ao criar novo usuario!")
             print(e)

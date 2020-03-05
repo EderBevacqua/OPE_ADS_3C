@@ -3,7 +3,7 @@
     <title>{% block title %}Home{% endblock title %}</title>
 </head>
 <body>
-    <p><b>{% block h1 %}Home{% endblock h1 %}</b></p>
-    {% block login %}<a href="{{url_for('login_app.login')}}">Fazer Login</a> | <a href="{{url_for('cadastroUsuario_app.cadastrar')}}">Cadastrar Usuario</a>{% endblock login %}
+    <p><b>{% block h1 %}Home - SISTEMA INOTEC{% endblock h1 %}</b></p>
+    {% block login %}<a href="{{url_for('login_app.login')}}">Fazer Login</a> | <a href="{{url_for('cadastroUsuario_app.cadastrar')}}">Novo cadastro</a>{% endblock login %}
 </body>
 

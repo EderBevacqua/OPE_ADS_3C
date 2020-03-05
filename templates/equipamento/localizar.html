@@ -7,30 +7,30 @@
 
     {% block content %}
 
-        <form action="{{ url_for('.localizar') }}" method="POST">
-            <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
-            <button type="submit">Buscar</button>
-        </form>
-        <br>
-        {% if equipamento != None and equipamento != Null %}
-        <table class="table" id="listaEquipamentosTable">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Numero do equipamento</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+    <form action="{{ url_for('.localizar') }}" method="POST">
+        <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
+        <button type="submit">Buscar</button>
+    </form>
+    <br>
+    {% if equipamento != None and equipamento != Null %}
+    <table class="table" id="listaEquipamentosTable">
+        <thead class="thead-dark">
             <tr>
-                <td> {{ equipamento['numeroEquipamento'] }}</td>
-                <td> {{ equipamento['marca'] }} </td>
-                <td> {{ equipamento['modelo'] }}</td>
-                <td> {{ equipamento['status'] }}</td>
+                <th>Numero do equipamento</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Status</th>
             </tr>
-        </table>
-        {% endif %}
-        <br>
-        <a href="{{url_for('.equipamentos')}}">Voltar</a>
+        </thead>
+        <tr>
+            <td> {{ equipamento['numeroEquipamento'] }}</td>
+            <td> {{ equipamento['marca'] }} </td>
+            <td> {{ equipamento['modelo'] }}</td>
+            <td> {{ equipamento['status'] }}</td>
+        </tr>
+    </table>
+    {% endif %}
+    <br>
+    <a href="{{url_for('.equipamentos')}}">Voltar</a>
     {% endblock content %}
 </body>

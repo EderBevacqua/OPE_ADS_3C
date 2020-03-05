@@ -29,8 +29,8 @@ def remover(numeroMatricula):
     dao_remover(Usuario.criar(dados_usuario))
     return 1
 
-def atualizar(numeroMatricula, cargo, email):
-    usuario = Usuario.criar({"numeroMatricula": numeroMatricula,"cargo": cargo, "email":email})
+def atualizar(numeroMatricula, departamento, email):
+    usuario = Usuario.criar({"id":"", "numeroMatricula": numeroMatricula,"departamento": departamento, "email":email})
     dao_alterar(usuario)
     return localizar(numeroMatricula)
     

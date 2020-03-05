@@ -13,8 +13,8 @@ def listar():
         cursor.execute(f"SELECT * FROM {model_name}")
         rows = cursor.fetchall()
         registros = []
-        for (numeroMatricula, cargo, email) in rows:
-            registros.append(Usuario.criar({"numeroMatricula":numeroMatricula, "cargo":cargo, "email":email}))
+        for (id, numeroMatricula, departamento, email) in rows:
+            registros.append(Usuario.criar({ "id":id, "numeroMatricula":numeroMatricula, "departamento":departamento, "email":email}))
         return registros
 
     #with closing(con()) as connection, closing(connection.cursor()) as cursor:
@@ -33,12 +33,12 @@ def consultar(numeroMatricula):
         row = cursor.fetchone()
         if row == None:
             return None
-        return Usuario.criar({"numeroMatricula": row[0], "cargo": row[1], "email": row[2]})
+        return Usuario.criar({"id":row[0], "numeroMatricula": row[1], "departamento": row[2], "email": row[3]})
 
 def cadastrar(usuario):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql = f"INSERT INTO {model_name} (numeroMatricula, cargo, email) VALUES (?,?,?)"
-        result = cursor.execute(sql, ( usuario.numeroMatricula, usuario.cargo, usuario.email))
+        sql = f"INSERT INTO {model_name} (numeroMatricula, departamento, email) VALUES (?,?,?)"
+        result = cursor.execute(sql, (usuario.numeroMatricula, usuario.departamento, usuario.email))
         connection.commit()
         if cursor.lastrowid:
             return usuario.__dict__()
@@ -47,8 +47,8 @@ def cadastrar(usuario):
 
 def alterar(usuario):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql = f"UPDATE {model_name} SET cargo = ?, email= ? WHERE numeroMatricula = ?"
-        cursor.execute(sql, ( usuario.cargo, usuario.email, usuario.numeroMatricula ))
+        sql = f"UPDATE {model_name} SET departamento = ?, email= ? WHERE numeroMatricula = ?"
+        cursor.execute(sql, ( usuario.departamento, usuario.email, usuario.numeroMatricula ))
         connection.commit()
 
 def remover(usuario):

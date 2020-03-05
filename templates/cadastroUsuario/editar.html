@@ -10,21 +10,21 @@
         <button type="submit">Buscar</button>
     </form>
     <br>
-    {% if usuario != None and usuario != Null %}
-    <form class="was-validated" action="./atualizar/{{ usuario['numeroMatricula'] }}" method="POST">
+    {% if usuarios != None and usuarios != Null %}
+    <form class="was-validated" action="./atualizar/{{ usuarios['numeroMatricula'] }}" method="POST">
         <div class="form-group">
-            <label for="numeroEquipamento">Numero da Matricula:</label>
-            <input class="form-control" type="text" placeholder="{{ usuario['numeroMatricula'] }}" readonly />
+            <label for="numeroMatricula">Numero da Matricula:</label>
+            <input class="form-control" type="text" placeholder="{{ usuarios['numeroMatricula'] }}" readonly />
         </div>
         <div class="form-group">
-            <label for="cargo">Cargo:</label>
-            <input class="form-control" type="text" id="cargo" name="cargo" placeholder="Cargo" value="{{ usuario['cargo'] }}" autocomplete="on" required>
+            <label for="departamento">departamento:</label>
+            <input class="form-control" type="text" id="departamento" name="departamento" placeholder="departamento" value="{{ usuarios['departamento'] }}" autocomplete="on" required>
             <div class="valid-feedback">ok</div>
-            <div class="invalid-feedback">Digite seu cargo</div>
+            <div class="invalid-feedback">Digite seu departamento</div>
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input class="form-control" type="text" id="email" name="email" placeholder="Email" value="{{ usuario['email'] }}" autocomplete="on" required>
+            <input class="form-control" type="text" id="email" name="email" placeholder="Email" value="{{ usuarios['email'] }}" autocomplete="on" required>
             <div class="valid-feedback">ok</div>
             <div class="invalid-feedback">Digite seu Email</div>
         </div>
