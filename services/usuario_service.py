@@ -23,7 +23,7 @@ def criar(usuario_data):
     return None
 
 def remover(numeroMatricula):
-    dados_equipamento = localizar(numeroMatricula)
+    dados_usuario = localizar(numeroMatricula)
     if dados_usuario == None:
         return 0
     dao_remover(Usuario.criar(dados_usuario))

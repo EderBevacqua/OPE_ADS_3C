@@ -6,13 +6,13 @@
     <p><b>{% block h1 %}Excluir Usuario{% endblock h1 %}</b></p>
     {% block content %}
     <form action="{{ url_for('.excluir') }}" method="POST">
-        <!--<p>Digite o numero do equipamento</p>-->
+        <!--<p>Digite o numero da matricula</p>-->
         <input type="text" id="numeroMatricula" name="numeroMatricula" autocomplete="on" />
         <button type="submit">Buscar</button>
     </form>
     <br>
-    {% if usuario != None and usuario != Null %}
-    <form action="./remover/{{ usuario['numeroMatricula'] }}" method="POST">
+    {% if usuarios != None and usuarios != Null %}
+    <form action="./remover/{{ usuarios['numeroMatricula'] }}" method="POST">
         <table class="table" id="listaEquipamentosTable">
             <thead class="thead-dark">
                 <tr>
@@ -22,15 +22,15 @@
                 </tr>
             </thead>
             <tr>
-                <td> {{ equipamento['numeroMatricula'] }}</td>
-                <td> {{ equipamento['departamento'] }} </td>
-                <td> {{ equipamento['Email'] }}</td>
+                <td> {{ usuarios['numeroMatricula'] }}</td>
+                <td> {{ usuarios['departamento'] }} </td>
+                <td> {{ usuarios['email'] }}</td>
             </tr>
         </table>
         <button type="submit">Excluir</button>
     </form>
     {% endif %}
     <br>
-    <a href="{{url_for('.usuarios')}}">Voltar</a>
+    <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
     {% endblock content %}
 </body>

@@ -57,41 +57,39 @@ def editar():
     except ValueError:
         return render_template("cadastroUsuario/editar.html", mensagem="Digite o NUMERO da Matricula")
 
-@cadastroUsuario_app.route('/atualizar/<int:numeroMatricula>', methods=['POST'])
+@cadastroUsuario_app.route('/cadastroUsuario/atualizar/<int:numeroMatricula>', methods=['POST'])
 def alterar_usuario(numeroMatricula):
     departamento=request.form.get("departamento")
     email=request.form.get("email")
-    atualizado = service_atualiza(numeromatricula, departamento, email)
+    atualizado = service_atualiza(numeroMatricula, departamento, email)
     if atualizado != None:
         return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar(), mensagem='Alteracao efetuada com sucesso')
     return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar(), mensagem='Alteracao nao efetuada')
     
 @cadastroUsuario_app.route('/cadastroUsuario/excluir', methods=['POST','GET'])
 def excluir():
-    return render_template("cadastroUsuario/excluir.html")
-    #try:
-    #    if request.form and request.method == 'POST':
-    #        numEquipamento = request.form["numeroEquipamento"]
-    #        equipamento = service_localiza(numEquipamento)
-    #        if equipamento != None:
-    #            return render_template("excluir.html", equipamento=equipamento)
-    #        else:
-    #            return render_template("excluir.html", mensagem="Equipamento nao encontrado")
-    #    return render_template("excluir.html")
-    #except ValueError:
-    #    return render_template("excluir.html", mensagem="Digite o NUMERO do equipamento")
+    try:
+        if request.form and request.method == 'POST':
+            numMatricula = request.form["numeroMatricula"]
+            usuario = service_localiza(numMatricula)
+            if usuario != None:
+                return render_template("cadastroUsuario/excluir.html", usuarios=usuario)
+            else:
+                return render_template("cadastroUsuario/excluir.html", mensagem="Usuario nao encontrado")
+        return render_template("cadastroUsuario/excluir.html")
+    except ValueError:
+        return render_template("cadastroUsuario/excluir.html", mensagem="Digite o NUMERO do usuario")
 
-@cadastroUsuario_app.route('/cadastroUsuario/remover/<int:numeroEquipamento>', methods=['POST'])
-def remover_equipamento(numeroEquipamento):
-    return render_template("/cadastroUsuario/usuarios.html")
-    #if request.method=="POST":
-    #    #equipamentoData=request.get_json()
-    #    removido = service_remover(numeroEquipamento)
-    #    if removido == 1:
-    #        return render_template("index.html", equipamentos=service_listar(), mensagem='Equipamento removido')
-    #return render_template("index.html", equipamentos=service_listar(), mensagem='Erro ao tentar remover equipamento')
+@cadastroUsuario_app.route('/cadastroUsuario/remover/<int:numeroMatricula>', methods=['POST'])
+def remover_usuario(numeroMatricula):
+    if request.method=="POST":
+        #usuarioData=request.get_json()
+        removido = service_remover(numeroMatricula)
+        if removido == 1:
+            return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar(), mensagem='Usuario removido')
+    return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar(), mensagem='Erro ao tentar remover usuario')
 
-#@cadastroUsuario_app.route('/cadastroUsuario/resetar', methods=['GET'])
-#def resetar():
-#    service_resetar()
-#    return jsonify("Base de equipamentos reiniciada")
+@cadastroUsuario_app.route('/cadastroUsuario/resetar', methods=['GET'])
+def resetar():
+    service_resetar()
+    return jsonify("Base de usuarios reiniciada")
