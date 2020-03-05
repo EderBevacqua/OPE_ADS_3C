@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, session, abort, flash, redirect
+import os
 from equipamentos_api import equipamentos_app
 from login_api import login_app
 from cadastroUsuario_api import cadastroUsuario_app
@@ -13,8 +14,7 @@ cadastroUsuario_app = app.register_blueprint(cadastroUsuario_app)
 
 @app.route('/')
 def index():
-    return render_template("home.html")
-
+    return render_template("index.html", mensagem="")
 #@app.route('/')
 #def all():
 #    equipamentos = Req.get("http://localhost:5000/equipamentos").json()
@@ -23,4 +23,5 @@ def index():
 
 dados_db.init()
 if __name__ == '__main__':
+    app.secret_key = os.urandom(12)
     app.run(host='localhost', port=5000, debug=True)

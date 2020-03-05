@@ -1,9 +1,14 @@
-{% extends 'HomeLayout.html' %}
+{% extends 'Layout.html' %}
 <head>
-    <title>{% block title %}Home{% endblock title %}</title>
+    <title>{% block title %}Bem Vindo{% endblock title %}</title>
 </head>
 <body>
-    <p><b>{% block h1 %}Home - SISTEMA INOTEC{% endblock h1 %}</b></p>
-    {% block login %}<a href="{{url_for('login_app.login')}}">Fazer Login</a> | <a href="{{url_for('cadastroUsuario_app.cadastrar')}}">Novo cadastro</a>{% endblock login %}
+    <p><b>{% block h1 %}Empresta legal - SISTEMA INOTEC{% endblock h1 %}</b></p>
+    {% block login %}
+    <div id="divHome" class="">
+        MENU
+    </div>
+    {% endblock login %}
+    {{ mensagem }}
 </body>
 

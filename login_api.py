@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request, render_template, redirect,url_for
+from flask import Blueprint, jsonify, request, render_template, redirect,url_for, session, abort, flash, redirect
+import os
 #from services.equipamentos_service import \
 #    listar as service_listar, \
 #    localizar as service_localiza, \
@@ -6,7 +7,6 @@ from flask import Blueprint, jsonify, request, render_template, redirect,url_for
 #    remover as service_remover, \
 #    atualizar as service_atualiza, \
 #    resetar as service_resetar
-
 login_app = Blueprint('login_app', __name__, template_folder='templates/login')
 
 #@login_app.route('/equipamentos')
@@ -16,7 +16,29 @@ login_app = Blueprint('login_app', __name__, template_folder='templates/login')
 
 @login_app.route('/')
 def home():
-    return render_template("home.html")
+    if not session.get('logged_in'):
+        return render_template('index.html', mensagem="vc esta deslogado")
+    else:
+        return render_template('home.html', mensagem="Bem vindo")
+
+
+@login_app.route('/login', methods=['POST'])
+def do_admin_login():
+    if request.form['password'] == '123' and request.form['username'] == 'admin':
+        session['logged_in'] = True
+    else:
+        flash('wrong password!')
+        return home()
+
+@login_app.route("/logout")
+def logout():
+    session['logged_in'] = False
+    return index()
+
+
+    #return render_template("home.html")
+
+
 
 @login_app.route('/login', methods=['POST','GET'])
 def login():

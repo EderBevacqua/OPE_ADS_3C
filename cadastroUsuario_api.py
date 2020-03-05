@@ -10,7 +10,7 @@ from services.usuario_service import \
 cadastroUsuario_app = Blueprint('cadastroUsuario_app', __name__, template_folder='templates/cadastroUsuario')
 
 
-@cadastroUsuario_app.route('/cadastroUsuario/usuarios')
+@cadastroUsuario_app.route('/usuarios')
 def usuarios():
     return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar() )
 
