@@ -1,4 +1,8 @@
-from flask import Blueprint, jsonify, request, render_template, redirect,url_for
+from flask import Blueprint, jsonify, request, render_template, redirect,url_for, session, abort, flash, redirect
+import os
+from flask_login import current_user, login_user, LoginManager
+from werkzeug.debug import DebuggedApplication
+from model.usuario import Usuario
 from services.usuario_service import \
     listar as service_listar, \
     localizar as service_localiza, \
@@ -9,11 +13,12 @@ from services.usuario_service import \
 
 cadastroUsuario_app = Blueprint('cadastroUsuario_app', __name__, template_folder='templates/cadastroUsuario')
 
-
 @cadastroUsuario_app.route('/usuarios')
 def usuarios():
-    return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar() )
-
+    if not session.get('logged_in'):
+        return render_template('login.html', mensagem="vc esta deslogado")
+    else:
+        return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar() )
 
 @cadastroUsuario_app.route('/cadastroUsuario/cadastrar', methods=['POST','GET'])
 def cadastrar():
@@ -28,6 +33,7 @@ def cadastrar():
         return render_template("cadastroUsuario/cadastrar.html")
     except ValueError as e:
         return e
+    
 
 @cadastroUsuario_app.route('/cadastroUsuario/localizar', methods=['POST','GET'])
 def localizar():

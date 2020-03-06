@@ -21,7 +21,7 @@ header h1 {
 
 body {
     font-family: Arial;
-    background-color: #3498DB;
+    background-color: lightgray;
     /*padding: 50px;*/
     margin-bottom: 46px;
 }
@@ -52,8 +52,10 @@ a {
 #menu {
     width: 100%;
     padding: 10px;
+    margin-bottom:10px;
     font-size: 16pt;
     display: inline-block;
+
 }
 
 h1 {
@@ -132,6 +134,27 @@ input {
     .btn:hover {
         background-color: #2980B9;
     }
+
+#btnDeslogar {
+    border-top:2px solid #000000 ;
+    color: #000000;
+    font-size: 20px;
+    line-height: 25px;
+    padding: 10px 0;
+    text-decoration: none;
+    text-shadow: none;
+    border-radius: 3px;
+    box-shadow: none;
+    transition: 0.25s;
+    display: block;
+    width: 250px;
+    margin: 0 auto;
+}
+
+    .btn:hover {
+        background-color: #2980B9;
+    }
+
 
 .login-link {
     font-size: 12px;

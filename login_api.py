@@ -1,5 +1,9 @@
 from flask import Blueprint, jsonify, request, render_template, redirect,url_for, session, abort, flash, redirect
 import os
+from flask_login import current_user, login_user, LoginManager
+from werkzeug.debug import DebuggedApplication
+from model.usuario import Usuario
+
 #from services.equipamentos_service import \
 #    listar as service_listar, \
 #    localizar as service_localiza, \
@@ -9,42 +13,55 @@ import os
 #    resetar as service_resetar
 login_app = Blueprint('login_app', __name__, template_folder='templates/login')
 
-#@login_app.route('/equipamentos')
-#def listar_equipamentos():
-#    lista = service_listar()
-#    return jsonify(lista)
-
 @login_app.route('/')
-def home():
+def index():
     if not session.get('logged_in'):
         return render_template('index.html', mensagem="vc esta deslogado")
     else:
-        return render_template('home.html', mensagem="Bem vindo")
+        return render_template('home.html', mensagem="vc esta logado")
 
-
-@login_app.route('/login', methods=['POST'])
-def do_admin_login():
+@login_app.route('/', methods=['POST'])
+def logar():
     if request.form['password'] == '123' and request.form['username'] == 'admin':
         session['logged_in'] = True
+        return render_template("home.html", mensagem="Bem vindo")
     else:
-        flash('wrong password!')
-        return home()
+        #flash('wrong password!')
+        return render_template("login.html", mensagem="vc nao esta logado")
+
+@login_app.route('/login')
+def login():
+    return render_template("login.html")
+    
 
 @login_app.route("/logout")
 def logout():
     session['logged_in'] = False
-    return index()
+    return render_template("index.html",mensagem="sayonara, vc deslogou")
 
 
-    #return render_template("home.html")
+#@login_app.route('/login', methods=['POST','GET'])
+#def login():
+    ## Here we use a class of some kind to represent and validate our
+    ## client-side form data. For example, WTForms is a library that will
+    ## handle this for us, and we use a custom LoginForm to validate.
+    #form = LoginForm()
+    #if form.validate_on_submit():
+    #    # Login and validate the user.
+    #    # user should be an instance of your `User` class
+    #    login_user(user)
 
+    #    flask.flash('Logged in successfully.')
 
+    #    next = flask.request.args.get('next')
+    #    # is_safe_url should check if the url is safe for redirects.
+    #    # See http://flask.pocoo.org/snippets/62/ for an example.
+    #    if not is_safe_url(next):
+    #        return flask.abort(400)
 
-@login_app.route('/login', methods=['POST','GET'])
-def login():
-    return render_template("login.html")
-    #try:
-    #    if request.method == 'POST':
+    #    return flask.redirect(next or flask.url_for('index'))
+    #return flask.render_template('login.html', form=form)    #try:
+    ##    if request.method == 'POST':
     #        if not "status" in request.form:
     #            novo_equipamento = {"numeroEquipamento":"", "marca" :request.form["marca"], "modelo" :request.form["modelo"], "status" :"ATIVO"}
     #        else:

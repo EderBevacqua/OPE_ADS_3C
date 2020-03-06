@@ -5,7 +5,7 @@
 <body>
     <p><b>{% block h1 %}Emprestimo de equipamentos eletronicos - SISTEMA INOTEC{% endblock h1 %}</b></p>
     {% block index %}
-    <div id="divHome" class="">
+    <div id="divHome" class="btn">
         <a href="{{url_for('login_app.login')}}">Fazer Login</a> | <a href="{{url_for('cadastroUsuario_app.cadastrar')}}">Novo cadastro</a>
     </div>
     {% endblock index %}

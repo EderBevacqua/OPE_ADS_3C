@@ -5,7 +5,7 @@
 <body>
     <p><b>{% block h1 %}TELA DE LOGIN{% endblock h1 %}</b></p>
     {% block login %}
-    <form action="/login" method="POST">
+    <form action="{{ url_for('login_app.logar') }}" method="POST">
         <div class="login">
             <div class="login-screen">
                 <div class="app-title">
@@ -20,13 +20,12 @@
                         <input type="password" class="login-field" value="" placeholder="password" name="password">
                         <label class="login-field-icon fui-lock" for="login-pass"></label>
                     </div>
-                    <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
+                    <input type="submit" value="LogIn" class="btn btn-primary btn-large btn-block">
 
                 </div>
             </div>
         </div>
     </form>
     {% endblock login %}
-    {{ mensagem }}
 </body>
 

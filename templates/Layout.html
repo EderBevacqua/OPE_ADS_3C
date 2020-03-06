@@ -11,10 +11,19 @@
     {% endblock css %}
 </head>
 <body>
+
     <header>
         <h1>{% block h1 %}{% endblock h1 %}</h1>
     </header>
     {% block index %}{% endblock index %}
+    {% block menu %}{% endblock menu %}
+    {% block divHome %}{% endblock divHome %}
+    <div id="mensagens">
+        {{mensagem}}
+    </div>
+    <div id="btnDeslogar" class="row d-flex justify-content-center">
+        {% block sair %}{% endblock sair %}
+    </div>
     <footer class="footer navbar-fixed-bottom">
         <p>Copyright 2019 - OPE/Faculdade Impacta</p>
     </footer>

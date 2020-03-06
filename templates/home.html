@@ -1,14 +1,20 @@
 {% extends 'Layout.html' %}
 <head>
     <title>{% block title %}Bem Vindo{% endblock title %}</title>
+
 </head>
 <body>
+    <p><b>{% block sair %}<a href="{{url_for('login_app.logout')}}">DESLOGAR</a>{% endblock sair %}</b></p>
     <p><b>{% block h1 %}Empresta legal - SISTEMA INOTEC{% endblock h1 %}</b></p>
-    {% block login %}
-    <div id="divHome" class="">
-        MENU
+    {% block menu %}
+    <div id="" class="btn">
+        <p>
+            <b>
+                <a href="{{url_for('equipamentos_app.equipamentos')}}">Equipamentos</a>
+                | <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Usuarios</a>
+            </b>
+        </p>
     </div>
-    {% endblock login %}
-    {{ mensagem }}
+    {% endblock menu %}
 </body>
 

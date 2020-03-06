@@ -36,3 +36,7 @@ class Usuario():
         except Exception as e:
             print("Problema ao criar novo usuario!")
             print(e)
+
+def get_id(self):
+    return unicode(self.id)
+
