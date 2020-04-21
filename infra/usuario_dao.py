@@ -13,19 +13,9 @@ def listar():
         cursor.execute(f"SELECT * FROM {model_name}")
         rows = cursor.fetchall()
         registros = []
-        for (id, numeroMatricula, departamento, email) in rows:
-            registros.append(Usuario.criar({ "id":id, "numeroMatricula":numeroMatricula, "departamento":departamento, "email":email}))
+        for (id, nome, senha, numeroMatricula, departamento, email, telefone, isAdmin) in rows:
+            registros.append(Usuario.criar({ "id":id, "nome":nome, "senha":senha, "numeroMatricula":numeroMatricula, "departamento":departamento, "email":email, "telefone":telefone, "isAdmin":isAdmin }))
         return registros
-
-    #with closing(con()) as connection, closing(connection.cursor()) as cursor:
-    #    cursor.execute(f"SELECT numeroEquipamento, marca, modelo, status FROM {model_name}")
-    #    rows = cursor.fetchall()
-    #    registros = []
-    #    for (numeroEquipamento, marca, modelo, status) in rows:
-    #        equipamento = Equipamento.criar(numeroEquipamento, marca, modelo, status)
-    #        if equipamento != None:
-    #            registros.append(equipamento)
-    #    return registros
 
 def consultar(numeroMatricula):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
@@ -33,22 +23,22 @@ def consultar(numeroMatricula):
         row = cursor.fetchone()
         if row == None:
             return None
-        return Usuario.criar({"id":row[0], "numeroMatricula": row[1], "departamento": row[2], "email": row[3]})
+        return Usuario.criar({"id":row[0], "nome":row[1], "senha":[2], "numeroMatricula": row[3], "departamento": row[4], "email": row[5], "telefone":row[6], "isAdmin":row[7]})
 
 def cadastrar(usuario):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql = f"INSERT INTO {model_name} (numeroMatricula, departamento, email) VALUES (?,?,?)"
-        result = cursor.execute(sql, (usuario.numeroMatricula, usuario.departamento, usuario.email))
+        sql = f"INSERT INTO {model_name} (nome, numeroMatricula, departamento, email, telefone) VALUES (?,?,?,?,?)"
+        result = cursor.execute(sql, (usuario['nome'],usuario['numeroMatricula'], usuario['departamento'], usuario['email'], usuario['telefone']))
         connection.commit()
         if cursor.lastrowid:
-            return usuario.__dict__()
+            return usuario
         else:
             return None
 
 def alterar(usuario):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql = f"UPDATE {model_name} SET departamento = ?, email= ? WHERE numeroMatricula = ?"
-        cursor.execute(sql, ( usuario.departamento, usuario.email, usuario.numeroMatricula ))
+        sql = f"UPDATE {model_name} SET nome= ?, departamento = ?, email= ?, telefone= ? WHERE numeroMatricula = ?"
+        cursor.execute(sql, (usuario.nome, usuario.departamento, usuario.email, usuario.telefone, usuario.numeroMatricula))
         connection.commit()
 
 def remover(usuario):

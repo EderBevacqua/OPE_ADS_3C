@@ -1,11 +1,76 @@
-{% extends 'userLayout.html' %}
-<head>
-    <title>{% block title %}Home{% endblock title %}</title>
-</head>
-<body>
-    <p><b>{% block h1 %}Usuarios{% endblock h1 %}</b></p>
-   
-    {{ mensagem }}
-    
-</body>
+{% extends 'site_template.html' %}
 
+{% block body %}
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Usuarios
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-table"></i> Usuarios
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <form action="{{ url_for('cadastroUsuario_app.localizar') }}" method="POST">
+            <div class="input-group">
+                <input type="text" id="numeroMatricula" name="numeroMatricula" class="form-control" autocomplete="on" placeholder="Pesquisar pelo numero da matricula do usuario" />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <a class="btn btn-primary h1" href="{{url_for('cadastroUsuario_app.cadastrar')}}">Novo Usuario</a>
+        <br />
+        <div class="table-responsive">
+            {% if usuarios != None and usuarios != Null %}
+            <table class="table table-sm table-hover table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Matricula N</th>
+                        <th>Departamento</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th class="actions">Acoes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in usuarios %}
+                    <tr>
+                        <td>{{ item['nome'] }}</td>
+                        <td>{{ item['numeroMatricula'] }}</td>
+                        <td>{{ item['departamento']  }}</td>
+                        <td>{{ item['email'] }}</td>
+                        <td>{{ item['telefone'] }}</td>
+                        <td class="actions">
+                            <a class="btn btn-warning btn-xs" href="/usuarios/editar/{{ item['numeroMatricula'] }}">Editar</a>
+                            <a href="/usuarios/remover/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo deletar este usuario?')">Deletar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <div id="mensagens">
+            {{mensagem}}
+        </div>
+        <a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>
+    </div>
+    <!-- /.row -->
+
+</div>
+
+{% endblock body %}

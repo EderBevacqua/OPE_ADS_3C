@@ -1,0 +1,77 @@
+import sqlite3
+from model.solicitarEmprestimo import SolicitarEmprestimo
+from contextlib import closing
+
+db_name = "BaseDeDados.db"
+model_name = "solicitaEmprestimo"
+
+def con():
+    return sqlite3.connect(db_name)
+
+def listarEmp():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT sE.id,sE.id_emprestimo,sE.id_equipamento,e.id_usuario,e.dtSolicitacao,e.dtEmprestimo,e.dtDevolucao,e.status,u.nome,u.numeroMatricula,u.departamento,u.email,u.telefone,eq.numeroEquipamento,eq.marca,eq.modelo,eq.situacao FROM emprestimos AS e inner join equipamentos as eq on eq.id = sE.id_equipamento inner JOIN solicitaEmprestimo AS sE ON sE.id_emprestimo = e.id inner join usuarios AS u on u.id = e.id_usuario")
+        rows = cursor.fetchall()
+        #print(rows)
+        emprestimos = []
+        for (id,id_emprestimo,id_equipamento,id_usuario,dtSolicitacao,dtEmprestimo,dtDevolucao,status,nome,numeroMatricula,departamento,email,telefone,numeroEquipamento,marca,modelo,situacao) in rows:
+            emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dtEmprestimo, "dtDevolucao":dtDevolucao, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
+        return emprestimos
+
+def listarEqui():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT eq.numeroEquipamento, eq.marca, eq.modelo FROM solicitaEmprestimo AS se INNER JOIN equipamentos AS eq ON se.id_equipamento = eq.id WHERE id_emprestimo")
+        rows = cursor.fetchall()
+        equipamentos = []
+        for (numeroEquipamento, marca, modelo) in rows:
+            equipamentos.append({"numeroEquipamento":numeroEquipamento, "marca":marca, "modelo":modelo})
+        return equipamentos
+
+def consultar(id):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT * FROM {model_name} WHERE id = ?", (int(id),))
+        row = cursor.fetchone()
+        if row == None:
+            return None
+        return SolicitarEmprestimo.criar({"id":row[0], "id_usuario":row[1], "id_equipamento": row[2], "dataSolicitacao": row[3], "dataInicio": row[4], "dataFim":row[5], "aprovado":row[6]})
+
+def cadastrar(nova_solicitacao):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        #soli=SolicitarEmprestimo.criar(nova_solicitacao)
+        if len(nova_solicitacao['numeroEquipamento'].split(','))>1:
+            sql = f"INSERT INTO emprestimos (id_usuario, dtEmprestimo, dtDevolucao) VALUES ( (select id from usuarios where numeroMatricula = ?),?,?)" 
+            result = cursor.execute(sql, (int(nova_solicitacao['numeroMatricula']), nova_solicitacao['dtEmprestimo'], nova_solicitacao['dtDevolucao']))
+            connection.commit()
+            cursor.execute(f"SELECT LAST_INSERT_ROWID() AS id")
+            row = cursor.fetchone()
+            nE=nova_solicitacao['numeroEquipamento'].split(',')
+            for n in nE:
+                sql2 = f"INSERT INTO solicitaEmprestimo (id_emprestimo, id_equipamento) VALUES (?,(select id from equipamentos where numeroEquipamento = ?))"
+                result2 = cursor.execute(sql2, (row[0], int(n)))
+                connection.commit()
+        else:
+            sql = f"INSERT INTO emprestimos (id_usuario, dtEmprestimo, dtDevolucao) VALUES ( (select id from usuarios where numeroMatricula = ?),?,?)" 
+            result = cursor.execute(sql, (int(nova_solicitacao['numeroMatricula']), nova_solicitacao['dtEmprestimo'], nova_solicitacao['dtDevolucao']))
+            connection.commit()
+            cursor.execute(f"SELECT LAST_INSERT_ROWID() AS id")
+            row = cursor.fetchone()
+            sql2 = f"INSERT INTO solicitaEmprestimo (id_emprestimo, id_equipamento) VALUES (?,(select id from equipamentos where numeroEquipamento = ?))"
+            result2 = cursor.execute(sql2, (row[0], nova_solicitacao['numeroEquipamento']))
+            connection.commit()
+        if cursor.lastrowid:
+            return SolicitarEmprestimo.criar(nova_solicitacao)
+        else:
+            return None
+
+def alterar(usuario):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        sql = f"UPDATE {model_name} SET nome= ?, departamento = ?, email= ?, telefone= ? WHERE numeroMatricula = ?"
+        cursor.execute(sql, (usuario.nome, usuario.departamento, usuario.email, usuario.telefone, usuario.numeroMatricula))
+        connection.commit()
+
+def remover(usuario):
+    numeroMatricula = usuario.numeroMatricula
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        sql = f"DELETE FROM {model_name} WHERE numeroMatricula = ?"
+        cursor.execute(sql, (numeroMatricula,))
+        connection.commit()

@@ -1,0 +1,96 @@
+{% extends 'site_template.html' %}
+
+{% block body %}
+<div id="page-wrapper">
+    <div class="container-fluid">
+        {% for emprestimo, equips in emprestimos %}
+        <!-- Modal -->
+        <div class="modal fade" id="detalhes{{ emprestimo.id }}" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <table class="table table-sm table-hover table-striped">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Equip N</th>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th class="actions">Acoes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for equip in equips %}
+                                <tr>
+                                    <td>{{ equip.numeroEquipamento }}</td>
+                                    <td>{{ equip.marca }}</td>
+                                    <td>{{ equip.modelo }}</td>
+                                    <td class="actions">
+                                        <a href="/equipamentos/remover/{{ emprestimo.numeroEquipamento }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo remover equipamento?')">Remover</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Emprestimo
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-table"></i> Emprestimo
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="table-responsive-sm">
+            {% if emprestimos != None and emprestimos != Null %}
+            <table class="table table-sm table-hover table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Matricula N</th>
+                        <th>dtSolicitacao</th>
+                        <th>dtEmprestimo</th>
+                        <th>dtDevolucao</th>
+                        <th>status</th>
+                        <th class="actions">Acoes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emp, eq in emprestimos %}
+                    <tr>
+                        <td>{{ emp.nome }}</td>
+                        <td>{{ emp.numeroMatricula }}</td>
+                        <td>{{ emp.dtSolicitacao  }}</td>
+                        <td>{{ emp.dtEmprestimo }}</td>
+                        <td>{{ emp.dtDevolucao }}</td>
+                        <td>{{ emp.status }}</td>
+                        <td class="actions">
+                            <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp.id }}">Detalhes</a>
+                            <!--<a href="emprestimos.html/detalhes/{{ emp.numeroMatricula }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp['numeroMatricula'] }}" >Detalhes</a>-->
+                            <a href="/emprestimos/aprovar/{{ emp.id }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR emprestimo do(a) {{emp.nome}}?')">Aprovar</a>
+                            <a href="/emprestimos/recusar/{{ emp.id }}" class="btn btn-danger btn-xs" onclick="return confirm('RECUSAR emprestimo do(a) {{emp.nome}}?')">Recusar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

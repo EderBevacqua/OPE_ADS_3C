@@ -18,8 +18,8 @@ def localizar(numeroMatricula):
 
 def criar(usuario_data):
     if usuario_data != None:
-        usuario = Usuario.criar(usuario_data)
-        return dao_cadastrar(usuario)
+        #usuario = Usuario.criar(usuario_data)
+        return dao_cadastrar(usuario_data)
     return None
 
 def remover(numeroMatricula):
@@ -29,8 +29,8 @@ def remover(numeroMatricula):
     dao_remover(Usuario.criar(dados_usuario))
     return 1
 
-def atualizar(numeroMatricula, departamento, email):
-    usuario = Usuario.criar({"id":"", "numeroMatricula": numeroMatricula,"departamento": departamento, "email":email})
+def atualizar(nome, numeroMatricula, departamento, email, telefone):
+    usuario = Usuario.criar({"id":"","nome":nome, "numeroMatricula": numeroMatricula,"departamento": departamento, "email":email, "telefone":telefone})
     dao_alterar(usuario)
     return localizar(numeroMatricula)
     

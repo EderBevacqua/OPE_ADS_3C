@@ -1,36 +1,54 @@
-{% extends 'equipLayout.html' %}
-<head>
-    <title>{% block title %}Localizar{% endblock title %}</title>
-</head>
-<body id="localizarEquipamento" class="col-sm-10 form-group-lg">
-    <p><b>{% block h1 %}Localizar Equipamentos{% endblock h1 %}</p></b>
+{% extends 'site_template.html' %}
 
-    {% block content %}
+{% block body %}
+<div id="page-wrapper">
+    <div class="container-fluid">
 
-    <form action="{{ url_for('.localizar') }}" method="POST">
-        <input type="text" id="numeroEquipamento" name="numeroEquipamento" autocomplete="on" />
-        <button type="submit">Buscar</button>
-    </form>
-    <br>
-    {% if equipamento != None and equipamento != Null %}
-    <table class="table" id="listaEquipamentosTable">
-        <thead class="thead-dark">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Equipamentos
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-table"></i> Usuarios
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        {% if equipamento != None and equipamento != Null %}
+        <table class="table table-sm table-hover table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>Numero do equipamento</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Status</th>
+                    <th class="actions">Acoes</th>
+                </tr>
+            </thead>
             <tr>
-                <th>Numero do equipamento</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Status</th>
+                <td> {{ equipamento['numeroEquipamento'] }}</td>
+                <td> {{ equipamento['marca'] }} </td>
+                <td> {{ equipamento['modelo'] }}</td>
+                <td> {{ equipamento['status'] }}</td>
+                <td class="actions">
+                    <a class="btn btn-warning btn-xs" href="/equipamentos/editar/{{ equipamento['numeroEquipamento'] }}">Editar</a>
+                    <a href="/equipamentos/remover/{{ equipamento['numeroEquipamento'] }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo deletar este equipamento?')">Deletar</a>
+                </td>
             </tr>
-        </thead>
-        <tr>
-            <td> {{ equipamento['numeroEquipamento'] }}</td>
-            <td> {{ equipamento['marca'] }} </td>
-            <td> {{ equipamento['modelo'] }}</td>
-            <td> {{ equipamento['status'] }}</td>
-        </tr>
-    </table>
-    {% endif %}
-    <br>
-    <!--<a href="{{url_for('.equipamentos')}}">Voltar</a>-->
-    {% endblock content %}
-</body>
+        </table>
+        {% endif %}
+        <div id="mensagens">
+            {{mensagem}}
+        </div>
+        <br>
+        <a class="btn btn-primary" href="{{url_for('equipamentos_app.equipamentos')}}">Voltar</a>
+    </div>
+</div>
+{% endblock body %}

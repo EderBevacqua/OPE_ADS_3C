@@ -29,8 +29,8 @@ def remover(numeroEquipamento):
     dao_remover(Equipamento.criar(dados_equipamento))
     return 1
 
-def atualizar(numeroEquipamento, marca, modelo, status):
-    equipamento = Equipamento.criar({"numeroEquipamento": numeroEquipamento,"marca": marca, "modelo":modelo,"status": status})
+def atualizar(numeroEquipamento, marca, modelo, situacao):
+    equipamento = Equipamento.criar({"id":"", "numeroEquipamento": numeroEquipamento,"marca": marca, "modelo":modelo,"situacao": situacao})
     dao_alterar(equipamento)
     return localizar(numeroEquipamento)
     

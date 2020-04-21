@@ -1,0 +1,8 @@
+flask
+flask_login
+os
+werkzeug.debug
+requests
+flask_bootstrap
+sqlite3
+contextlib

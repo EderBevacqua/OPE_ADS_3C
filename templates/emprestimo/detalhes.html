@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Equipamentos</title>
+</head>
+<body>
+
+    <div id="page-wrapper">
+
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <p>Equipamentos solicitados</p>
+        <a class="btn btn-primary h1" href="{{url_for('emprestimo_app.addEquip')}}">Adicionar Equipamentos</a>
+        <div class="table-responsive">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <table class="table table-sm table-hover table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Equip N</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th class="actions">Acoes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for equipamento in equipamentos %}
+                            <tr>
+                                <td>{{ equipamento.numeroEquipamento }}</td>
+                                <td>{{ equipamento.marca }}</td>
+                                <td>{{ equipamento.modelo  }}</td>
+                                <td class="actions">
+                                    <a href="/equipamentos/remover/{{ equipamento.numeroEquipamento }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo remover equipamento?')">Remover</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
