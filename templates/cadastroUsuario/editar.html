@@ -34,11 +34,9 @@
             <div class="valid-feedback">ok</div>
             <div class="invalid-feedback">Digite seu telefone</div>
         </div>
-        <button class="btn btn-primary" type="submit">Atualizar</button>
+        <button class="btn btn-primary" type="submit">Atualizar</button> | <a class="btn btn-primary" href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
     </form>
     {% endif %}
 
-    <br>
-    <a class="btn btn-primary" href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
 </div>
 {% endblock body %}

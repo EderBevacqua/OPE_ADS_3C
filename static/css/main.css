@@ -46,11 +46,17 @@ a {
     }
 */
 
+.table{
+    text-align: center;
+}
 
+.table th {
+    text-align: center;
+}
 
 #mensagens {
-    text-align:center;
-    font-size:30px;
+    text-align: center;
+    font-size: 30px;
 }
 
 
@@ -123,4 +129,3 @@ a {
     padding: 2px;
     text-align: center;
 }
-

@@ -1,6 +1,9 @@
 from infra.solicitarEmprestimo_dao import \
     listarEmp as dao_listarEmp, \
     listarEqui as dao_listarEqui, \
+    equipDisponivel as dao_equipDisponivel, \
+    addEquipamento as dao_addEquipamento, \
+    removeEquip as dao_removeEquip, \
     consultar as dao_consultar, \
     cadastrar as dao_cadastrar, \
     alterar as dao_alterar, \
@@ -9,6 +12,12 @@ from infra.solicitarEmprestimo_dao import \
 from model.solicitarEmprestimo import SolicitarEmprestimo
 from model.equipamento import Equipamento
 
+
+def addEquipamento(idEmp,nEquip):
+    return dao_addEquipamento(idEmp,nEquip)
+
+def removeEquip(id_emprestimo,nEquip):
+    return dao_removeEquip(id_emprestimo,nEquip)
 
 def listarEmp():
     result=[]
@@ -35,8 +44,8 @@ def listarEmp():
 def listarEqui():
     return [Lequipamentos for Lequipamentos in dao_listarEqui()]
 
-#def listar():
-#    return [SolicitarEmprestimo.__dict__() for SolicitarEmprestimo in dao_listar()]
+def equipDisponivel():
+    return dao_equipDisponivel()
 
 def localizar(numeroSolicEmprestimo):
     SolicEmprestimo = dao_consultar(numeroSolicEmprestimo)
