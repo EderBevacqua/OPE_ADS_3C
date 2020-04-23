@@ -1,13 +1,47 @@
 import sqlite3
 from model.emprestimo import Emprestimo
+from model.solicitarEmprestimo import SolicitarEmprestimo
+from model.equipamento import Equipamento
 from contextlib import closing
 
 db_name = "BaseDeDados.db"
-model_name = "solicitaEmprestimo"
+model_name = "emprestimos"
 
 def con():
     return sqlite3.connect(db_name)
 
+def aprovar(id):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"update emprestimos set status='APROVADO' where id = ?", (int(id),))
+        connection.commit()
+        cursor.execute(f"SELECT changes() FROM emprestimos")
+        row = cursor.fetchone()
+        cursor.execute(f"update equipamentos set situacao='INATIVO' where id in (select eq.id from equipamentos as eq inner join solicitaEmprestimo as sE on sE.id_equipamento = eq.id inner join emprestimos as em on sE.id_emprestimo = em.id where sE.id_emprestimo = ?)", (int(id),))
+        connection.commit()
+        if row[0] ==1:
+            return True
+
+def recusar(id):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        sql=(f"update emprestimos set status='RECUSADO' where id = ?")
+        r=cursor.execute(sql,(id,))
+        connection.commit()
+        cursor.execute(f"SELECT changes() FROM emprestimos")
+        row = cursor.fetchone()
+        cursor.execute(f"update equipamentos set situacao='ATIVO' where id in (select eq.id from equipamentos as eq inner join solicitaEmprestimo as sE on sE.id_equipamento = eq.id inner join emprestimos as em on sE.id_emprestimo = em.id where sE.id_emprestimo = ?)", (int(id),))
+        connection.commit()
+        if row[0] ==1:
+            return True
+
+def listEmp():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT sE.id,sE.id_emprestimo,sE.id_equipamento,e.id_usuario,e.dtSolicitacao,e.dtEmprestimo,e.dtDevolucao,e.status,u.nome,u.numeroMatricula,u.departamento,u.email,u.telefone,eq.numeroEquipamento,eq.marca,eq.modelo,eq.situacao FROM emprestimos AS e inner join equipamentos as eq on eq.id = sE.id_equipamento inner JOIN solicitaEmprestimo AS sE ON sE.id_emprestimo = e.id inner join usuarios AS u on u.id = e.id_usuario")
+        rows = cursor.fetchall()
+        #print(rows)
+        emprestimos = []
+        for (id,id_emprestimo,id_equipamento,id_usuario,dtSolicitacao,dtEmprestimo,dtDevolucao,status,nome,numeroMatricula,departamento,email,telefone,numeroEquipamento,marca,modelo,situacao) in rows:
+            emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dtEmprestimo, "dtDevolucao":dtDevolucao, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
+        return emprestimos
 
 def listarEquipamentos(numeroMatricula):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:

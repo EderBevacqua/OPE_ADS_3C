@@ -10,7 +10,7 @@ def con():
 
 def listarEmp():
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"SELECT sE.id,sE.id_emprestimo,sE.id_equipamento,e.id_usuario,e.dtSolicitacao,e.dtEmprestimo,e.dtDevolucao,e.status,u.nome,u.numeroMatricula,u.departamento,u.email,u.telefone,eq.numeroEquipamento,eq.marca,eq.modelo,eq.situacao FROM emprestimos AS e inner join equipamentos as eq on eq.id = sE.id_equipamento inner JOIN solicitaEmprestimo AS sE ON sE.id_emprestimo = e.id inner join usuarios AS u on u.id = e.id_usuario")
+        cursor.execute(f"SELECT sE.id,sE.id_emprestimo,sE.id_equipamento,e.id_usuario,e.dtSolicitacao,e.dtEmprestimo,e.dtDevolucao,e.status,u.nome,u.numeroMatricula,u.departamento,u.email,u.telefone,eq.numeroEquipamento,eq.marca,eq.modelo,eq.situacao FROM emprestimos AS e inner join equipamentos as eq on eq.id = sE.id_equipamento inner JOIN solicitaEmprestimo AS sE ON sE.id_emprestimo = e.id inner join usuarios AS u on u.id = e.id_usuario order by sE.id_emprestimo")
         rows = cursor.fetchall()
         #print(rows)
         emprestimos = []
@@ -26,6 +26,35 @@ def listarEqui():
         for (numeroEquipamento, marca, modelo) in rows:
             equipamentos.append({"numeroEquipamento":numeroEquipamento, "marca":marca, "modelo":modelo})
         return equipamentos
+
+def equipDisponivel():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT numeroEquipamento, marca, modelo FROM equipamentos WHERE situacao='ATIVO'")
+        rows = cursor.fetchall()
+        equipamentos = []
+        for (numeroEquipamento, marca, modelo) in rows:
+            equipamentos.append({"numeroEquipamento":numeroEquipamento, "marca":marca, "modelo":modelo})
+        return equipamentos
+
+def addEquipamento(idEmp,nEquip):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        sql=f"INSERT INTO {model_name} (id_emprestimo, id_equipamento) VALUES (?,(select id from equipamentos where numeroEquipamento=?))"
+        cursor.execute(sql,(idEmp,nEquip))
+        connection.commit()
+        cursor.execute(f"SELECT changes() FROM emprestimos")
+        r = cursor.fetchone()
+        if r[0] >= 1:
+           return True
+
+def removeEquip(id_emprestimo,nEquip):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        sql=f"DELETE FROM {model_name} where id_equipamento = (select id from equipamentos where numeroEquipamento=?) and id_emprestimo=?"
+        cursor.execute(sql,(nEquip,id_emprestimo))
+        connection.commit()
+        cursor.execute(f"SELECT changes() FROM {model_name}")
+        r = cursor.fetchone()
+        if r[0] >= 1:
+           return True
 
 def consultar(id):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:

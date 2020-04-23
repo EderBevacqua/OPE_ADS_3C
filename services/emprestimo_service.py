@@ -1,6 +1,9 @@
 from infra.emprestimo_dao import \
     listar as dao_listar, \
     listarEquipamentos as dao_listarEquipamentos, \
+    listEmp as dao_listEmp, \
+    aprovar as dao_aprovar, \
+    recusar as dao_recusar, \
     consultar as dao_consultar, \
     cadastrar as dao_cadastrar, \
     alterar as dao_alterar, \
@@ -8,10 +11,40 @@ from infra.emprestimo_dao import \
     listarEmpMes as dao_listarEmpMes
 
 from model.emprestimo import Emprestimo
+from model.solicitarEmprestimo import SolicitarEmprestimo
+from model.equipamento import Equipamento
+
+def aprovar(id):
+    return dao_aprovar(id)
+
+def recusar(id):
+    return dao_recusar(id)
+
+def listEmp():
+    result=[]
+    emprestimo=[]
+    equipamentos=[]
+    for em in dao_listEmp():
+        if emprestimo!=[] or equipamentos!=[]:
+            if emprestimo[0].id_usuario == em.id_usuario and emprestimo[0].id_emprestimo == em.id_emprestimo:
+                equipamentos.append(Equipamento.criar({"id":em.get_equip()[0],"numeroEquipamento":em.get_equip()[1],"marca":em.get_equip()[2],"modelo":em.get_equip()[3],"situacao":em.get_equip()[4]}))
+            else:
+                emprestimo.append(equipamentos)
+                result.append(emprestimo)
+                equipamentos=[]
+                emprestimo=[]
+                emprestimo.append(em)
+                equipamentos.append(Equipamento.criar({"id":em.get_equip()[0],"numeroEquipamento":em.get_equip()[1],"marca":em.get_equip()[2],"modelo":em.get_equip()[3],"situacao":em.get_equip()[4]}))
+        else:
+            emprestimo.append(em)
+            equipamentos.append(Equipamento.criar({"id":em.get_equip()[0],"numeroEquipamento":em.get_equip()[1],"marca":em.get_equip()[2],"modelo":em.get_equip()[3],"situacao":em.get_equip()[4]}))
+    emprestimo.append(equipamentos)
+    result.append(emprestimo)
+    return result
+
 
 def listarEmpMes():
     return [listEmpMes for listEmpMes in dao_listarEmpMes()]
-
 
 def listar():
     return [emp for emp in dao_listar()] #[Emprestimo.__dict__() for Emprestimo in dao_listar()]
