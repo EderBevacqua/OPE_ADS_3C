@@ -1,20 +1,8 @@
 {% extends 'site_template.html' %}
 
 {% block body %}
-<<<<<<< HEAD
 <!-- HTML5 -->
 <meta charset="utf-8"/>
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            {% for emprestimo, equips in emprestimos %}
-            <!-- Modal -->
-            <div class="modal fade" id="detalhes{{ emprestimo.id }}" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-body">
-=======
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <!-- Modal equipamentos-->
@@ -28,18 +16,13 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <a class="btn btn-primary h1" data-toggle="modal" data-target="#addEquipamento{{ emprestimo.id_emprestimo }}">Adicionar Equipamento</a>
->>>>>>> 64a70d03377ba8527324c2b68b0bcc97c1259165
                             <table class="table table-sm table-hover table-striped">
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Equip N</th>
                                         <th>Marca</th>
                                         <th>Modelo</th>
-<<<<<<< HEAD
                                         <th class="actions">Ações</th>
-=======
-                                        <th class="actions">Acoes</th>
->>>>>>> 64a70d03377ba8527324c2b68b0bcc97c1259165
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,11 +32,7 @@
                                         <td>{{ equip.marca }}</td>
                                         <td>{{ equip.modelo }}</td>
                                         <td class="actions">
-<<<<<<< HEAD
-                                            <a href="/equipamentos/remover/{{ emprestimo.numeroEquipamento }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo remover equipamento?')">Remover</a>
-=======
                                             <a href="/emprestimos/removerEquipamento/{{ emprestimo.id_emprestimo }}/{{ equip.numeroEquipamento }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo remover equipamento n {{equip.numeroEquipamento}}?')">Remover</a>
->>>>>>> 64a70d03377ba8527324c2b68b0bcc97c1259165
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -66,61 +45,6 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-            {% endfor %}
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        Empréstimo
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li>
-                            <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
-                        </li>
-                        <li class="active">
-                            <i class="fa fa-table"></i> Empréstimo
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <div class="table-responsive-sm">
-                {% if emprestimos != None and emprestimos != Null %}
-                <table class="table table-sm table-hover table-striped">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Matrícula N</th>
-                            <th>dtSolicitação</th>
-                            <th>dtEmpréstimo</th>
-                            <th>dtDevolução</th>
-                            <th>status</th>
-                            <th class="actions">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for emp, eq in emprestimos %}
-                        <tr>
-                            <td>{{ emp.nome }}</td>
-                            <td>{{ emp.numeroMatricula }}</td>
-                            <td>{{ emp.dtSolicitacao  }}</td>
-                            <td>{{ emp.dtEmprestimo }}</td>
-                            <td>{{ emp.dtDevolucao }}</td>
-                            <td>{{ emp.status }}</td>
-                            <td class="actions">
-                                <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp.id }}">Detalhes</a>
-                                <!--<a href="emprestimos.html/detalhes/{{ emp.numeroMatricula }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp['numeroMatricula'] }}" >Detalhes</a>-->
-                                <a href="/emprestimos/aprovar/{{ emp.id }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{emp.nome}}?')">Aprovar</a>
-                                <a href="/emprestimos/recusar/{{ emp.id }}" class="btn btn-danger btn-xs" onclick="return confirm('RECUSAR empréstimo do(a) {{emp.nome}}?')">Recusar</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endif %}
-            </div>
-        </div>
-=======
         </div>
 
         <!-- Modal addEquipamento -->
@@ -174,14 +98,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Emprestimo
+                    Empréstimo
                 </h1>
                 <ol class="breadcrumb">
                     <li>
                         <i class="fa fa-dashboard"></i>  <a href="/emprestimos/dashboard">Dashboard</a>
                     </li>
                     <li class="active">
-                        <i class="fa fa-table"></i> Emprestimo
+                        <i class="fa fa-table"></i> Empréstimo
                     </li>
                 </ol>
             </div>
@@ -192,12 +116,12 @@
                 <thead class="thead-light">
                     <tr>
                         <th>Nome</th>
-                        <th>Matricula N</th>
-                        <th>dtSolicitacao</th>
-                        <th>dtEmprestimo</th>
-                        <th>dtDevolucao</th>
-                        <th>status</th>
-                        <th class="actions">Acoes</th>
+                           <th>Matrícula N</th>
+                           <th>dtSolicitação</th>
+                           <th>dtEmpréstimo</th>
+                           <th>dtDevolução</th>
+                           <th>status</th>
+                           <th class="actions">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -236,6 +160,5 @@
             {% endif %}
             {% endwith %}
         </div>
->>>>>>> 64a70d03377ba8527324c2b68b0bcc97c1259165
     </div>
 {% endblock body %}
