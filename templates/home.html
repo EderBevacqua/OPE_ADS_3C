@@ -1,4 +1,6 @@
 {% extends 'Layout.html' %}
+<!-- HTML5 -->
+<meta charset="utf-8"/>
 <head>
     <title>{% block title %}Bem Vindo{% endblock title %}</title>
 
@@ -11,7 +13,7 @@
         <p>
             <b>
                 <a href="{{url_for('equipamentos_app.equipamentos')}}">Equipamentos</a>
-                | <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Usuarios</a>
+                | <a href="{{url_for('cadastroUsuario_app.usuarios')}}">Usuários</a>
             </b>
         </p>
     </div>
