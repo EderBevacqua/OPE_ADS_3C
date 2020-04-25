@@ -24,7 +24,7 @@ def dashboardEmp():
 def aprovar(id_emprestimo):
     r=service_aprovar(id_emprestimo)
     if r == True:
-        flash('Emprestimo Aprovado')
+        flash('Empréstimo Aprovado')
         return redirect('/emprestimos')
     else:
         return render_template('solicitarEmprestimo/emprestimos.html', mensagem='Algo de errado aconteceu')
@@ -33,7 +33,7 @@ def aprovar(id_emprestimo):
 def recusar(id_emprestimo):
     r=service_recusar(id_emprestimo)
     if r == True:
-        flash('Emprestimo Recusado')
+        flash('Empréstimo Recusado')
         return redirect('/emprestimos')
     else:
         return render_template('solicitarEmprestimo/emprestimos.html', mensagem='Algo de errado aconteceu')

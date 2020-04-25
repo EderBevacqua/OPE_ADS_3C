@@ -1,81 +1,79 @@
-{% extends 'site_template.html' %}
+﻿{% extends 'site_template.html' %}
 
 {% block body %}
-<!-- HTML5 -->
-<meta charset="utf-8"/>
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            {% for emprestimo in emprestimos %}
-            <!-- Modal -->
-            <div class="modal fade" id="detalhes{{ emprestimo.numeroMatricula }}" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Fechar</h4>
-                        </div>
-                        <div class="modal-body">
+<div id="page-wrapper">
+    <div class="container-fluid">
+        {% for emprestimo in emprestimos %}
+        <!-- Modal -->
+        <div class="modal fade" id="detalhes{{ emprestimo.numeroMatricula }}" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Fechar</h4>
+                    </div>
+                    <div class="modal-body">
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        Empréstimo
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li>
-                            <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
-                        </li>
-                        <li class="active">
-                            <i class="fa fa-table"></i> Empréstimo
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <div class="table-responsive-sm">
-                {% if emprestimos != None and emprestimos != Null %}
-                <table class="table table-sm table-hover table-striped">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Matrícula N</th>
-                            <th>dtSolicitação</th>
-                            <th>dtEmpréstimo</th>
-                            <th>dtDevolução</th>
-                            <th>status</th>
-                            <th class="actions">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in emprestimos %}
-                        <tr>
-                            <td>{{ item['nome'] }}</td>
-                            <td>{{ item['numeroMatrícula'] }}</td>
-                            <td>{{ item['dtSolicitação']  }}</td>
-                            <td>{{ item['dtEmpréstimo'] }}</td>
-                            <td>{{ item['dtDevolução'] }}</td>
-                            <td>{{ item['status'] }}</td>
-                            <td class="actions">
-                                <!--<a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatricula'] }}">Detalhes</a>-->
-                                <a href="emprestimos.html/detalhes/{{ item['numeroMatricula'] }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatrícula'] }}" >Detalhes</a>
-                                <a href="/emprestimos/aprovar/{{ item['numeroMatricula'] }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{item.nome}}?')">Aprovar</a>
-                                <a href="/emprestimos/recusar/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('RECUSAR empréstimo do(a) {{item.nome}}?')">Recusar</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endif %}
+        </div>
+        {% endfor %}
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Empréstimo
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-table"></i> Empréstimo
+                    </li>
+                </ol>
             </div>
         </div>
+        <div class="table-responsive-sm">
+            {% if emprestimos != None and emprestimos != Null %}
+            <table class="table table-sm table-hover table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Matrícula N</th>
+                        <th>dtSolicitação</th>
+                        <th>dtEmpréstimo</th>
+                        <th>dtDevolução</th>
+                        <th>status</th>
+                        <th class="actions">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in emprestimos %}
+                    <tr>
+                        <td>{{ item['nome'] }}</td>
+                        <td>{{ item['numeroMatrícula'] }}</td>
+                        <td>{{ item['dtSolicitação']  }}</td>
+                        <td>{{ item['dtEmpréstimo'] }}</td>
+                        <td>{{ item['dtDevolução'] }}</td>
+                        <td>{{ item['status'] }}</td>
+                        <td class="actions">
+                            <!--<a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatricula'] }}">Detalhes</a>-->
+                            <a href="emprestimos.html/detalhes/{{ item['numeroMatricula'] }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatrícula'] }}">Detalhes</a>
+                            <a href="/emprestimos/aprovar/{{ item['numeroMatricula'] }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{item.nome}}?')">Aprovar</a>
+                            <a href="/emprestimos/recusar/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('RECUSAR empréstimo do(a) {{item.nome}}?')">Recusar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
     </div>
+</div>
 {% endblock body %}

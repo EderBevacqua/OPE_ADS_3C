@@ -24,7 +24,7 @@ def adicionarEquipamento(id_emprestimo):
         for idEquip in request.form.getlist('addEquip'):
             a = service_addEquipamento(id_emprestimo,idEquip)
         if a == True:
-            flash('Equipamento adicionado no emprestimo')
+            flash('Equipamento adicionado no empréstimo')
             return redirect('/emprestimos')
     return redirect("/emprestimos")
 
@@ -32,7 +32,7 @@ def adicionarEquipamento(id_emprestimo):
 def removerEquipamento(id_emprestimo,id_equipamento):
     rm=service_removeEquip(id_emprestimo, id_equipamento)
     if rm != None:
-        flash('Equipamento removido do emprestimo')
+        flash('Equipamento removido do empréstimo')
         return redirect('/emprestimos')
 
 
@@ -51,9 +51,9 @@ def cadastrar():
             nova_solicitacao = {'id':'', 'id_emprestimo':'', 'id_equipamento':'', 'id_usuario':'', 'dtSolicitacao':'', 'dtEmprestimo':request.form['dtEmprestimo'], 'dtDevolucao':request.form['dtDevolucao'], 'status':'', 'nome':request.form['nome'], 'numeroMatricula':request.form['numeroMatricula'], 'departamento':'', 'email':'', 'telefone':'', 'numeroEquipamento':request.form['numeroEquipamento'], 'marca':'','modelo':'', 'situacao':''}
             solicitacao = service_criar(nova_solicitacao)
         if solicitacao == None:
-            return redirect("solicitarEmprestimo/solicitarEmprestimo.html", mensagem = "solictacao nao pode ser cadastrado! \n")
+            return redirect("solicitarEmprestimo/solicitarEmprestimo.html", mensagem = "solictacao não pode ser cadastrado! \n")
         else:
-            flash('Solicitacao de emprestimo registrada')
+            flash('Solicitacao de empréstimo registrada')
             return redirect('/emprestimos')
         return render_template("solicitarEmprestimo/solicitarEmprestimo.html")
     except ValueError as e:

@@ -23,18 +23,18 @@
             <div class="invalid-feedback">Digite o modelo do equipamento</div>
         </div>
         <div class="form-group">
-            <label for="modelo">Status atual:</label>
-            <label>{{ equipamento['status'] }}</label>
-            {% if equipamento['status'] == "ATIVO" %}
+            <label for="modelo">Situção atual:</label>
+            <label style="font-style:italic;">{{ equipamento['situacao'] }}</label>
+            {% if equipamento['situacao'] == "ATIVO" %}
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input type="checkbox" id="situacao" name="situacao" value="INATIVO">INATIVAR
+                    <input type="checkbox" id="situacao" name="situacao" value="INATIVO" checked>INATIVAR
                 </label>
             </div>
             {% else %}
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-label" type="checkbox" id="situacao" name="situação" value="ATIVO" checked>ATIVAR
+                    <input class="form-check-label" type="checkbox" id="situacao" name="situacao" value="ATIVO" checked>ATIVAR
                 </label>
             </div>
             {% endif %}

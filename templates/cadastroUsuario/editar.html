@@ -1,50 +1,6 @@
 {% extends 'site_template.html' %}
 
 {% block body %}
-<!-- HTML5 -->
-<meta charset="utf-8"/>
-
-<<<<<<< HEAD
-    <div id="page-wrapper">
-        <br>
-        {% if usuarios != None and usuarios != Null %}
-        <form class="was-validated" action="../atualizar/{{ usuarios['numeroMatricula'] }}" method="POST">
-            <div class="form-group">
-                <label for="nome">Nome:</label>
-                <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" value="{{ usuarios['nome'] }}" autocomplete="on" required>
-                <div class="valid-feedback">ok</div>
-                <div class="invalid-feedback">Digite seu nome</div>
-            </div>
-            <div class="form-group">
-                <label for="numeroMatricula">Numero da Matrícula:</label>
-                <input class="form-control" type="text" placeholder="{{ usuarios['numeroMatricula'] }}" readonly />
-            </div>
-            <div class="form-group">
-                <label for="departamento">departamento:</label>
-                <input class="form-control" type="text" id="departamento" name="departamento" placeholder="departamento" value="{{ usuarios['departamento'] }}" autocomplete="on" required>
-                <div class="valid-feedback">ok</div>
-                <div class="invalid-feedback">Digite seu departamento</div>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input class="form-control" type="text" id="email" name="email" placeholder="Email" value="{{ usuarios['email'] }}" autocomplete="on" required>
-                <div class="valid-feedback">ok</div>
-                <div class="invalid-feedback">Digite seu Email</div>
-            </div>
-            <div class="form-group">
-                <label for="telefone">Telefone:</label>
-                <input class="form-control" type="text" id="telefone" name="telefone" placeholder="Telefone" value="{{ usuarios['telefone'] }}" autocomplete="on" required>
-                <div class="valid-feedback">ok</div>
-                <div class="invalid-feedback">Digite seu telefone</div>
-            </div>
-            <button class="btn btn-primary" type="submit">Atualizar</button>
-        </form>
-        {% endif %}
-
-        <br>
-        <a class="btn btn-primary" href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
-    </div>
-=======
 <div id="page-wrapper">
     <br>
     {% if usuarios != None and usuarios != Null %}
@@ -56,12 +12,12 @@
             <div class="invalid-feedback">Digite seu nome</div>
         </div>
         <div class="form-group">
-            <label for="numeroMatricula">Numero da Matricula:</label>
+            <label for="numeroMatricula">Número da Matrícula:</label>
             <input class="form-control" type="text" placeholder="{{ usuarios['numeroMatricula'] }}" readonly />
         </div>
         <div class="form-group">
-            <label for="departamento">departamento:</label>
-            <input class="form-control" type="text" id="departamento" name="departamento" placeholder="departamento" value="{{ usuarios['departamento'] }}" autocomplete="on" required>
+            <label for="departamento">Departamento:</label>
+            <input class="form-control" type="text" id="departamento" name="departamento" placeholder="Departamento" value="{{ usuarios['departamento'] }}" autocomplete="on" required>
             <div class="valid-feedback">ok</div>
             <div class="invalid-feedback">Digite seu departamento</div>
         </div>
@@ -80,7 +36,5 @@
         <button class="btn btn-primary" type="submit">Atualizar</button> | <a class="btn btn-primary" href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
     </form>
     {% endif %}
-
 </div>
->>>>>>> 64a70d03377ba8527324c2b68b0bcc97c1259165
 {% endblock body %}

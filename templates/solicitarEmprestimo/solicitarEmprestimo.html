@@ -1,61 +1,59 @@
 {% extends 'site_template.html' %}
 
 {% block body %}
-<!-- HTML5 -->
-<meta charset="utf-8"/>
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        Solicitar Empréstimo
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li>
-                            <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
-                        </li>
-                        <li class="active">
-                            <i class="fa fa-table"></i> Solicitar Empréstimo
-                        </li>
-                    </ol>
-                </div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Solicitar Empréstimo
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-table"></i> Solicitar Empréstimo
+                    </li>
+                </ol>
             </div>
-            <div id="page-wrapper">
+        </div>
+        <div id="page-wrapper">
 
-                <form class="was-validated" action="{{url_for('solicitarEmprestimo_app.cadastrar')}}" method="POST">
-                    <div class="form-group">
-                        <label for="nome">Nome:</label>
-                        <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" autocomplete="on" required>
-                        <div class="valid-feedback">ok</div>
-                        <div class="invalid-feedback">Digite o Nome</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="numeroMatricula">Numero da Matrícula:</label>
-                        <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" placeholder="Numero da Matrícula" autocomplete="on" required>
-                        <div class="valid-feedback">ok</div>
-                        <div class="invalid-feedback">Numero da Matrícula</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="numeroEquipamento">Numero do equipamento:</label>
-                        <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" placeholder="Numero do equipamento" autocomplete="on" required>
-                        <div class="valid-feedback">ok</div>
-                        <div class="invalid-feedback">Digite o numero do equipamento</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dtEmprestimo">Data e hora do Empréstimo:</label>
-                        <input class="form-control" type="datetime-local" id="dtEmprestimo" name="dtEmprestimo" placeholder="Data do Empréstimo" autocomplete="on" required>
-                        <div class="valid-feedback">ok</div>
-                        <div class="invalid-feedback">Digite a Data e a Hora do Empréstimo</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dtDevolucao">Data e Hora da Devolução do Empréstimo:</label>
-                        <input class="form-control" type="datetime-local" id="dtDevolucao" name="dtDevolucao" placeholder="Data devolução do Empréstimo" autocomplete="on" required>
-                        <div class="valid-feedback">ok</div>
-                        <div class="invalid-feedback">Digite a Data e hora da devolução do Empréstimo</div>
-                    </div>
+            <form class="was-validated" action="{{url_for('solicitarEmprestimo_app.cadastrar')}}" method="POST">
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" autocomplete="on" required>
+                    <div class="valid-feedback">ok</div>
+                    <div class="invalid-feedback">Digite o Nome</div>
+                </div>
+                <div class="form-group">
+                    <label for="numeroMatricula">Número da Matrícula:</label>
+                    <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" placeholder="Número da Matrícula" autocomplete="on" required>
+                    <div class="valid-feedback">ok</div>
+                    <div class="invalid-feedback">Número da Matrícula</div>
+                </div>
+                <div class="form-group">
+                    <label for="numeroEquipamento">Número do equipamento:</label>
+                    <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" placeholder="Número do equipamento" autocomplete="on" required>
+                    <div class="valid-feedback">ok</div>
+                    <div class="invalid-feedback">Digite o número do equipamento</div>
+                </div>
+                <div class="form-group">
+                    <label for="dtEmprestimo">Data e hora do Empréstimo:</label>
+                    <input class="form-control" type="datetime-local" id="dtEmprestimo" name="dtEmprestimo" placeholder="Data do Empréstimo" autocomplete="on" required>
+                    <div class="valid-feedback">ok</div>
+                    <div class="invalid-feedback">Digite a Data e a Hora do Empréstimo</div>
+                </div>
+                <div class="form-group">
+                    <label for="dtDevolucao">Data e Hora da Devolução do Empréstimo:</label>
+                    <input class="form-control" type="datetime-local" id="dtDevolucao" name="dtDevolucao" placeholder="Data devolução do Empréstimo" autocomplete="on" required>
+                    <div class="valid-feedback">ok</div>
+                    <div class="invalid-feedback">Digite a Data e hora da devolução do Empréstimo</div>
+                </div>
 
-                    <!--<div class="form-group form-check" id="STATUS" name="STATUS">
+                <!--<div class="form-group form-check" id="STATUS" name="STATUS">
                     <label class="form-check-label">
                         <input type="checkbox" id="status" name="status" value="ATIVO" checked>ATIVO
                     </label>
@@ -64,13 +62,13 @@
                     </label>
                 </div>-->
 
-                    <button class="btn btn-primary" type="submit">Cadastrar</button> | <a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>
-                </form>
-                <br />
-            </div>
-            <div id="mensagens">
-                {{mensagem}}
-            </div>
+                <button class="btn btn-primary" type="submit">Cadastrar</button> | <a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>
+            </form>
+            <br />
+        </div>
+        <div id="mensagens">
+            {{mensagem}}
         </div>
     </div>
+</div>
 {% endblock body %}
