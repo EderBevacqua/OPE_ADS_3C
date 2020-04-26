@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request, render_template, redirect,url_for, session, abort, flash, redirect
 import os
+from datetime import datetime
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from werkzeug.debug import DebuggedApplication
 from services.solicitarEmprestimo_service import \
@@ -20,12 +21,16 @@ solicitarEmprestimo_app = Blueprint('solicitarEmprestimo_app', __name__, templat
 
 @solicitarEmprestimo_app.route('/emprestimos/adicionarEquipamento/<int:id_emprestimo>', methods=['POST'])
 def adicionarEquipamento(id_emprestimo):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.form.getlist('addEquip') !=[]:
         for idEquip in request.form.getlist('addEquip'):
             a = service_addEquipamento(id_emprestimo,idEquip)
         if a == True:
             flash('Equipamento adicionado no empréstimo')
             return redirect('/emprestimos')
+        else:
+            flash('Algo de errado aconteceu')
+            return redirect('/emprestimos')
+    flash('Nenhum equipamento adicionado')
     return redirect("/emprestimos")
 
 @solicitarEmprestimo_app.route('/emprestimos/removerEquipamento/<int:id_emprestimo>/<int:id_equipamento>', methods=['POST','GET'])
@@ -48,12 +53,20 @@ def solicitarEmprestimo():
 def cadastrar():
     try:
         if request.method == 'POST':
+            #dEmp=request.form['dtEmprestimo'].replace('T',' ')
+            #dataHoraEmp_obj = datetime.strptime(dEmp, '%Y-%m-%d %H:%M')
+            #dataHoraEmp = dataHoraEmp_obj.strftime('%d/%m/%Y %H:%M')
+            
+            #dDev=request.form['dtDevolucao'].replace('T',' ')
+            #dataHoraDev_obj = datetime.strptime(dDev, '%Y-%m-%d %H:%M')
+            #dataHoraDev = dataHoraDev_obj.strftime('%d/%m/%Y %H:%M')
+
             nova_solicitacao = {'id':'', 'id_emprestimo':'', 'id_equipamento':'', 'id_usuario':'', 'dtSolicitacao':'', 'dtEmprestimo':request.form['dtEmprestimo'], 'dtDevolucao':request.form['dtDevolucao'], 'status':'', 'nome':request.form['nome'], 'numeroMatricula':request.form['numeroMatricula'], 'departamento':'', 'email':'', 'telefone':'', 'numeroEquipamento':request.form['numeroEquipamento'], 'marca':'','modelo':'', 'situacao':''}
             solicitacao = service_criar(nova_solicitacao)
         if solicitacao == None:
-            return redirect("solicitarEmprestimo/solicitarEmprestimo.html", mensagem = "solictacao não pode ser cadastrado! \n")
+            return render_template("solicitarEmprestimo/solicitarEmprestimo.html", mensagem = "solictacao não pode ser cadastrado! \n")
         else:
-            flash('Solicitacao de empréstimo registrada')
+            flash('Solicitação de empréstimo registrada')
             return redirect('/emprestimos')
         return render_template("solicitarEmprestimo/solicitarEmprestimo.html")
     except ValueError as e:

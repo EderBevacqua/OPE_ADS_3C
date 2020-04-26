@@ -23,7 +23,7 @@ def aprovar(id):
 
 def recusar(id):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql=(f"update emprestimos set status='RECUSADO' where id = ?")
+        sql=(f"update emprestimos set status='REPROVADO' where id = ?")
         r=cursor.execute(sql,(id,))
         connection.commit()
         cursor.execute(f"SELECT changes() FROM emprestimos")
@@ -37,7 +37,6 @@ def listEmp():
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
         cursor.execute(f"SELECT sE.id,sE.id_emprestimo,sE.id_equipamento,e.id_usuario,e.dtSolicitacao,e.dtEmprestimo,e.dtDevolucao,e.status,u.nome,u.numeroMatricula,u.departamento,u.email,u.telefone,eq.numeroEquipamento,eq.marca,eq.modelo,eq.situacao FROM emprestimos AS e inner join equipamentos as eq on eq.id = sE.id_equipamento inner JOIN solicitaEmprestimo AS sE ON sE.id_emprestimo = e.id inner join usuarios AS u on u.id = e.id_usuario")
         rows = cursor.fetchall()
-        #print(rows)
         emprestimos = []
         for (id,id_emprestimo,id_equipamento,id_usuario,dtSolicitacao,dtEmprestimo,dtDevolucao,status,nome,numeroMatricula,departamento,email,telefone,numeroEquipamento,marca,modelo,situacao) in rows:
             emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dtEmprestimo, "dtDevolucao":dtDevolucao, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
@@ -52,14 +51,25 @@ def listarEquipamentos(numeroMatricula):
             registros.append({"numeroEquipamento":numeroEquipamento, "marca":marca, "modelo":modelo})
         return registros
 
-def listarEmpMes():
+#DashBoard
+def empMesAprovados():
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"select count(id) as qtd from emprestimos where dtEmprestimo >= DateTime('Now', '-1 months', 'LocalTime')")
+        cursor.execute(f"select count(id) as qtd from emprestimos where dtEmprestimo >= DateTime('Now', '-1 months', 'LocalTime') and status='APROVADO' ")
         rows = cursor.fetchall()
-        linhas = []
-        for (qtd) in rows:
-            linhas.append({"qtd":qtd})
-        return linhas
+        return rows[0][0]
+
+def empMesReprovados():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"select count(id) as qtd from emprestimos where dtEmprestimo >= DateTime('Now', '-1 months', 'LocalTime') and status='REPROVADO' ")
+        rows = cursor.fetchall()
+        return rows[0][0]
+
+def empMesPendentes():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"select count(id) as qtd from emprestimos where dtEmprestimo >= DateTime('Now', '-1 months', 'LocalTime') and status='PENDENTE' ")
+        rows = cursor.fetchall()
+        return rows[0][0]
+
 
 def listar():
     with closing(con()) as connection, closing(connection.cursor()) as cursor:

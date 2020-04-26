@@ -1,3 +1,4 @@
+from datetime import datetime
 import sqlite3
 from model.solicitarEmprestimo import SolicitarEmprestimo
 from contextlib import closing
@@ -15,7 +16,14 @@ def listarEmp():
         #print(rows)
         emprestimos = []
         for (id,id_emprestimo,id_equipamento,id_usuario,dtSolicitacao,dtEmprestimo,dtDevolucao,status,nome,numeroMatricula,departamento,email,telefone,numeroEquipamento,marca,modelo,situacao) in rows:
-            emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dtEmprestimo, "dtDevolucao":dtDevolucao, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
+            dEmp=dtEmprestimo.replace('T',' ')
+            dataHoraEmp_obj = datetime.strptime(dEmp, '%Y-%m-%d %H:%M')
+            dataHoraEmp = dataHoraEmp_obj.strftime('%d/%m/%Y - %H:%M')
+            
+            dDev=dtDevolucao.replace('T',' ')
+            dataHoraDev_obj = datetime.strptime(dDev, '%Y-%m-%d %H:%M')
+            dataHoraDev = dataHoraDev_obj.strftime('%d/%m/%Y - %H:%M')
+            emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dataHoraEmp, "dtDevolucao":dataHoraDev, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
         return emprestimos
 
 def listarEqui():

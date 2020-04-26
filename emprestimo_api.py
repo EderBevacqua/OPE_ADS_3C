@@ -12,13 +12,15 @@ from services.emprestimo_service import \
     remover as service_remover, \
     atualizar as service_atualiza, \
     resetar as service_resetar, \
-    listarEmpMes as service_empMes
+    empMesAprovados as service_empMesAprovados, \
+    empMesReprovados as service_empMesReprovados, \
+    empMesPendentes as service_empMesPendentes
 
 emprestimo_app = Blueprint('emprestimo_app', __name__, template_folder='templates/emprestimo')
 
 @emprestimo_app.route('/emprestimos/dashboard', methods=['GET'])
 def dashboardEmp():
-    return render_template('emprestimo/dashboard.html',listarEmpMes=service_empMes())
+    return render_template('emprestimo/dashboard.html',empMesAprovados=service_empMesAprovados(),empMesReprovados=service_empMesReprovados(),empMesPendentes=service_empMesPendentes())
 
 @emprestimo_app.route('/emprestimos/aprovar/<int:id_emprestimo>', methods=['POST','GET'])
 def aprovar(id_emprestimo):
@@ -33,7 +35,7 @@ def aprovar(id_emprestimo):
 def recusar(id_emprestimo):
     r=service_recusar(id_emprestimo)
     if r == True:
-        flash('Empréstimo Recusado')
+        flash('Empréstimo Reprovado')
         return redirect('/emprestimos')
     else:
         return render_template('solicitarEmprestimo/emprestimos.html', mensagem='Algo de errado aconteceu')

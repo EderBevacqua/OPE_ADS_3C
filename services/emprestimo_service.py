@@ -8,7 +8,9 @@ from infra.emprestimo_dao import \
     cadastrar as dao_cadastrar, \
     alterar as dao_alterar, \
     remover as dao_remover, \
-    listarEmpMes as dao_listarEmpMes
+    empMesAprovados as dao_empMesAprovados, \
+    empMesReprovados as dao_empMesReprovados, \
+    empMesPendentes as dao_empMesPendentes
 
 from model.emprestimo import Emprestimo
 from model.solicitarEmprestimo import SolicitarEmprestimo
@@ -42,9 +44,16 @@ def listEmp():
     result.append(emprestimo)
     return result
 
+#DashBoard
+def empMesAprovados():
+    return dao_empMesAprovados()
 
-def listarEmpMes():
-    return [listEmpMes for listEmpMes in dao_listarEmpMes()]
+def empMesReprovados():
+    return dao_empMesReprovados()
+
+def empMesPendentes():
+    return dao_empMesPendentes()
+
 
 def listar():
     return [emp for emp in dao_listar()] #[Emprestimo.__dict__() for Emprestimo in dao_listar()]

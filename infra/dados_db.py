@@ -9,7 +9,7 @@ table_emprestimo = "emprestimos"
 sql_create_tableEquipamento = f"CREATE TABLE IF NOT EXISTS {table_equipamento} (id INTEGER PRIMARY KEY AUTOINCREMENT, numeroEquipamento INTEGER UNIQUE, marca TEXT, modelo TEXT, situacao TEXT DEFAULT 'ATIVO' CHECK(situacao IN ('ATIVO','INATIVO')));"
 sql_create_tableUsuario = f"CREATE TABLE IF NOT EXISTS {table_usuario} (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, senha TEXT, numeroMatricula INTEGER UNIQUE, departamento TEXT, email TEXT, telefone INTEGER, isAdmin INTEGER NOT NULL DEFAULT 0 CHECK(isAdmin IN (0,1)));"
 sql_create_tableSolicitacaoEmprestimo = f"CREATE TABLE IF NOT EXISTS {table_solicitacaoEmprestimo} (id INTEGER PRIMARY KEY AUTOINCREMENT, id_emprestimo INTEGER NOT NULL, id_equipamento INTEGER NOT NULL, FOREIGN key(id_emprestimo) REFERENCES emprestimos(id), FOREIGN key(id_equipamento) REFERENCES equipamentos(id));"
-sql_create_emprestimo = f"CREATE TABLE IF NOT EXISTS {table_emprestimo} (id INTEGER PRIMARY KEY AUTOINCREMENT,id_usuario,dtSolicitacao DATE DEFAULT(strftime('%d/%m/%Y %H:%M:%S','now','localtime')),dtEmprestimo TEXT,dtDevolucao TEXT,status TEXT DEFAULT 'PENDENTE' CHECK (status IN ('APROVADO','RECUSADO','PENDENTE')),FOREIGN KEY (id_usuario) REFERENCES usuarios(id));"
+sql_create_emprestimo = f"CREATE TABLE IF NOT EXISTS {table_emprestimo} (id INTEGER PRIMARY KEY AUTOINCREMENT,id_usuario,dtSolicitacao DATETIME DEFAULT(strftime('%d/%m/%Y - %H:%M','now','localtime')),dtEmprestimo TEXT,dtDevolucao TEXT,status TEXT DEFAULT 'PENDENTE' CHECK (status IN ('APROVADO','REPROVADO','PENDENTE')),FOREIGN KEY (id_usuario) REFERENCES usuarios(id));"
 
 def createTable(cursor, sql):
     cursor.execute(sql)
@@ -56,11 +56,11 @@ def init():
         popularDbUsuario(cursor, 3, "salomao", 'senha3', 333, 'Ciencias Espaciais', 'professor2@professor2.com.br', 1166666666)
         popularDbUsuario(cursor, 4, "matheus", 'senha4', 444, 'Copa', 'copa@copa.com.br', 1166666666)
                      
-        popularDbEmprestimo(cursor, 1, 1, '2020-04-10 05:00:00', '2020-04-11 12:00:00')
-        popularDbEmprestimo(cursor, 2, 3, '2020-04-03 6:00:00', '2020-04-03 12:00:00')
-        popularDbEmprestimo(cursor, 3, 2, '2020-04-05 7:00:00', '2020-04-03 12:00:00')
-        popularDbEmprestimo(cursor, 4, 4, '2020-01-05 9:00:00', '2020-04-03 12:00:00')
-        popularDbEmprestimo(cursor, 5, 1, '2020-01-05 9:00:00', '2020-04-03 12:00:00')
+        popularDbEmprestimo(cursor, 1, 1, '2020-03-15 06:00', '2020-03-15 15:53')
+        popularDbEmprestimo(cursor, 2, 3, '2020-03-25 07:00', '2020-03-25 10:00')
+        popularDbEmprestimo(cursor, 3, 2, '2020-04-01 08:00', '2020-01-01 10:00')
+        popularDbEmprestimo(cursor, 4, 4, '2020-04-20 09:00', '2020-04-20 15:00')
+        popularDbEmprestimo(cursor, 5, 1, '2020-04-28 10:53', '2020-04-28 19:00')
 
         popularDbsolicitacaoEmprestimo(cursor, 1, 1, 6)
         popularDbsolicitacaoEmprestimo(cursor, 2, 1, 7)

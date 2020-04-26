@@ -3,6 +3,109 @@
 {% block body %}
 <div id="page-wrapper">
     <div class="container-fluid">
+
+        {% for usuario in usuarios %}
+        <!-- modal editar-->
+        <div class="modal fade" id="editar{{ usuario['numeroMatricula'] }}" role="dialog">
+            <div style="background-color:white; padding:4px;" class="rounded modal-dialog modal-lg">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Editar Usuário</h3>
+                <div class="table-responsive">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            {% if usuarios != None and usuarios != Null %}
+                            <form class="was-validated" action="/usuarios/atualizar/{{ usuario['numeroMatricula'] }}" method="POST">
+                                <div class="form-group">
+                                    <label for="nome">Nome:</label>
+                                    <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" value="{{ usuario['nome'] }}" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite seu nome</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="numeroMatricula">Número da Matrícula:</label>
+                                    <input class="form-control" type="text" placeholder="{{ usuario['numeroMatricula'] }}" readonly />
+                                </div>
+                                <div class="form-group">
+                                    <label for="departamento">Departamento:</label>
+                                    <input class="form-control" type="text" id="departamento" name="departamento" placeholder="Departamento" value="{{ usuario['departamento'] }}" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite seu departamento</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input class="form-control" type="text" id="email" name="email" placeholder="Email" value="{{ usuario['email'] }}" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite seu Email</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefone">Telefone:</label>
+                                    <input class="form-control" type="text" id="telefone" name="telefone" placeholder="Telefone" value="{{ usuario['telefone'] }}" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite seu telefone</div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Atualizar</button> | <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- modal editar -->
+
+        <!-- modal cadastrar -->
+        <div class="modal fade" id="cadastrar" role="dialog">
+            <div style="background-color:white; padding:4px;" class="rounded modal-dialog modal-lg">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Cadastrar Usuário</h3>
+                <div class="table-responsive">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form class="was-validated" action="{{url_for('cadastroUsuario_app.cadastrar')}}" method="POST">
+                                <div class="form-group">
+                                    <label for="nome">Nome:</label>
+                                    <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite seu nome</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="numeroMatricula">Número da Matrícula:</label>
+                                    <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" placeholder="Número da Matrícula" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite o número da Matrícula</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="departamento">Departamento:</label>
+                                    <input class="form-control" type="text" id="departamento" name="departamento" placeholder="Departamento" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite seu departamento</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input class="form-control" type="text" id="email" name="email" placeholder="Email" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite seu Email</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefone">Número do telefone:</label>
+                                    <input class="form-control" type="text" id="telefone" name="telefone" placeholder="Número do telefone" autocomplete="on" required>
+                                    <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">
+                                        Telefone
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Cadastrar</button> | <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal cadastrar -->
+
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
@@ -19,11 +122,10 @@
                 </ol>
             </div>
         </div>
-        <!-- /.row -->
 
         <form action="{{ url_for('cadastroUsuario_app.localizar') }}" method="POST">
             <div class="input-group">
-                <input type="text" id="numeroMatricula" name="numeroMatricula" class="form-control" autocomplete="on" placeholder="Pesquisar pelo numero da matrícula do usuário" />
+                <input type="text" id="numeroMatricula" name="numeroMatricula" class="form-control" autocomplete="on" placeholder="Pesquisar pelo número da matrícula do usuário" />
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="submit">
                         <span class="glyphicon glyphicon-search"></span>
@@ -31,8 +133,22 @@
                 </span>
             </div>
         </form>
-        <a class="btn btn-primary h1" href="{{url_for('cadastroUsuario_app.cadastrar')}}">Novo Usuário</a>
+        <a class="btn btn-primary h1"  data-toggle="modal" data-target="#cadastrar">Novo Usuário</a>
         <br />
+        
+        <!-- Mensagens -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div id="mensagens" class=flashes>
+            <div class="modal-content">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+
         <div class="table-responsive">
             {% if usuarios != None and usuarios != Null %}
             <table class="table table-sm table-hover table-striped">
@@ -55,8 +171,8 @@
                         <td>{{ item['email'] }}</td>
                         <td>{{ item['telefone'] }}</td>
                         <td class="actions">
-                            <a class="btn btn-warning btn-xs" href="/usuarios/editar/{{ item['numeroMatricula'] }}">Editar</a>
-                            <a href="/usuarios/remover/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo deletar este usuario?')">Deletar</a>
+                            <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar{{ item['numeroMatricula'] }}">Editar</a>
+                            <a href="/usuarios/remover/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo deletar este usuário?')">Deletar</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -64,13 +180,8 @@
             </table>
             {% endif %}
         </div>
-        <div id="mensagens">
-            {{mensagem}}
-        </div>
         <a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>
     </div>
-    <!-- /.row -->
-
 </div>
 
 {% endblock body %}

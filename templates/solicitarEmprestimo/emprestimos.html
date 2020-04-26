@@ -108,6 +108,20 @@
                 </ol>
             </div>
         </div>
+
+        <!-- Mensagens -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div id="mensagens" class=flashes>
+            <div class="modal-content">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+
         <div class="table-responsive-sm">
             {% if emprestimos != None and emprestimos != Null %}
             <table class="table table-sm table-hover table-striped">
@@ -132,31 +146,21 @@
                         <td>{{ emp.dtDevolucao }}</td>
                         {% if emp.status == 'APROVADO' %}
                         <td style="font-weight:bold;" class="bg-success">{{ emp.status }}</td>
-                        {% elif emp.status == 'RECUSADO' %}
+                        {% elif emp.status == 'REPROVADO' %}
                         <td style="font-weight:bold;" class="bg-danger">{{ emp.status }}</td>
                         {% elif emp.status == 'PENDENTE' %}
                         <td style="font-weight:bold;" class="bg-warning">{{ emp.status }}</td>
                         {% endif %}
                         <td class="actions">
                             <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp.id }}">Detalhes</a>
-                            <!--<a href="emprestimos.html/detalhes/{{ emp.numeroMatricula }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp['numeroMatricula'] }}" >Detalhes</a>-->
                             <a href="/emprestimos/aprovar/{{ emp.id_emprestimo }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{emp.nome}}?')">Aprovar</a>
-                            <a href="/emprestimos/recusar/{{ emp.id_emprestimo }}" class="btn btn-danger btn-xs" onclick="return confirm('RECUSAR empréstimo do(a) {{emp.nome}}?')">Recusar</a>
+                            <a href="/emprestimos/recusar/{{ emp.id_emprestimo }}" class="btn btn-danger btn-xs" onclick="return confirm('RECUSAR empréstimo do(a) {{emp.nome}}?')">Reprovar</a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
             {% endif %}
-        </div>
-        <div id="mensagens" class=flashes>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            {{ message }}
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
         </div>
     </div>
 </div>
