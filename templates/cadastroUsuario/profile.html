@@ -10,17 +10,66 @@
                     Profile
                 </h1>
                 <ol class="breadcrumb">
-                    <li>
-                        <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
-                    </li>
                     <li class="active">
                         <i class="fa fa-file"></i> Profile
                     </li>
                 </ol>
             </div>
         </div>
+
         <!-- /.row -->
-        <h2>OI {{ nome }}</h2>
+        <form class="was-validated" action="/usuarios/atualizar/{{ current_user.numeroMatricula }}" method="POST">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" value="{{ current_user.nome }}" autocomplete="on" required>
+                <div class="valid-feedback">ok</div>
+                <div class="invalid-feedback">Digite seu nome</div>
+            </div>
+            <div class="form-group">
+                <label for="numeroMatricula">Número da Matrícula:</label>
+                <input class="form-control" type="text" placeholder="{{ current_user.numeroMatricula }}" readonly />
+            </div>
+            <div class="form-group">
+                <label for="departamento">Departamento:</label>
+                <input class="form-control" type="text" id="departamento" name="departamento" placeholder="Departamento" value="{{ current_user.departamento }}" autocomplete="on" required>
+                <div class="valid-feedback">ok</div>
+                <div class="invalid-feedback">Digite seu departamento</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input class="form-control" type="text" id="email" name="email" placeholder="Email" value="{{ current_user.email }}" autocomplete="on" required>
+                <div class="valid-feedback">ok</div>
+                <div class="invalid-feedback">Digite seu Email</div>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input class="form-control" type="text" id="telefone" name="telefone" placeholder="Telefone" value="{{ current_user.telefone }}" autocomplete="on" required>
+                <div class="valid-feedback">ok</div>
+                <div class="invalid-feedback">Digite seu telefone</div>
+            </div>
+            <div class="form-group">
+                <label for="modelo">Administrador:</label>
+                {% if current_user.isAdmin == 1 %}
+                <label style="font-style:italic;">SIM</label>
+                {% else %}
+                <label style="font-style:italic;">NÃO</label>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {% if current_user.ultimoAcesso == None %}
+                <label for="modelo">
+                    Primeir Acesso!!!
+                </label>
+                {% else %}
+                <label for="modelo">
+                    Seu último acesso: <i>{{ current_user.ultimoAcesso }}</i>
+                </label>
+                {% endif %}
+            </div>
+            <button class="btn btn-primary" type="submit">Atualizar Dados</button>
+        </form>
+
+
     </div>
     <!-- /.container-fluid -->
 </div>

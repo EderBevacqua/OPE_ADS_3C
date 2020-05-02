@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request, render_template, redirect,url_for, session, abort, flash, redirect
-import os
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from werkzeug.debug import DebuggedApplication
 #from model.usuario import Usuario
@@ -13,20 +12,31 @@ from services.usuario_service import \
 cadastroUsuario_app = Blueprint('cadastroUsuario_app', __name__, template_folder='templates/cadastroUsuario')
 
 @cadastroUsuario_app.route('/usuarios')
+@login_required
 def usuarios():
-    return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar())
+    if not current_user.isAdmin == 1:
+        return redirect('/')
+    else:
+        return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar())
 
 @cadastroUsuario_app.route('/profile', methods=['GET'])
+@login_required
 def profile():
     return render_template('cadastroUsuario/profile.html')
 
 @cadastroUsuario_app.route('/usuarios/cadastrar', methods=['POST','GET'])
+@login_required
 def cadastrar():
+    if not current_user.isAdmin == 1:
+        return redirect('/')
     try:
         if request.method == 'POST':
-            novo_usuario = { "id":"", "nome":  request.form["nome"], "numeroMatricula": request.form["numeroMatricula"], "departamento" : request.form["departamento"], "email" : request.form["email"], "telefone": request.form["telefone"]}
+            if not "isAdmin" in request.form:
+                novo_usuario = { "id":"", "nome":  request.form["nome"], "numeroMatricula": request.form["numeroMatricula"], "departamento" : request.form["departamento"], "email" : request.form["email"], "telefone": request.form["telefone"],"isAdmin":0}
+            else:
+                novo_usuario = { "id":"", "nome":  request.form["nome"], "numeroMatricula": request.form["numeroMatricula"], "departamento" : request.form["departamento"], "email" : request.form["email"], "telefone": request.form["telefone"],"isAdmin":1}
             usuario = service_criar(novo_usuario)
-            if usuario == None:
+            if usuario == True:
                 return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar(), mensagem = "Usuario nao pode ser cadastrado! \n")
             else:
                 flash('Usuário cadastrado')
@@ -35,9 +45,11 @@ def cadastrar():
     except ValueError as e:
         return e
     
-
 @cadastroUsuario_app.route('/usuarios/localizar', methods=['POST','GET'])
+@login_required
 def localizar():
+    if not current_user.isAdmin == 1:
+        return redirect('/')
     try:
         if request.form and request.method == 'POST':
             numMatricula = request.form["numeroMatricula"]
@@ -51,7 +63,10 @@ def localizar():
         return render_template("cadastroUsuario/localizar.html", mensagem="Digite o NÚMERO do matrícula")
 
 @cadastroUsuario_app.route('/usuarios/editar/<int:numeroMatricula>', methods=['GET','POST'])
+@login_required
 def editar(numeroMatricula):
+    if not current_user.isAdmin == 1:
+        return redirect('/')
     try:
         if request.method == 'GET':
             usuario = service_localiza(numeroMatricula)
@@ -69,14 +84,18 @@ def alterar_usuario(numeroMatricula):
     departamento = request.form.get("departamento")
     email = request.form.get("email")
     telefone = request.form.get("telefone")
-    atualizado = service_atualiza(nome, numeroMatricula, departamento, email, telefone)
-    if atualizado != None:
+    isAdmin = request.form.get("isAdmin")
+    alterarado = { "nome":nome,"numeroMatricula":numeroMatricula, "departamento":departamento,"email":email,"telefone":telefone,"isAdmin":isAdmin}
+    service_atualiza(alterarado)
+    #atualizado = service_atualiza(nome, numeroMatricula, departamento, email, telefone, isAdmin)
+    if alterarado != None:
         flash('Usuário alterado com sucesso')
         return redirect("/usuarios")
     flash('Alteracao nao efetuada')
     return redirect("/usuarios")
     
 @cadastroUsuario_app.route('/usuarios/excluir', methods=['POST','GET'])
+@login_required
 def excluir():
     try:
         if request.form and request.method == 'POST':

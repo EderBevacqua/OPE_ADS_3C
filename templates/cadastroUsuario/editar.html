@@ -1,4 +1,4 @@
-{% extends 'site_template.html' %}
+    {% extends 'site_template.html' %}
 
 {% block body %}
 <div id="page-wrapper">
@@ -32,6 +32,27 @@
             <input class="form-control" type="text" id="telefone" name="telefone" placeholder="Telefone" value="{{ usuarios['telefone'] }}" autocomplete="on" required>
             <div class="valid-feedback">ok</div>
             <div class="invalid-feedback">Digite seu telefone</div>
+        </div>
+        <div class="form-group">
+            <label for="modelo">Super Usuário:</label>
+            {% if usuarios['isAdmin'] == 1 %}
+            <label style="font-style:italic;">SIM</label>
+            {% else %}
+            <label style="font-style:italic;">NÃO</label>
+            {% endif %}
+            {% if usuarios['isAdmin'] == 1 %}
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" id="isAdmin" name="isAdmin" value="0" checked>Rebaixar permissão
+                </label>
+            </div>
+            {% else %}
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-label" type="checkbox" id="isAdmin" name="isAdmin" value="1" checked>Elevar permissão
+                </label>
+            </div>
+            {% endif %}
         </div>
         <button class="btn btn-primary" type="submit">Atualizar</button> | <a class="btn btn-primary" href="{{url_for('cadastroUsuario_app.usuarios')}}">Voltar</a>
     </form>

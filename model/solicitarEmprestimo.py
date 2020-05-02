@@ -60,5 +60,5 @@ class SolicitarEmprestimo(Emprestimo, Equipamento):
             situacao = dados["situacao"]
             return SolicitarEmprestimo(id=id, id_emprestimo=id_emprestimo, id_equipamento=id_equipamento, id_usuario=id_usuario, dtSolicitacao=dtSolicitacao, dtEmprestimo=dtEmprestimo, dtDevolucao=dtDevolucao, status=status, nome=nome, numeroMatricula=numeroMatricula, departamento=departamento, email=email, telefone=telefone, numeroEquipamento=numeroEquipamento, marca=marca, modelo=modelo, situacao=situacao)
         except Exception as e:
-            print("Problema ao criar novo solicitacao!")
+            print("Problema ao criar nova solicitação!")
             print(e)

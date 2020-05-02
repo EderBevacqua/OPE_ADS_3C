@@ -13,7 +13,6 @@ def listarEmp():
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
         cursor.execute(f"SELECT sE.id,sE.id_emprestimo,sE.id_equipamento,e.id_usuario,e.dtSolicitacao,e.dtEmprestimo,e.dtDevolucao,e.status,u.nome,u.numeroMatricula,u.departamento,u.email,u.telefone,eq.numeroEquipamento,eq.marca,eq.modelo,eq.situacao FROM emprestimos AS e inner join equipamentos as eq on eq.id = sE.id_equipamento inner JOIN solicitaEmprestimo AS sE ON sE.id_emprestimo = e.id inner join usuarios AS u on u.id = e.id_usuario order by sE.id_emprestimo")
         rows = cursor.fetchall()
-        #print(rows)
         emprestimos = []
         for (id,id_emprestimo,id_equipamento,id_usuario,dtSolicitacao,dtEmprestimo,dtDevolucao,status,nome,numeroMatricula,departamento,email,telefone,numeroEquipamento,marca,modelo,situacao) in rows:
             dEmp=dtEmprestimo.replace('T',' ')
@@ -74,7 +73,6 @@ def consultar(id):
 
 def cadastrar(nova_solicitacao):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        #soli=SolicitarEmprestimo.criar(nova_solicitacao)
         if len(nova_solicitacao['numeroEquipamento'].split(','))>1:
             sql = f"INSERT INTO emprestimos (id_usuario, dtEmprestimo, dtDevolucao) VALUES ( (select id from usuarios where numeroMatricula = ?),?,?)" 
             result = cursor.execute(sql, (int(nova_solicitacao['numeroMatricula']), nova_solicitacao['dtEmprestimo'], nova_solicitacao['dtDevolucao']))
@@ -101,14 +99,7 @@ def cadastrar(nova_solicitacao):
             return None
 
 def alterar(usuario):
-    with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql = f"UPDATE {model_name} SET nome= ?, departamento = ?, email= ?, telefone= ? WHERE numeroMatricula = ?"
-        cursor.execute(sql, (usuario.nome, usuario.departamento, usuario.email, usuario.telefone, usuario.numeroMatricula))
-        connection.commit()
+    pass
 
 def remover(usuario):
-    numeroMatricula = usuario.numeroMatricula
-    with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        sql = f"DELETE FROM {model_name} WHERE numeroMatricula = ?"
-        cursor.execute(sql, (numeroMatricula,))
-        connection.commit()
+    pass

@@ -1,9 +1,8 @@
 from infra.emprestimo_dao import \
     listar as dao_listar, \
-    listarEquipamentos as dao_listarEquipamentos, \
     listEmp as dao_listEmp, \
     aprovar as dao_aprovar, \
-    recusar as dao_recusar, \
+    reprovar as dao_reprovar, \
     consultar as dao_consultar, \
     cadastrar as dao_cadastrar, \
     alterar as dao_alterar, \
@@ -19,8 +18,8 @@ from model.equipamento import Equipamento
 def aprovar(id):
     return dao_aprovar(id)
 
-def recusar(id):
-    return dao_recusar(id)
+def reprovar(id):
+    return dao_reprovar(id)
 
 def listEmp():
     result=[]
@@ -56,37 +55,17 @@ def empMesPendentes():
 
 
 def listar():
-    return [emp for emp in dao_listar()] #[Emprestimo.__dict__() for Emprestimo in dao_listar()]
-  
-def listarEquipamentos(nMatricula):
-    return [Lequipamentos for Lequipamentos in dao_listarEquipamentos(nMatricula)]
-    
+    return [emp for emp in dao_listar()]
 
-def localizar(numeroMatricula):
-    usuario = dao_consultar(numeroMatricula)
-    if usuario == None:
-        return None
-    return usuario.__dict__()
+def localizar(id):
+    pass
 
-def criar(usuario_data):
-    if usuario_data != None:
-        usuario = SolicitarEmprestimo.criar(usuario_data)
-        return dao_cadastrar(usuario)
-    return None
+def criar(data):
+    pass
 
-def remover(numeroMatricula):
-    dados_usuario = localizar(numeroMatricula)
-    if dados_usuario == None:
-        return 0
-    dao_remover(SolicitarEmprestimo.criar(dados_usuario))
-    return 1
+def remover():
+    pass
 
-def atualizar(nome, numeroMatricula, departamento, email, telefone):
-    usuario = SolicitarEmprestimo.criar({"id":"","nome":nome, "numeroMatricula": numeroMatricula,"departamento": departamento, "email":email, "telefone":telefone})
-    dao_alterar(usuario)
-    return localizar(numeroMatricula)
-    
-def resetar():
-    usuarios = listar()
-    for usuario in usuarios:
-        remover(usuario["numeroMatricula"])
+def atualizar():
+    pass
+

@@ -34,7 +34,3 @@ def atualizar(numeroEquipamento, marca, modelo, situacao):
     dao_alterar(equipamento)
     return localizar(numeroEquipamento)
     
-def resetar():
-    equipamentos = listar()
-    for equipamento in equipamentos:
-        remover(equipamento["numeroEquipamento"])

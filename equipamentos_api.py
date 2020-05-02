@@ -9,17 +9,19 @@ from services.equipamentos_service import \
 
 equipamentos_app = Blueprint('equipamentos_app', __name__, template_folder='templates/equipamento')
 
-#@equipamentos_app.route('/equipamentos')
-#def listar_equipamentos():
-#    lista = service_listar()
-#    return jsonify(lista)
-
 @equipamentos_app.route('/equipamentos')
+@login_required
 def equipamentos():
-    return render_template("equipamentos.html", equipamentos=service_listar())
+    if not current_user.isAdmin == 1:
+        return redirect('/')
+    else:
+        return render_template("equipamentos.html", equipamentos=service_listar())
 
 @equipamentos_app.route('/equipamentos/cadastrar', methods=['POST','GET'])
+@login_required
 def cadastrar():
+    if not current_user.isAdmin == 1:
+        return redirect('/')
     try:
         if request.method == 'POST':
             if not "situacao" in request.form:
@@ -39,7 +41,10 @@ def cadastrar():
         return render_template("cadastrar.html")
 
 @equipamentos_app.route('/equipamentos/localizar', methods=['POST','GET'])
+@login_required
 def localizar():
+    if not current_user.isAdmin == 1:
+        return redirect('/')
     try:
         if request.form and request.method == 'POST':
             numEquipamento = request.form["numeroEquipamento"]
@@ -54,7 +59,10 @@ def localizar():
         return render_template("equipamento/localizar.html", mensagem="Digite o NÚMERO do equipamento")
 
 @equipamentos_app.route('/equipamentos/editar/<int:numeroEquipamento>', methods=['GET','POST'])
+@login_required
 def editar(numeroEquipamento):
+    if not current_user.isAdmin == 1:
+        return redirect('/')
     try:
         if request.method == 'GET':
             equipamento = service_localiza(numeroEquipamento)
@@ -82,7 +90,9 @@ def alterar_equipamento(numeroEquipamento):
         return render_template("equipamento/editar.html")
     except ValueError as e:
         return e
+
 @equipamentos_app.route('/equipamentos/excluir', methods=['POST','GET'])
+@login_required
 def excluir():
     try:
         if request.form and request.method == 'POST':

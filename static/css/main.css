@@ -59,6 +59,9 @@ a {
     font-size: 30px;
 }
 
+a.btn {
+    color:white;
+}
 
 /*.login {
     margin: 20px auto;

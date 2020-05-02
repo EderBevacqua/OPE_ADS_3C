@@ -22,80 +22,69 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <!-- Mensagens -->
-                {% if get_flashed_messages() %}
                 {% with messages = get_flashed_messages() %}
-                <div id="mensagens" class=flashes>
-                    <p>
+                {% if messages %}
+                <p>
+                    <div id="mensagens" class=flashes>
                         <div class="modal-content" style="color:red;">
                             {% for message in messages %}
                             {{ message }}
                             {% endfor %}
                         </div>
-                    </p>
-                </div>
+                    </div>
+                </p>
+                {% endif %}
                 {% endwith %}
-                {% else %}
-                {% if mensagens %}
-
-                <div id="mensagens" class=flashes>
-                    <p>
-                        <div class="modal-content" style="color:red;">
-                            {{ mensagens }}
-                        </div>
-                    </p>
-                </div>
-                {% endif %}
-                {% endif %}
 
                 <div class="panel panel-login">
                     <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <a href="/login" class="active">Login</a>
-                            </div>
-                            <div class="col-xs-6">
-                                <a href="/novoLogin">Novo Login</a>
-                            </div>
-                        </div>
+                        Cadastrar senha
                         <hr>
                     </div>
-
                     <div class="panel-body">
+                        {% if usuario %}
                         <div class="row">
                             <div class="col-lg-12">
-
-                                <form id="login-form" action="{{url_for('login_app.login')}}" method="post" role="form" style="display: block;">
+                                <form id="register-form" action="/ativarConta" method="POST" role="form">
                                     <div class="form-group">
-                                        <input type="text" name="email" id="email" tabindex="1" class="form-control"
-                                               placeholder="Email" value="">
+                                        Nome
+                                        <input type="text" name="nome" id="nome" class="form-control" value="{{usuario.nome}}" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="senha" id="senha" tabindex="2"
-                                               class="form-control" placeholder="Senha">
+                                        Email
+                                        <input type="email" name="email" id="email" class="form-control" value="{{usuario.email}}" readonly>
                                     </div>
-                                    <!--<div class="form-group text-center">
-                                        <input type="checkbox" tabindex="3" class="" name="remember_me" id="remember_me">
-                                        <label for="remember_me">Lembrar login</label>
-                                    </div>-->
+                                    <div class="form-group">
+                                        Matrícula
+                                        <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" value="{{usuario.numeroMatricula}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        Departamento
+                                        <input class="form-control" type="text" id="departamento" name="departamento" value="{{usuario.departamento}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        Telefone
+                                        <input class="form-control" type="text" id="telefone" name="telefone" value="{{usuario.telefone}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="senha" id="senha" tabindex="1" class="form-control" placeholder="Senha">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="confirmarSenha" id="confirmarSenha" tabindex="2" class="form-control" placeholder="Confirmar senha">
+                                    </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="submit" name="login-submit" id="login-submit" tabindex="3" class="form-control btn btn-login" value="Log In">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="text-center">
-                                                </div>
+                                                <input type="submit" name="ativar-submit" id="ativar-submit" tabindex="3" class="form-control btn btn-register" value="Ativar">
                                             </div>
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
+                        {% else %}
+                        <a class="btn btn-primary" href="{{url_for('index')}}">HOME</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -107,5 +96,4 @@
     <!--Meu Js-->
     <script src="/static/js/scripts.js"></script>
 </body>
-
 </html>

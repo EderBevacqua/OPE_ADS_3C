@@ -66,7 +66,7 @@
                             <!--<a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatricula'] }}">Detalhes</a>-->
                             <a href="emprestimos.html/detalhes/{{ item['numeroMatricula'] }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatrícula'] }}">Detalhes</a>
                             <a href="/emprestimos/aprovar/{{ item['numeroMatricula'] }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{item.nome}}?')">Aprovar</a>
-                            <a href="/emprestimos/recusar/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('RECUSAR empréstimo do(a) {{item.nome}}?')">Reprovar</a>
+                            <a href="/emprestimos/reprovar/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('REPROVAR empréstimo do(a) {{item.nome}}?')">Reprovar</a>
                         </td>
                     </tr>
                     {% endfor %}

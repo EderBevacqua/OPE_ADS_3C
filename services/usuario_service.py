@@ -6,9 +6,10 @@ from infra.usuario_dao import \
     remover as dao_remover
 
 from model.usuario import Usuario
+from model.perfilUsuario import PerfilUsuario
 
 def listar():
-    return [Usuario.__dict__() for Usuario in dao_listar()]
+    return [PerfilUsuario.__dict__() for PerfilUsuario in dao_listar()]
 
 def localizar(numeroMatricula):
     usuario = dao_consultar(numeroMatricula)
@@ -29,12 +30,5 @@ def remover(numeroMatricula):
     dao_remover(Usuario.criar(dados_usuario))
     return 1
 
-def atualizar(nome, numeroMatricula, departamento, email, telefone):
-    usuario = Usuario.criar({"id":"","nome":nome, "numeroMatricula": numeroMatricula,"departamento": departamento, "email":email, "telefone":telefone})
-    dao_alterar(usuario)
-    return localizar(numeroMatricula)
-    
-def resetar():
-    usuarios = listar()
-    for usuario in usuarios:
-        remover(usuario["numeroMatricula"])
+def atualizar(alterado):
+    return dao_alterar(alterado)    
