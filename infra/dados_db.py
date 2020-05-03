@@ -71,7 +71,7 @@ def init():
         popularDbPerfilUsuario(cursor, 2, 2,generate_password_hash('jose', method='sha256'), '2020-01-15 06:00', 1, 0)
         popularDbPerfilUsuario(cursor, 3, 3,generate_password_hash('maria', method='sha256'), '2020-01-03 06:00', 1, 0)
         popularDbPerfilUsuario(cursor, 4, 4,generate_password_hash('salomao', method='sha256'), '2020-04-20 06:00', 1, 0)
-        popularDbPerfilUsuario(cursor, 5, 5,generate_password_hash('matheus', method='sha256'), None, 0, 0)
+        popularDbPerfilUsuario(cursor, 5, 5,'inotec', None, 0, 0)
 
         popularDbEmprestimo(cursor, 1, 2, '2020-03-15 06:00', '2020-03-15 15:53')
         popularDbEmprestimo(cursor, 2, 3, '2020-03-25 07:00', '2020-03-25 10:00')

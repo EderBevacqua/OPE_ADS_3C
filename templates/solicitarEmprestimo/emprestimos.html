@@ -3,6 +3,7 @@
 {% block body %}
 <div id="page-wrapper">
     <div class="container-fluid">
+
         <!-- Modal equipamentos-->
         {% for emprestimo, equips in emprestimos %}
         <div class="modal fade" id="detalhes{{ emprestimo.id }}" role="dialog">
@@ -19,7 +20,7 @@
                             <table class="table table-sm table-hover table-striped">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Equip N</th>
+                                        <th>Nº Equip</th>
                                         <th>Marca</th>
                                         <th>Modelo</th>
                                         {% if current_user.isAdmin == 1 %}
@@ -51,6 +52,7 @@
             </div>
         </div>
 
+        {% if current_user.isAdmin == 1%}
         <!-- Modal addEquipamento -->
         <div class="modal fade" id="addEquipamento{{ emprestimo.id_emprestimo }}" role="dialog">
             <div style="background-color:darkgray; padding:4px;" class="rounded modal-dialog modal-lg">
@@ -96,6 +98,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
 
         <!-- Page Heading -->
@@ -134,7 +137,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th>Nome</th>
-                        <th>Matrícula N</th>
+                        <th>Matrícula</th>
                         <th>dtSolicitação</th>
                         <th>dtEmpréstimo</th>
                         <th>dtDevolução</th>

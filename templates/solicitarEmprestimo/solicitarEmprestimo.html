@@ -18,6 +18,52 @@
         </div>
         <div id="page-wrapper">
 
+            <!-- Modal addEquipamento -->
+            <div class="modal fade" id="addEquipamento" role="dialog">
+                <div style="background-color:white; padding:4px;" class="rounded modal-dialog modal-lg">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3>Selecione os Equipamentos</h3>
+                    <div class="table-responsive">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form action="/solicitarEmprestimo" method="POST">
+                                    <table class="table table-sm table-hover table-striped">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Equip N°</th>
+                                                <th>Marca</th>
+                                                <th>Modelo</th>
+                                                <th class="actions">Adicionar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for equipamento in equipamentos %}
+                                            <tr>
+                                                <td>{{ equipamento.numeroEquipamento }}</td>
+                                                <td>{{ equipamento.marca }}</td>
+                                                <td>{{ equipamento.modelo }}</td>
+                                                <td>
+                                                    <label>
+                                                        <input type="checkbox" id="addEquip" name="addEquip" value="{{equipamento.numeroEquipamento}}" />
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Fim Modal addEquipamento -->
+
             <form class="was-validated" action="{{url_for('solicitarEmprestimo_app.cadastrar')}}" method="POST">
                 <div class="form-group">
                     <label for="nome">Nome:</label>
@@ -39,11 +85,13 @@
                     <div class="valid-feedback">ok</div>
                     <div class="invalid-feedback">Número da Matrícula</div>
                 </div>
+                <a class="btn btn-primary h1" data-toggle="modal" data-target="#addEquipamento">Adicionar Equipamentos</a>
                 <div class="form-group">
-                    <label for="numeroEquipamento">Número do equipamento:</label>
-                    <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" placeholder="Número do equipamento" autocomplete="on" required>
-                    <div class="valid-feedback">ok</div>
-                    <div class="invalid-feedback">Digite o número do equipamento</div>
+                    {% if equips %}
+                    <label for="dtEmprestimo">Número do Equipamento:</label>
+                    <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" placeholder="{{ equips }}" value="{{ equips }}" readonly>
+                    {% else %}
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label for="dtEmprestimo">Data e hora do Empréstimo:</label>
@@ -59,13 +107,13 @@
                 </div>
 
                 <!--<div class="form-group form-check" id="STATUS" name="STATUS">
-                    <label class="form-check-label">
-                        <input type="checkbox" id="status" name="status" value="ATIVO" checked>ATIVO
-                    </label>
-                    <label class="form-check-label">
-                        <input type="checkbox" id="status" name="status" value="INATIVO">INATIVO
-                    </label>
-                </div>-->
+        <label class="form-check-label">
+            <input type="checkbox" id="status" name="status" value="ATIVO" checked>ATIVO
+        </label>
+        <label class="form-check-label">
+            <input type="checkbox" id="status" name="status" value="INATIVO">INATIVO
+        </label>
+    </div>-->
 
                 <button class="btn btn-primary" type="submit">Cadastrar</button> | <a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>
             </form>

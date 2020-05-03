@@ -16,25 +16,28 @@ solicitarEmprestimo_app = Blueprint('solicitarEmprestimo_app', __name__, templat
 
 @solicitarEmprestimo_app.route('/emprestimos/adicionarEquipamento/<int:id_emprestimo>', methods=['POST'])
 def adicionarEquipamento(id_emprestimo):
-    if request.method == 'POST' and request.form.getlist('addEquip') !=[]:
-        for idEquip in request.form.getlist('addEquip'):
-            addEquip = service_addEquipamento(id_emprestimo,idEquip)
-        if addEquip == True:
-            flash('Equipamento adicionado no empréstimo')
-            return redirect('/emprestimos')
-        else:
-            flash('Algo de errado aconteceu')
-            return redirect('/emprestimos')
-    flash('Nenhum equipamento adicionado')
-    return redirect("/emprestimos")
+    if current_user.isAdmin == 1:
+        if request.method == 'POST' and request.form.getlist('addEquip') !=[]:
+            for idEquip in request.form.getlist('addEquip'):
+                addEquip = service_addEquipamento(id_emprestimo,idEquip)
+            if addEquip == True:
+                flash('Equipamento adicionado no empréstimo')
+                return redirect('/emprestimos')
+            else:
+                flash('Algo de errado aconteceu')
+                return redirect('/emprestimos')
+        flash('Nenhum equipamento adicionado')
+        return redirect("/emprestimos")
+    return redirect("/index")
 
 @solicitarEmprestimo_app.route('/emprestimos/removerEquipamento/<int:id_emprestimo>/<int:id_equipamento>', methods=['POST','GET'])
 def removerEquipamento(id_emprestimo,id_equipamento):
-    rm=service_removeEquip(id_emprestimo, id_equipamento)
-    if rm != None:
-        flash('Equipamento removido do empréstimo')
-        return redirect('/emprestimos')
-
+    if current_user.isAdmin == 1:
+        rm=service_removeEquip(id_emprestimo, id_equipamento)
+        if rm != None:
+            flash('Equipamento removido do empréstimo')
+            return redirect('/emprestimos')
+    return redirect("/index")
 
 @solicitarEmprestimo_app.route('/emprestimos', methods=['POST','GET'])
 @login_required
@@ -51,7 +54,18 @@ def emprestimos():
 @solicitarEmprestimo_app.route('/solicitarEmprestimo', methods=['POST','GET'])
 @login_required
 def solicitarEmprestimo():
-    return render_template("solicitarEmprestimo/solicitarEmprestimo.html")
+    if request.method == "GET":
+        return render_template("solicitarEmprestimo/solicitarEmprestimo.html", equipamentos=service_equipDisponivel())
+    if request.method == 'POST' and request.form.getlist('addEquip') !=[]:
+        equips= ""
+        for idEquip in request.form.getlist('addEquip'):
+            if equips == '':
+                equips+=idEquip
+            else:
+                equips+=","+idEquip
+        return render_template("solicitarEmprestimo/solicitarEmprestimo.html",equips=equips,equipamentos=service_equipDisponivel())
+    else:
+        return redirect("/solicitarEmprestimo")
 
 @solicitarEmprestimo_app.route('/solicitarEmprestimo/cadastrar', methods=['POST','GET'])
 @login_required
