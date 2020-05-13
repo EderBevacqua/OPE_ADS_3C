@@ -45,7 +45,6 @@ def cadastrar(usuario):
         return True
 
 def alterar(alterado):
-    print(alterado)
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
         sql = f"UPDATE {model_name} SET nome= ?, departamento = ?, email= ?, telefone= ? WHERE numeroMatricula = ?"
         cursor.execute(sql, (alterado["nome"], alterado["departamento"], alterado["email"], alterado["telefone"], alterado["numeroMatricula"]))
@@ -59,7 +58,7 @@ def alterar(alterado):
             return True
 
 def remover(usuario):
-    numeroMatricula=usuario.numeroMatricula
+    numeroMatricula=usuario['numeroMatricula']
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
         cursor.execute(f"DELETE FROM {model_name} WHERE numeroMatricula = ?", (numeroMatricula,))
         connection.commit()

@@ -40,7 +40,7 @@ def cadastrar():
         flash('Digite um NÚMERO válido para o equipamento')
         return render_template("cadastrar.html")
 
-@equipamentos_app.route('/equipamentos/localizar', methods=['POST','GET'])
+@equipamentos_app.route('/equipamentos', methods=['POST','GET'])
 @login_required
 def localizar():
     if not current_user.isAdmin == 1:
@@ -50,13 +50,13 @@ def localizar():
             numEquipamento = request.form["numeroEquipamento"]
             equipamento = service_localiza(numEquipamento)
             if equipamento != None:
-                return render_template("equipamento/localizar.html", equipamento=equipamento)
+                return render_template("equipamento/equipamentos.html", equipamentos=equipamento)
             else:
                 flash("Equipamento não encontrado")
                 return redirect("/equipamentos")
-        return render_template("equipamento/localizar.html")
+        return render_template("equipamento/equipamentos.html")
     except ValueError:
-        return render_template("equipamento/localizar.html", mensagem="Digite o NÚMERO do equipamento")
+        return render_template("equipamento/equipamentos.html", mensagem="Digite o NÚMERO do equipamento")
 
 @equipamentos_app.route('/equipamentos/editar/<int:numeroEquipamento>', methods=['GET','POST'])
 @login_required

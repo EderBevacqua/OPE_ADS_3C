@@ -186,6 +186,7 @@
                         <th>Departamento</th>
                         <th>Email</th>
                         <th>Telefone</th>
+                        <th>ADM</th>
                         <th class="actions">Ações</th>
                     </tr>
                 </thead>
@@ -197,6 +198,11 @@
                         <td>{{ item['departamento']  }}</td>
                         <td>{{ item['email'] }}</td>
                         <td>{{ item['telefone'] }}</td>
+                        {% if item['isAdmin'] == 1%}
+                        <td>SIM</td>
+                        {% else %}
+                        <td>NÃO</td>
+                        {% endif %}
                         <td class="actions">
                             <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar{{ item['numeroMatricula'] }}">Editar</a>
                             <a href="/usuarios/remover/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo deletar este usuário?')">Deletar</a>

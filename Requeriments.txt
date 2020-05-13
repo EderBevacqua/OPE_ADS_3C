@@ -1,9 +1,0 @@
-flask
-flask_login
-werkzeug.debug
-werkzeug.security
-requests
-flask_bootstrap
-sqlite3
-contextlib
-datetime

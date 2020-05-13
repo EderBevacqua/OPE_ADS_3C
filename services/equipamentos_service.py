@@ -14,7 +14,7 @@ def localizar(numeroEquipamento):
     equipamento = dao_consultar(numeroEquipamento)
     if equipamento == None:
         return None
-    return equipamento.__dict__()
+    return [equipamento.__dict__()]
 
 def criar(equipamento_data):
     if equipamento_data != None:

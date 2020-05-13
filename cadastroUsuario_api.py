@@ -36,8 +36,9 @@ def cadastrar():
             else:
                 novo_usuario = { "id":"", "nome":  request.form["nome"], "numeroMatricula": request.form["numeroMatricula"], "departamento" : request.form["departamento"], "email" : request.form["email"], "telefone": request.form["telefone"],"isAdmin":1}
             usuario = service_criar(novo_usuario)
-            if usuario == True:
-                return render_template("cadastroUsuario/usuarios.html", usuarios=service_listar(), mensagem = "Usuario nao pode ser cadastrado! \n")
+            if usuario != True:
+                flash("Usuario nao pode ser cadastrado!")
+                return redirect("/usuarios")
             else:
                 flash('Usuário cadastrado')
                 return redirect('/usuarios')
@@ -45,7 +46,7 @@ def cadastrar():
     except ValueError as e:
         return e
     
-@cadastroUsuario_app.route('/usuarios/localizar', methods=['POST','GET'])
+@cadastroUsuario_app.route('/usuarios', methods=['POST','GET'])
 @login_required
 def localizar():
     if not current_user.isAdmin == 1:
@@ -55,12 +56,13 @@ def localizar():
             numMatricula = request.form["numeroMatricula"]
             usuario = service_localiza(numMatricula)
             if usuario != None:
-                return render_template("cadastroUsuario/localizar.html", usuarios=usuario)
+                return render_template("cadastroUsuario/usuarios.html", usuarios=[usuario])
             else:
-                return render_template("cadastroUsuario/localizar.html", mensagem="Usuário não encontrado")
-        return render_template("cadastroUsuario/localizar.html")
+                flash("Usuário não encontrado")
+                return redirect("/usuarios")
+        return redirect("/usuarios")
     except ValueError:
-        return render_template("cadastroUsuario/localizar.html", mensagem="Digite o NÚMERO do matrícula")
+        return render_template("cadastroUsuario/usuarios.html", mensagem="Digite o NÚMERO do matrícula")
 
 @cadastroUsuario_app.route('/usuarios/editar/<int:numeroMatricula>', methods=['GET','POST'])
 @login_required

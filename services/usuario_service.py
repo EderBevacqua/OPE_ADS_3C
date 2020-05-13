@@ -27,7 +27,7 @@ def remover(numeroMatricula):
     dados_usuario = localizar(numeroMatricula)
     if dados_usuario == None:
         return 0
-    dao_remover(Usuario.criar(dados_usuario))
+    dao_remover(dados_usuario)
     return 1
 
 def atualizar(alterado):
