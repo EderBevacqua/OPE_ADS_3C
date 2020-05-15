@@ -9,7 +9,11 @@ from services.equipamentos_service import \
 
 equipamentos_app = Blueprint('equipamentos_app', __name__, template_folder='templates/equipamento')
 
-@equipamentos_app.route('/equipamentos')
+@equipamentos_app.route('/api/equipamentos', methods=['GET'])
+def equipamentoApi():
+    return jsonify(service_listar())
+
+@equipamentos_app.route('/equipamentos', methods=['GET'])
 @login_required
 def equipamentos():
     if not current_user.isAdmin == 1:

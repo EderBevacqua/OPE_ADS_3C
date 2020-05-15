@@ -11,6 +11,11 @@ from services.usuario_service import \
 
 cadastroUsuario_app = Blueprint('cadastroUsuario_app', __name__, template_folder='templates/cadastroUsuario')
 
+@cadastroUsuario_app.route('/api/usuarios')
+def usuariosApi():
+    #print(request.path)
+    return jsonify(service_listar())
+
 @cadastroUsuario_app.route('/usuarios')
 @login_required
 def usuarios():

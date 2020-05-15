@@ -26,17 +26,17 @@ def listarEmp():
     for em in dao_listarEmp():
         if emprestimo!=[] or equipamentos!=[]:
             if emprestimo[0].id_usuario == em.id_usuario and emprestimo[0].id_emprestimo == em.id_emprestimo:
-                equipamentos.append(Equipamento.criar({"id":em.get_equip()[0],"numeroEquipamento":em.get_equip()[1],"marca":em.get_equip()[2],"modelo":em.get_equip()[3],"situacao":em.get_equip()[4]}))
+                equipamentos.append(em)
             else:
                 emprestimo.append(equipamentos)
                 result.append(emprestimo)
                 equipamentos=[]
                 emprestimo=[]
                 emprestimo.append(em)
-                equipamentos.append(Equipamento.criar({"id":em.get_equip()[0],"numeroEquipamento":em.get_equip()[1],"marca":em.get_equip()[2],"modelo":em.get_equip()[3],"situacao":em.get_equip()[4]}))
+                equipamentos.append(em)
         else:
             emprestimo.append(em)
-            equipamentos.append(Equipamento.criar({"id":em.get_equip()[0],"numeroEquipamento":em.get_equip()[1],"marca":em.get_equip()[2],"modelo":em.get_equip()[3],"situacao":em.get_equip()[4]}))
+            equipamentos.append(em)
     emprestimo.append(equipamentos)
     result.append(emprestimo)
     return result
