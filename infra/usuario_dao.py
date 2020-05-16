@@ -12,11 +12,11 @@ def con():
 
 def listar():
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"SELECT pU.id_usuario,pU.senha,pU.ultimoAcesso,pU.contaAtiva, pU.isAdmin, u.nome,  u.numeroMatricula, u.departamento, u.email, u.telefone from perfilUsuario as pU inner join usuarios as u on u.id = pU.id_usuario")
+        cursor.execute(f"SELECT pu.id, pU.id_usuario,pU.senha,pU.ultimoAcesso,pU.contaAtiva, pU.isAdmin, u.nome,  u.numeroMatricula, u.departamento, u.email, u.telefone from perfilUsuario as pU inner join usuarios as u on u.id = pU.id_usuario")
         rows = cursor.fetchall()
         registros = []
-        for (id_usuario,senha,ultimoAcesso,contaAtiva,isAdmin, nome, numeroMatricula, departamento, email, telefone) in rows:
-            registros.append(PerfilUsuario.criar({ "id":'', "id_usuario":id_usuario,"senha":senha,"ultimoAcesso":ultimoAcesso,"contaAtiva":contaAtiva, "isAdmin":isAdmin, "nome":nome, "numeroMatricula":numeroMatricula, "departamento":departamento, "email":email, "telefone":telefone}))
+        for (id, id_usuario,senha,ultimoAcesso,contaAtiva,isAdmin, nome, numeroMatricula, departamento, email, telefone) in rows:
+            registros.append(PerfilUsuario.criar({ "id":id, "id_usuario":id_usuario,"senha":senha,"ultimoAcesso":ultimoAcesso,"contaAtiva":contaAtiva, "isAdmin":isAdmin, "nome":nome, "numeroMatricula":numeroMatricula, "departamento":departamento, "email":email, "telefone":telefone}))
         return registros
 
 def consultar(numeroMatricula):
