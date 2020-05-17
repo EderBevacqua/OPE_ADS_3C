@@ -37,9 +37,9 @@ class Emprestimo(Usuario):
         return self.id, self.id_usuario, self.dtSolicitacao, self.dtEmprestimo, self.dtDevolucao, self.status, self.nome, self.numeroMatricula, self.departamento, self.email, self.telefone
         #print("{}, {}, {}, {}, {}, {},".format(self.id, self.id_usuario, self.dtSolicitacao, self.dtEmprestimo, self.dtDevolucao, self.status))
 
-    def __dict__(self):
+    def dictEmprestimo(self):
         d = dict()
-        d["id"] = self.id
+        d["id"] = self.id_emprestimo
         d["id_usuario"] = self.id_usuario
         d["dtSolicitacao"] = self.dtSolicitacao
         d["dtEmprestimo"] = self.dtEmprestimo

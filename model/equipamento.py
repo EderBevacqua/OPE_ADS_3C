@@ -26,7 +26,7 @@ class Equipamento():
     def getDados(self):
         return self.id, self.numeroEquipamento, self.marca, self.modelo, self.situacao
 
-    def __dict__(self):
+    def dictEquipamento(self):
         d = dict()
         d["id"] = self.id
         d["numeroEquipamento"] = self.numeroEquipamento

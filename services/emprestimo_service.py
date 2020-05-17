@@ -1,6 +1,5 @@
 from infra.emprestimo_dao import \
     listar as dao_listar, \
-    listEmp as dao_listEmp, \
     aprovar as dao_aprovar, \
     reprovar as dao_reprovar, \
     consultar as dao_consultar, \
@@ -21,24 +20,24 @@ def aprovar(id):
 def reprovar(id):
     return dao_reprovar(id)
 
-def listEmp():
+def listar():
     result=[]
     emprestimo=[]
     equipamentos=[]
-    for em in dao_listarEmp():
+    for em in dao_listar():
         if emprestimo!=[] or equipamentos!=[]:
-            if emprestimo[0].id_usuario == em.id_usuario and emprestimo[0].id_emprestimo == em.id_emprestimo:
-                equipamentos.append(em)
+            if emprestimo[0]['id_usuario'] == em.id_usuario and emprestimo[0]['id'] == em.id_emprestimo:
+                equipamentos.append(em.dictEquipamento())
             else:
                 emprestimo.append(equipamentos)
                 result.append(emprestimo)
                 equipamentos=[]
                 emprestimo=[]
-                emprestimo.append(em)
-                equipamentos.append(em)
+                emprestimo.append(em.dictEmprestimo())
+                equipamentos.append(em.dictEquipamento())
         else:
-            emprestimo.append(em)
-            equipamentos.append(em)
+            emprestimo.append(em.dictEmprestimo())
+            equipamentos.append(em.dictEquipamento())
     emprestimo.append(equipamentos)
     result.append(emprestimo)
     return result
@@ -54,8 +53,7 @@ def empMesPendentes():
     return dao_empMesPendentes()
 
 
-def listar():
-    return [emp for emp in dao_listar()]
+
 
 def localizar(id):
     pass
