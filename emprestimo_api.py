@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_required, login_user, logout_user, c
 from werkzeug.debug import DebuggedApplication
 from services.emprestimo_service import \
     listar as service_listar, \
+    listarEmp as service_listarEmp, \
     aprovar as service_aprovar, \
     reprovar as service_reprovar, \
     localizar as service_localiza, \
@@ -26,7 +27,7 @@ TOPIC_DICT = Content()
 
 @emprestimo_app.route('/api/emprestimos', methods=['GET'])
 def emprestimosApi():
-    return jsonify(service_listar())
+    return jsonify(service_listarEmp())
 
 @emprestimo_app.route('/emprestimos/dashboard', methods=['GET'])
 @login_required

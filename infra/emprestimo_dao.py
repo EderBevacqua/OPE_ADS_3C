@@ -28,6 +28,15 @@ def listar():
             emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dataHoraEmp, "dtDevolucao":dataHoraDev, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
         return emprestimos
 
+def listarEmp():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT e.id,e.id_usuario, e.dtSolicitacao,e.dtEmprestimo,e.dtDevolucao,e.status,u.nome,u.numeroMatricula,u.departamento,u.email,u.telefone FROM usuarios AS u INNER JOIN emprestimos AS e ON u.id = e.id_usuario")
+        rows = cursor.fetchall()
+        registros = []
+        for (id, id_usuario,dtSolicitacao,dtEmprestimo,dtDevolucao,status,nome,numeroMatricula,departamento,email,telefone) in rows:
+            registros.append({"id":id, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dtEmprestimo, "dtDevolucao":dtDevolucao, "status":status,"nome":nome, "numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone })
+        return registros
+
 def aprovar(id):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
         cursor.execute(f"update emprestimos set status='APROVADO' where id = ?", (int(id),))

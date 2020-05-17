@@ -8,13 +8,13 @@ from infra.equipamentos_dao import \
 from model.equipamento import Equipamento
 
 def listar():
-    return [Equipamento.__dict__() for Equipamento in dao_listar()]
+    return [Equipamento.dictEquipamento() for Equipamento in dao_listar()]
 
 def localizar(numeroEquipamento):
     equipamento = dao_consultar(numeroEquipamento)
     if equipamento == None:
         return None
-    return [equipamento.__dict__()]
+    return [equipamento.dictEquipamento()]
 
 def criar(equipamento_data):
     if equipamento_data != None:

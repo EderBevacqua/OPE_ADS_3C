@@ -1,5 +1,6 @@
 from infra.emprestimo_dao import \
     listar as dao_listar, \
+    listarEmp as dao_listarEmp, \
     aprovar as dao_aprovar, \
     reprovar as dao_reprovar, \
     consultar as dao_consultar, \
@@ -41,6 +42,9 @@ def listar():
     emprestimo.append(equipamentos)
     result.append(emprestimo)
     return result
+
+def listarEmp():
+    return dao_listarEmp()
 
 #DashBoard
 def empMesAprovados():
