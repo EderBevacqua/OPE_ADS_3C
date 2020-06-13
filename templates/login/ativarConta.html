@@ -1,13 +1,11 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
 
     <link href="/static/css/custom.css" rel="stylesheet">
     <link rel='shortcut icon' href='/static/imagens/favicon.ico.png' />
@@ -22,19 +20,31 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <!-- Mensagens -->
+                {% if get_flashed_messages() %}
                 {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <p>
-                    <div id="mensagens" class=flashes>
+                <div id="mensagens" class=flashes>
+                    <p>
                         <div class="modal-content" style="color:red;">
                             {% for message in messages %}
                             {{ message }}
                             {% endfor %}
                         </div>
-                    </div>
-                </p>
-                {% endif %}
+                    </p>
+                </div>
                 {% endwith %}
+                {% else %}
+                {% if mensagens %}
+
+                <div id="mensagens" class=flashes>
+                    <p>
+                        <div class="modal-content" style="color:red;">
+                            {{ mensagens }}
+                        </div>
+                    </p>
+                </div>
+                {% endif %}
+                {% endif %}
+                <!-- fim Mensagens -->
 
                 <div class="panel panel-login">
                     <div class="panel-heading">
@@ -67,10 +77,10 @@
                                         <input class="form-control" type="text" id="telefone" name="telefone" value="{{usuario.telefone}}" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="senha" id="senha" tabindex="1" class="form-control" placeholder="Senha">
+                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="confirmarSenha" id="confirmarSenha" tabindex="2" class="form-control" placeholder="Confirmar senha">
+                                        <input type="password" name="confirmarSenha" id="confirmarSenha" class="form-control" placeholder="Confirmar senha" autocomplete="off">
                                     </div>
                                     <div class="form-group">
                                         <div class="row">

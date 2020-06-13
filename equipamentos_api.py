@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, render_template, redirect,url_for
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from services.equipamentos_service import \
     listar as service_listar, \
+    localizarId as service_localizaId, \
     localizar as service_localiza, \
     criar as service_criar, \
     remover as service_remover, \
@@ -9,9 +10,32 @@ from services.equipamentos_service import \
 
 equipamentos_app = Blueprint('equipamentos_app', __name__, template_folder='templates/equipamento')
 
-@equipamentos_app.route('/api/equipamentos', methods=['GET'])
+@equipamentos_app.route('/api/equipamentos/localizar/<int:id>', methods=['POST'])
+def localizarEquipApi(id):
+	if service_localizaId(id):
+		return jsonify(service_localizaId(id))
+
+@equipamentos_app.route('/api/equipamentos', methods=['GET', 'POST'])
 def equipamentoApi():
-    return jsonify(service_listar())
+    if request.method == 'GET':
+        return jsonify(service_listar())
+    if request.method == 'POST':
+        equipamento = request.get_json()
+        if not equipamento.get('situacao'):
+            novo_equipamento = {"id":"", "numeroEquipamento":equipamento.get('numeroEquipamento'), "marca" :equipamento.get('marca'), "modelo" :equipamento.get('modelo'), "situacao" :"ATIVO"}
+        else:
+            novo_equipamento = {"id":"", "numeroEquipamento":equipamento.get('numeroEquipamento'), "marca" :equipamento.get('marca'), "modelo" :equipamento.get('modelo'), "situacao" :equipamento.get('ATIVO')}
+        equipamento = service_criar(novo_equipamento)
+        if equipamento != None:
+            return 'ok'
+
+@equipamentos_app.route('/api/equipamentos/remover/<int:numeroEquipamento>', methods=['DELETE'])
+def remover_equipamentoApi(numeroEquipamento):
+	if numeroEquipamento != None:
+		removido = service_remover(numeroEquipamento)
+		if removido == 1:
+			return "removido"
+	return "ERRO"
 
 @equipamentos_app.route('/equipamentos', methods=['GET'])
 @login_required
@@ -44,21 +68,21 @@ def cadastrar():
         flash('Digite um NÚMERO válido para o equipamento')
         return render_template("cadastrar.html")
 
-@equipamentos_app.route('/equipamentos', methods=['POST','GET'])
+@equipamentos_app.route('/equipamentos', methods=['POST'])
 @login_required
 def localizar():
-    if not current_user.isAdmin == 1:
+    if current_user.isAdmin != 1:
         return redirect('/')
     try:
         if request.form and request.method == 'POST':
             numEquipamento = request.form["numeroEquipamento"]
             equipamento = service_localiza(numEquipamento)
             if equipamento != None:
-                return render_template("equipamento/equipamentos.html", equipamentos=equipamento)
+                return render_template("equipamento/equipamentos.html", equipamentos=[equipamento])
             else:
                 flash("Equipamento não encontrado")
                 return redirect("/equipamentos")
-        return render_template("equipamento/equipamentos.html")
+        return redirect("/equipamento")
     except ValueError:
         return render_template("equipamento/equipamentos.html", mensagem="Digite o NÚMERO do equipamento")
 

@@ -36,10 +36,7 @@ def cadastrar():
         return redirect('/')
     try:
         if request.method == 'POST':
-            if not "isAdmin" in request.form:
-                novo_usuario = { "id":"", "nome":  request.form["nome"], "numeroMatricula": request.form["numeroMatricula"], "departamento" : request.form["departamento"], "email" : request.form["email"], "telefone": request.form["telefone"],"isAdmin":0}
-            else:
-                novo_usuario = { "id":"", "nome":  request.form["nome"], "numeroMatricula": request.form["numeroMatricula"], "departamento" : request.form["departamento"], "email" : request.form["email"], "telefone": request.form["telefone"],"isAdmin":1}
+            novo_usuario = { "id":"", "nome": request.form["nome"], "numeroMatricula":request.form["numeroMatricula"], "departamento" :request.form["departamento"], "email":request.form["email"].lower(), "telefone":request.form["telefone"],"isAdmin":request.form["isAdmin"]}
             usuario = service_criar(novo_usuario)
             if usuario != True:
                 flash("Usuario nao pode ser cadastrado!")
@@ -51,7 +48,7 @@ def cadastrar():
     except ValueError as e:
         return e
     
-@cadastroUsuario_app.route('/usuarios', methods=['POST','GET'])
+@cadastroUsuario_app.route('/usuarios', methods=['POST'])
 @login_required
 def localizar():
     if not current_user.isAdmin == 1:
@@ -89,13 +86,16 @@ def editar(numeroMatricula):
 def alterar_usuario(numeroMatricula):
     nome = request.form.get("nome")
     departamento = request.form.get("departamento")
-    email = request.form.get("email")
+    email = request.form.get("email").lower()
     telefone = request.form.get("telefone")
     isAdmin = request.form.get("isAdmin")
     alterarado = { "nome":nome,"numeroMatricula":numeroMatricula, "departamento":departamento,"email":email,"telefone":telefone,"isAdmin":isAdmin}
     service_atualiza(alterarado)
     #atualizado = service_atualiza(nome, numeroMatricula, departamento, email, telefone, isAdmin)
     if alterarado != None:
+        if current_user.isAdmin !=1:
+            flash('Alterado com sucesso')
+            return redirect("/profile")
         flash('Usuário alterado com sucesso')
         return redirect("/usuarios")
     flash('Alteracao nao efetuada')
@@ -116,7 +116,7 @@ def excluir():
     except ValueError:
         return render_template("cadastroUsuario/excluir.html", mensagem="Digite o NUMERO do usuario")
 
-@cadastroUsuario_app.route('/usuarios/remover/<int:numeroMatricula>', methods=['GET','POST'])
+@cadastroUsuario_app.route('/usuarios/remover/<numeroMatricula>', methods=['GET','POST'])
 def remover_usuario(numeroMatricula):
     if numeroMatricula != None:
         #usuarioData=request.get_json()

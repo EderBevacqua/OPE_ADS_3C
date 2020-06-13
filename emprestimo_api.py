@@ -29,6 +29,12 @@ TOPIC_DICT = Content()
 def emprestimosApi():
     return jsonify(service_listarEmp())
 
+@emprestimo_app.route('/emprestimos/emprestimo', methods=['GET'])
+@login_required
+def emprestimoss():
+    return render_template('emprestimo/emprestimos.html', emprestimos = service_listarEmp())
+
+
 @emprestimo_app.route('/emprestimos/dashboard', methods=['GET'])
 @login_required
 def dashboardEmp():

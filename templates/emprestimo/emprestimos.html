@@ -3,26 +3,96 @@
 {% block body %}
 <div id="page-wrapper">
     <div class="container-fluid">
-        {% for emprestimo in emprestimos %}
-        <!-- Modal -->
-        <div class="modal fade" id="detalhes{{ emprestimo.numeroMatricula }}" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Fechar</h4>
-                    </div>
-                    <div class="modal-body">
 
+        <!-- Modal equipamentos-->
+        {% for emprestimo in emprestimos %}
+        <div class="modal fade" id="detalhes{{ emprestimo.id }}" role="dialog">
+            <div style="background-color:white; padding:4px;" class="rounded modal-dialog modal-lg">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Equipamentos solicitados</h3>
+                <div class="table-responsive">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <a href="" class="btn btn-primary h1" data-toggle="modal" data-target="#addEquipamento{{ emprestimo.id_emprestimo }}">Adicionar Equipamento</a>
+                            <table class="table table-sm table-hover table-striped">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Nº Equip</th>
+                                        <th>Marca</th>
+                                        <th>Modelo</th>
+                                        <th class="actions">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for equip in equips %}
+                                    <tr>
+                                        <td>{{ equip.numeroEquipamento }}</td>
+                                        <td>{{ equip.marca }}</td>
+                                        <td>{{ equip.modelo }}</td>
+                                        <td class="actions">
+                                            <a href="/emprestimos/removerEquipamento/{{ emprestimo.id_emprestimo }}/{{ equip.numeroEquipamento }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo remover equipamento n {{equip.numeroEquipamento}} do empréstimo?')">Remover</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal addEquipamento -->
+        <div class="modal fade" id="addEquipamento{{ emprestimo.id_emprestimo }}" role="dialog">
+            <div style="background-color:darkgray; padding:4px;" class="rounded modal-dialog modal-lg">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Selecione o Equipamento</h3>
+                <div class="table-responsive">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="/emprestimos/adicionarEquipamento/{{ emprestimo.id_emprestimo }}" method="POST">
+                                <table class="table table-sm table-hover table-striped">
+                                    <thead class="thead-light">
+                                        Solicitante: {{ emprestimo.nome }}
+                                        <tr>
+                                            <th>Equip N</th>
+                                            <th>Marca</th>
+                                            <th>Modelo</th>
+                                            <th class="actions">Adicionar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for equipamento in equipamentos %}
+                                        <tr>
+                                            <td>{{ equipamento['numeroEquipamento'] }}</td>
+                                            <td>{{ equipamento['marca'] }}</td>
+                                            <td>{{ equipamento['modelo'] }}</td>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox" id="addEquip" name="addEquip" value="{{equipamento['numeroEquipamento']}}" />
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
+
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
@@ -31,48 +101,72 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li>
-                        <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                        <i class="fa fa-dashboard"></i>  <a href="/emprestimos/dashboard">Dashboard</a>
                     </li>
                     <li class="active">
-                        <i class="fa fa-table"></i> Empréstimo
+                        <i class="fa fa-list-alt"></i> Empréstimo
                     </li>
                 </ol>
             </div>
         </div>
+
+        <!-- Mensagens -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div id="mensagens" class=flashes>
+            <div class="modal-content">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+
         <div class="table-responsive-sm">
-            {% if emprestimos != None and emprestimos != Null %}
+            {% if emprestimos %}
             <table class="table table-sm table-hover table-striped">
                 <thead class="thead-light">
                     <tr>
                         <th>Nome</th>
-                        <th>Matrícula N</th>
+                        <th>Matrícula</th>
                         <th>dtSolicitação</th>
                         <th>dtEmpréstimo</th>
                         <th>dtDevolução</th>
-                        <th>status</th>
+                        <th>Status</th>
                         <th class="actions">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in emprestimos %}
+                    {% for emp, eq in emprestimos %}
                     <tr>
-                        <td>{{ item['nome'] }}</td>
-                        <td>{{ item['numeroMatrícula'] }}</td>
-                        <td>{{ item['dtSolicitação']  }}</td>
-                        <td>{{ item['dtEmpréstimo'] }}</td>
-                        <td>{{ item['dtDevolução'] }}</td>
-                        <td>{{ item['status'] }}</td>
+                        <td>{{ emp.nome }}</td>
+                        <td>{{ emp.numeroMatricula }}</td>
+                        <td>{{ emp.dtSolicitacao  }}</td>
+                        <td>{{ emp.dtEmprestimo }}</td>
+                        <td>{{ emp.dtDevolucao }}</td>
+                        {% if emp.status == 'APROVADO' %}
+                        <td style="font-weight:bold;" class="bg-success">{{ emp.status }}</td>
+                        {% elif emp.status == 'REPROVADO' %}
+                        <td style="font-weight:bold;" class="bg-danger">{{ emp.status }}</td>
+                        {% elif emp.status == 'PENDENTE' %}
+                        <td style="font-weight:bold;" class="bg-warning">{{ emp.status }}</td>
+                        {% endif %}
                         <td class="actions">
-                            <!--<a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatricula'] }}">Detalhes</a>-->
-                            <a href="emprestimos.html/detalhes/{{ item['numeroMatricula'] }}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ item['numeroMatrícula'] }}">Detalhes</a>
-                            <a href="/emprestimos/aprovar/{{ item['numeroMatricula'] }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{item.nome}}?')">Aprovar</a>
-                            <a href="/emprestimos/reprovar/{{ item['numeroMatricula'] }}" class="btn btn-danger btn-xs" onclick="return confirm('REPROVAR empréstimo do(a) {{item.nome}}?')">Reprovar</a>
+                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp.id }}">Detalhes</a>
+                            <a href="/emprestimos/aprovar/{{ emp.id_emprestimo }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{emp.nome}}?')">Aprovar</a>
+                            <a href="/emprestimos/reprovar/{{ emp.id_emprestimo }}" class="btn btn-danger btn-xs" onclick="return confirm('REPROVAR empréstimo do(a) {{emp.nome}}?')">Reprovar</a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+            <div style="text-align:center; font-size:30px;">
+                Você não possui empréstimo
+            </div>
             {% endif %}
+
         </div>
     </div>
 </div>

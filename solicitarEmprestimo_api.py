@@ -1,9 +1,12 @@
 from flask import Blueprint, jsonify, request, render_template, redirect,url_for, session, abort, flash, redirect
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from werkzeug.debug import DebuggedApplication
+from datetime import datetime
+from model.formSolicitarEmprestimo import FormSolicitarEmprestimo
 from services.solicitarEmprestimo_service import \
     listarEmp as service_listarEmp, \
     listarEqui as service_listarEqui, \
+    listarUser as service_listarUser, \
     equipDisponivel as service_equipDisponivel, \
     addEquipamento as service_addEquipamento, \
     removeEquip as service_removeEquip, \
@@ -17,7 +20,7 @@ solicitarEmprestimo_app = Blueprint('solicitarEmprestimo_app', __name__, templat
 @solicitarEmprestimo_app.route('/emprestimos/adicionarEquipamento/<int:id_emprestimo>', methods=['POST'])
 def adicionarEquipamento(id_emprestimo):
     if current_user.isAdmin == 1:
-        if request.method == 'POST' and request.form.getlist('addEquip') !=[]:
+        if request.method == 'POST' and request.form.getlist('addEquip') != []:
             for idEquip in request.form.getlist('addEquip'):
                 addEquip = service_addEquipamento(id_emprestimo,idEquip)
             if addEquip == True:
@@ -33,7 +36,7 @@ def adicionarEquipamento(id_emprestimo):
 @solicitarEmprestimo_app.route('/emprestimos/removerEquipamento/<int:id_emprestimo>/<int:id_equipamento>', methods=['POST','GET'])
 def removerEquipamento(id_emprestimo,id_equipamento):
     if current_user.isAdmin == 1:
-        rm=service_removeEquip(id_emprestimo, id_equipamento)
+        rm = service_removeEquip(id_emprestimo, id_equipamento)
         if rm != None:
             flash('Equipamento removido do empréstimo')
             return redirect('/emprestimos')
@@ -45,41 +48,82 @@ def emprestimos():
     if current_user.isAdmin == 1:
         return render_template("solicitarEmprestimo/emprestimos.html", emprestimos=service_listarEmp(), equipamentos=service_equipDisponivel())
     else:
-        emprestimos=[]
+        emprestimos = []
         for e in service_listarEmp():
             if e[0].id_usuario == current_user.id_usuario:
                 emprestimos.append(e)
         return render_template("solicitarEmprestimo/emprestimos.html", emprestimos=emprestimos)
 
 @solicitarEmprestimo_app.route('/solicitarEmprestimo', methods=['POST','GET'])
-@login_required
-def solicitarEmprestimo():
-    if request.method == "GET":
-        return render_template("solicitarEmprestimo/solicitarEmprestimo.html", equipamentos=service_equipDisponivel())
-    if request.method == 'POST' and request.form.getlist('addEquip') !=[]:
-        equips= ""
-        for idEquip in request.form.getlist('addEquip'):
-            if equips == '':
-                equips+=idEquip
-            else:
-                equips+=","+idEquip
-        return render_template("solicitarEmprestimo/solicitarEmprestimo.html",equips=equips,equipamentos=service_equipDisponivel())
-    else:
-        return redirect("/solicitarEmprestimo")
-
 @solicitarEmprestimo_app.route('/solicitarEmprestimo/cadastrar', methods=['POST','GET'])
 @login_required
-def cadastrar():
-    try:
-        if request.method == 'POST':
-            nova_solicitacao = {'id':'', 'id_emprestimo':'', 'id_equipamento':'', 'id_usuario':'', 'dtSolicitacao':'', 'dtEmprestimo':request.form['dtEmprestimo'], 'dtDevolucao':request.form['dtDevolucao'], 'status':'', 'nome':request.form.get('nome'), 'numeroMatricula':request.form.get('numeroMatricula'), 'departamento':'', 'email':'', 'telefone':'', 'numeroEquipamento':request.form['numeroEquipamento'], 'marca':'','modelo':'', 'situacao':''}
-            solicitacao = service_criar(nova_solicitacao)
-        if solicitacao == None:
-            return render_template("solicitarEmprestimo/solicitarEmprestimo.html", mensagem = "solictacao não pode ser cadastrado! \n")
-        else:
-            flash('Solicitação de empréstimo registrada')
-            return redirect('/emprestimos')
-        return render_template("solicitarEmprestimo/solicitarEmprestimo.html")
-    except ValueError as e:
-        return e
+def solicitarEmprestimo():
+    formSolicitarEmprestimo = FormSolicitarEmprestimo()
+    rule = request.url_rule
+
+    if request.method == "GET":
+        return render_template("solicitarEmprestimo/solicitarEmprestimo.html", equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo)
+
+    if '/solicitarEmprestimo/cadastrar' == rule.rule:
+        try:
+            if formSolicitarEmprestimo.validate_on_submit():
+                nova_solicitacao = {'id':'', 'id_emprestimo':'', 'id_equipamento':'', 'id_usuario':'', 'dtSolicitacao':'', 'dtEmprestimo':formSolicitarEmprestimo.dtEmprestimo.data, 'dtDevolucao':formSolicitarEmprestimo.dtDevolucao.data, 'status':'', 'nome':formSolicitarEmprestimo.nome.data, 'numeroMatricula':formSolicitarEmprestimo.numeroMatricula.data, 'departamento':'', 'email':'', 'telefone':'', 'numeroEquipamento':formSolicitarEmprestimo.numeroEquipamento.data, 'marca':'','modelo':'', 'situacao':''}
+                solicitacao = service_criar(nova_solicitacao)
+                if solicitacao == None:
+                    return render_template("solicitarEmprestimo/solicitarEmprestimo.html", mensagem = "solictacao não pode ser cadastrado! \n")
+                else:
+                    flash('Solicitação de empréstimo registrada')
+                    return redirect('/emprestimos')
+            selectUser = request.form['nome'], request.form['numeroMatricula']
+
+            dtEmprestimo = request.form['dtEmprestimo']
+            dtDevolucao = request.form['dtDevolucao']
+            
+            if request.form['numeroEquipamento']:
+                equips = request.form['numeroEquipamento'].strip("[]").replace("'","").replace(" ","").split(",")
+                #equips = request.form['numeroEquipamento']
+                return render_template("solicitarEmprestimo/solicitarEmprestimo.html", dtEmprestimo=dtEmprestimo, dtDevolucao=dtDevolucao, equips=equips, equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)
+            else:
+                return render_template("solicitarEmprestimo/solicitarEmprestimo.html", dtEmprestimo=dtEmprestimo, dtDevolucao=dtDevolucao, equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)
+        except ValueError as e:
+            print(e)
+
+    if '/solicitarEmprestimo' == rule.rule and current_user.isAdmin == 1:
+        try:
+            selectUser = request.form['selectUser']
+            selectUser = selectUser.split(',')
+            equips = request.form.getlist('addEquip')
+            #equips = list(map(int, request.form.getlist('addEquip')))
+            #equips = str(equips).strip('[]')
+            return render_template("solicitarEmprestimo/solicitarEmprestimo.html", equips=equips, equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)
+        except ValueError as e:
+                print(e)
+    elif '/solicitarEmprestimo' == rule.rule and current_user.isAdmin != 1:
+        try:
+            equips = request.form.getlist('addEquip')
+            return render_template("solicitarEmprestimo/solicitarEmprestimo.html", equips=equips, equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo)
+        except ValueError as e:
+            print(e)
+    else:
+        return redirect("/solicitarEmprestimo")
+        
+
+
+#@solicitarEmprestimo_app.route('/solicitarEmprestimo/cadastrar', methods=['POST','GET'])
+#@login_required
+#def cadastrar():
+#    formSolicitarEmprestimo = FormSolicitarEmprestimo()
+#    try:
+#        if request.method == 'POST' and formSolicitarEmprestimo.validate_on_submit():
+#            nova_solicitacao = {'id':'', 'id_emprestimo':'', 'id_equipamento':'', 'id_usuario':'', 'dtSolicitacao':'', 'dtEmprestimo':request.form['dtEmprestimo'], 'dtDevolucao':request.form['dtDevolucao'], 'status':'', 'nome':request.form.get('nome'), 'numeroMatricula':request.form.get('numeroMatricula'), 'departamento':'', 'email':'', 'telefone':'', 'numeroEquipamento':request.form['numeroEquipamento'], 'marca':'','modelo':'', 'situacao':''}
+#            solicitacao = service_criar(nova_solicitacao)
+#            if solicitacao == None:
+#                selectUser = request.form.get('selectUser')
+#                return render_template("solicitarEmprestimo/solicitarEmprestimo.html", mensagem = "solictacao não pode ser cadastrado! \n",equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)
+#            else:
+#                flash('Solicitação de empréstimo registrada')
+#                return redirect('/emprestimos')
+#        return render_template("solicitarEmprestimo/solicitarEmprestimo.html",formSolicitarEmprestimo=formSolicitarEmprestimo)
+#    except ValueError as e:
+#        print(e)
 

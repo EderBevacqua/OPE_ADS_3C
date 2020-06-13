@@ -11,23 +11,42 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-table"></i> Solicitar Empréstimo
+                        <i class="glyphicon glyphicon-briefcase"></i> Solicitar Empréstimo
                     </li>
                 </ol>
             </div>
         </div>
         <div id="page-wrapper">
-
             <!-- Modal addEquipamento -->
             <div class="modal fade" id="addEquipamento" role="dialog">
                 <div style="background-color:white; padding:4px;" class="rounded modal-dialog modal-lg">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3>Selecione os Equipamentos</h3>
                     <div class="table-responsive">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <form action="/solicitarEmprestimo" method="POST">
+                        <form action="/solicitarEmprestimo" method="POST">
+                            <!-- Modal content user -->
+                            {% if current_user.isAdmin == 1 %}
+                            <div class="modal-content" id="chooseUser">
+                                <h3>Escolher usuário</h3>
+                                <select name='selectUser' onchange="this.form.submit()">
+                                    {% if selectUser and selectUser[0] != '' %}
+                                    <option value="{{ selectUser[0] }},{{ selectUser[1] }}" selected='selected'>Nome: {{ selectUser[0] }}, Matrícula: {{ selectUser[1] }}</option>
+                                    <option value=""></option>
+                                    {% else %}
+                                    <option value="" selected='selected'></option>
+                                    {% endif %}
+                                    {% for usuario in usuarios %}
+                                    <option value="{{ usuario.nome }},{{ usuario.numeroMatricula }}">Nome: {{ usuario.nome }}, Matrícula: {{ usuario.numeroMatricula }}</option>
+                                    {% endfor %}
+                                </select>
+                                <br />
+                                <br />
+                            </div>
+                            {% endif %}
+                            <br />
+                            <!-- Modal content equip -->
+                            <div class="modal-content" id="chooseEquip">
+                                <h3>Adicionar equipamento</h3>
+                                <div class="modal-body">
                                     <table class="table table-sm table-hover table-striped">
                                         <thead class="thead-light">
                                             <tr>
@@ -45,79 +64,131 @@
                                                 <td>{{ equipamento.modelo }}</td>
                                                 <td>
                                                     <label>
-                                                        <input type="checkbox" id="addEquip" name="addEquip" value="{{equipamento.numeroEquipamento}}" />
+                                                        {% set equip = equipamento.numeroEquipamento | string %}
+                                                        {% for e in equips if e.split(';')[0].strip() == equip %}
+                                                        <input type="checkbox" id="addEquip" name="addEquip" value="{{equipamento.numeroEquipamento}};{{equipamento.marca}};{{equipamento.modelo}}" checked />
+                                                        {% else %}
+                                                        <input type="checkbox" id="addEquip" name="addEquip" value="{{equipamento.numeroEquipamento}};{{equipamento.marca}};{{equipamento.modelo}}" />
+                                                        {% endfor %}
                                                     </label>
                                                 </td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    <button type="submit" class="btn btn-primary">Adicionar</button>
-                                </form>
+                                    <button type="submit" class="btn btn-success">Adicionar</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <!--Fim Modal addEquipamento -->
+            <!-- fim addEquipamento -->
 
-            <form class="was-validated" action="{{url_for('solicitarEmprestimo_app.cadastrar')}}" method="POST">
+            <form class="was-validated" action="/solicitarEmprestimo/cadastrar" method="POST" novalidate>
+                {{ formSolicitarEmprestimo.csrf_token }}
+                {% if current_user.isAdmin != 1 %}
                 <div class="form-group">
-                    <label for="nome">Nome:</label>
-                    {% if current_user.isAdmin == 1 %}
-                    <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" autocomplete="on" required>
-                    {% else %}
-                    <input class="form-control" type="text" id="nome" name="nome" placeholder="{{ current_user.nome }}" value="{{ current_user.nome }}" readonly>
-                    {% endif %}
-                    <div class="valid-feedback">ok</div>
-                    <div class="invalid-feedback">Digite o Nome</div>
+                    <label for="nome">Nome:*</label>
+                    <input class="form-control" type="text" pattern="[a-zA-Z\s]+$" id="nome" name="nome" placeholder="{{ current_user.nome }}" value="{{ current_user.nome }}" readonly>
+                    {% for error in formSolicitarEmprestimo.nome.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="form-group">
-                    <label for="numeroMatricula">Número da Matrícula:</label>
-                    {% if current_user.isAdmin == 1 %}
-                    <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" placeholder="Número da Matrícula" autocomplete="on" required>
-                    {% else %}
+                    <label for="numeroMatricula">Número da Matrícula:*</label>
                     <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" placeholder="{{ current_user.numeroMatricula }}" value="{{ current_user.numeroMatricula }}" readonly>
-                    {% endif %}
-                    <div class="valid-feedback">ok</div>
-                    <div class="invalid-feedback">Número da Matrícula</div>
+                    {% for error in formSolicitarEmprestimo.numeroMatricula.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
                 </div>
-                <a class="btn btn-primary h1" data-toggle="modal" data-target="#addEquipamento">Adicionar Equipamentos</a>
+                <a href="" class="btn btn-secondary h1" id="adddEq" data-toggle="modal" onclick="soEquip()" data-target="#addEquipamento">ADICIONAR EQUIPAMENTO</a>
+                {% elif selectUser %}
+                <!--<a href="" class="btn btn-primary h1" data-toggle="modal" data-target="#addUser">ADICIONAR USUÁRIO</a>-->
+                <a href="" class="btn btn-secondary h1" id="ADDue" data-toggle="modal" onclick="soUser()" data-target="#addEquipamento">ESCOLHER USUÁRIO</a>
+                <div class="form-group">
+                    <label for="nome">Nome:*</label>
+                    <input class="form-control" type="text" pattern="[a-zA-Z\s]+$" id="nome" name="nome" value="{{ selectUser[0] }}" readonly>
+                    {% for error in formSolicitarEmprestimo.nome.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="numeroMatricula">Número da Matrícula:*</label>
+                    <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" value="{{ selectUser[1] }}" readonly>
+                    {% for error in formSolicitarEmprestimo.numeroMatricula.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <a href="" class="btn btn-secondary" data-toggle="modal" onclick="soEquip()" data-target="#addEquipamento">ADICIONAR EQUIPAMENTO</a>
+                {% else %}
+                <a href="" class="btn btn-secondary" data-toggle="modal" onclick="soUser()" data-target="#addEquipamento">ESCOLHER USUÁRIO</a>
+                <div class="form-group">
+                    <label for="nome">Nome:*</label>
+                    <input class="form-control" type="text" id="nome" name="nome" value="" readonly>
+                    {% for error in formSolicitarEmprestimo.nome.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="numeroMatricula">Número da Matrícula:*</label>
+                    <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" value="" readonly>
+                    {% for error in formSolicitarEmprestimo.numeroMatricula.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <a href="" class="btn btn-secondary" data-toggle="modal" onclick="soEquip()" data-target="#addEquipamento">ADICIONAR EQUIPAMENTO</a>
+                {% endif %}
                 <div class="form-group">
                     {% if equips %}
-                    <label for="dtEmprestimo">Número do Equipamento:</label>
-                    <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" placeholder="{{ equips }}" value="{{ equips }}" readonly>
+                    <label for="numeroEquipamento">Equipamento:*</label>
+                    <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" value="{{ equips }}" readonly>
+                    {% for error in formSolicitarEmprestimo.numeroEquipamento.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
                     {% else %}
+                    <label for="numeroEquipamento">Equipamento:*</label>
+                    <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" value="" readonly>
+                    {% for error in formSolicitarEmprestimo.numeroEquipamento.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+
                     {% endif %}
                 </div>
+
                 <div class="form-group">
-                    <label for="dtEmprestimo">Data e hora do Empréstimo:</label>
-                    <input class="form-control" type="datetime-local" id="dtEmprestimo" name="dtEmprestimo" placeholder="Data do Empréstimo" autocomplete="on" required>
-                    <div class="valid-feedback">ok</div>
-                    <div class="invalid-feedback">Digite a Data e a Hora do Empréstimo</div>
+                    <label for="dtEmprestimo">Data e hora do Empréstimo:*</label>
+                    {% if dtEmprestimo %}
+                    <div class='input-group'>
+                        <input class="form-control" type="text" id="datetimepicker1" name="dtEmprestimo" value="{{ dtEmprestimo }}" readonly>
+                    </div>
+                    {% else %}
+                    <input class="form-control data" type="text" id="datetimepicker1" name="dtEmprestimo" placeholder="&#xf073;" readonly>
+                    {% endif %}
+                    {% for error in formSolicitarEmprestimo.dtEmprestimo.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
                 </div>
                 <div class="form-group">
-                    <label for="dtDevolucao">Data e Hora da Devolução do Empréstimo:</label>
-                    <input class="form-control" type="datetime-local" id="dtDevolucao" name="dtDevolucao" placeholder="Data devolução do Empréstimo" autocomplete="on" required>
-                    <div class="valid-feedback">ok</div>
-                    <div class="invalid-feedback">Digite a Data e hora da devolução do Empréstimo</div>
+                    <label for="dtDevolucao">Data e Hora da Devolução do Empréstimo:*</label>
+                    {% if dtDevolucao %}
+                    <input class="form-control" type="text" id="datetimepicker2" name="dtDevolucao" value="{{ dtDevolucao }}" readonly>
+                    {% else %}
+                    <input class="form-control data" type="text" id="datetimepicker2" name="dtDevolucao" placeholder="&#xf073;" readonly>
+                    {% endif %}
+                    {% for error in formSolicitarEmprestimo.dtDevolucao.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
                 </div>
 
-                <!--<div class="form-group form-check" id="STATUS" name="STATUS">
-        <label class="form-check-label">
-            <input type="checkbox" id="status" name="status" value="ATIVO" checked>ATIVO
-        </label>
-        <label class="form-check-label">
-            <input type="checkbox" id="status" name="status" value="INATIVO">INATIVO
-        </label>
-    </div>-->
-
-                <button class="btn btn-primary" type="submit">Cadastrar</button> | <a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>
+                <button class="btn btn-success" type="submit">Cadastrar</button> | <a class="btn btn-danger" href="{{url_for('index')}}">Cancelar</a>
             </form>
             <br />
+            <h10 class="center">*Campos obrigatórios</h10>
         </div>
         <div id="mensagens">
             {{mensagem}}

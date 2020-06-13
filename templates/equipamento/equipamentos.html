@@ -12,47 +12,57 @@
                 <div class="table-responsive">
                     <!-- Modal content-->
                     <div class="modal-content">
+
                         <div class="modal-body">
                             {% if equipamento != None and equipamento != Null %}
                             <form class="was-validated" action="/equipamentos/atualizar/{{ equipamento['numeroEquipamento'] }}" method="POST">
                                 <div class="form-group">
-                                    <label for="numeroEquipamento">Número do equipamento:</label>
+                                    <label for="numeroEquipamento">Número do equipamento:*</label>
                                     <input class="form-control" type="text" placeholder="{{ equipamento['numeroEquipamento'] }}" readonly />
                                 </div>
                                 <div class="form-group">
-                                    <label for="marca">Marca:</label>
+                                    <label for="marca">Marca:*</label>
                                     <input class="form-control" type="text" id="marca" name="marca" placeholder="Marca do equipamento" value="{{ equipamento['marca'] }}" autocomplete="on" required>
-                                    <div class="valid-feedback">ok</div>
-                                    <div class="invalid-feedback">Digite a marca do equipamento</div>
+                                    <!--<div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite a marca do equipamento</div>-->
                                 </div>
                                 <div class="form-group">
-                                    <label for="modelo">Modelo:</label>
+                                    <label for="modelo">Modelo:*</label>
                                     <input class="form-control" type="text" id="modelo" name="modelo" placeholder="Modelo do equipamento" value="{{ equipamento['modelo'] }}" autocomplete="on" required>
-                                    <div class="valid-feedback">ok</div>
-                                    <div class="invalid-feedback">Digite o modelo do equipamento</div>
+                                    <!--<div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite o modelo do equipamento</div>-->
                                 </div>
                                 <div class="form-group">
-                                    <label for="modelo">Situção atual:</label>
-                                    <label style="font-style:italic;">{{ equipamento['situacao'] }}</label>
+                                    <label for="modelo">Situação:*</label>
                                     {% if equipamento['situacao'] == "ATIVO" %}
                                     <div class="form-group form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" id="situacao" name="situacao" value="INATIVO" checked>INATIVAR
+                                            <input class="form-check-label" type="radio" id="situacao" name="situacao" value="ATIVO" checked>ATIVO
+                                        </label>
+                                        <br />
+                                        <label class="form-check-label">
+                                            <input type="radio" id="situacao" name="situacao" value="INATIVO">INATIVO
                                         </label>
                                     </div>
                                     {% else %}
                                     <div class="form-group form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-label" type="checkbox" id="situacao" name="situacao" value="ATIVO" checked>ATIVAR
+                                            <input class="form-check-label" type="radio" id="situacao" name="situacao" value="ATIVO">ATIVO
+                                        </label>
+                                        <br />
+                                        <label class="form-check-label">
+                                            <input type="radio" id="situacao" name="situacao" value="INATIVO" checked>INATIVO
                                         </label>
                                     </div>
                                     {% endif %}
                                 </div>
-                                <button class="btn btn-primary" type="submit">Atualizar</button> | <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                <button class="btn btn-success" type="submit">Atualizar</button> | <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                             </form>
                             {% endif %}
                         </div>
+
                     </div>
+                    <h10 class="center">*Campos obrigatórios</h10>
                 </div>
             </div>
         </div>
@@ -69,35 +79,38 @@
                         <div class="modal-body">
                             <form class="was-validated" action="{{url_for('.cadastrar')}}" method="POST">
                                 <div class="form-group">
-                                    <label for="numeroEquipamento">Número do equipamento:</label>
-                                    <input class="form-control" type="text" id="numeroEquipamento" name="numeroEquipamento" placeholder="Número do equipamento" autocomplete="on" required>
-                                    <div class="valid-feedback">ok</div>
-                                    <div class="invalid-feedback">Digite o número do equipamento</div>
+                                    <label for="numeroEquipamento">Número do equipamento:*</label>
+                                    <input class="form-control" type="number" pattern="[0-9]+$" id="numeroEquipamento" name="numeroEquipamento" placeholder="Número do equipamento" autocomplete="on" required>
+                                    <!-- <div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite o número do equipamento</div> -->
                                 </div>
                                 <div class="form-group">
-                                    <label for="marca">Marca:</label>
+                                    <label for="marca">Marca:*</label>
                                     <input class="form-control" type="text" id="marca" name="marca" placeholder="Marca do equipamento" autocomplete="on" required>
-                                    <div class="valid-feedback">ok</div>
-                                    <div class="invalid-feedback">Digite a marca do equipamento</div>
+                                    <!--<div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite a marca do equipamento</div>-->
                                 </div>
                                 <div class="form-group">
-                                    <label for="modelo">Modelo:</label>
+                                    <label for="modelo">Modelo:*</label>
                                     <input class="form-control" type="text" id="modelo" name="modelo" placeholder="Modelo do equipamento" autocomplete="on" required>
-                                    <div class="valid-feedback">ok</div>
-                                    <div class="invalid-feedback">Digite o modelo do equipamento</div>
+                                    <!--<div class="valid-feedback">ok</div>
+                                    <div class="invalid-feedback">Digite o modelo do equipamento</div>-->
                                 </div>
+                                <label for="modelo">Situação:*</label>
                                 <div class="form-group form-check" id="situacao" name="situacao">
                                     <label class="form-check-label">
-                                        <input type="checkbox" id="situacao" name="situacao" value="ATIVO" checked>ATIVO
+                                        <input type="radio" id="situacao" name="situacao" value="ATIVO" checked>ATIVO
                                     </label>
+                                    <br />
                                     <label class="form-check-label">
-                                        <input type="checkbox" id="situacao" name="situacao" value="INATIVO">INATIVO
+                                        <input type="radio" id="situacao" name="situacao" value="INATIVO">INATIVO
                                     </label>
                                 </div>
-                                <button class="btn btn-primary" type="submit">Cadastrar</button> | <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                <button class="btn btn-success" type="submit">Cadastrar</button> | <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                             </form>
                         </div>
                     </div>
+                    <h10 class="center">*Campos obrigatórios</h10>
                 </div>
             </div>
         </div>
@@ -113,13 +126,13 @@
                         <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
                     </li>
                     <li class="active">
-                        <i class="fa fa-table"></i> Equipamentos
+                        <i class="glyphicon glyphicon-wrench"></i> Equipamentos
                     </li>
                 </ol>
             </div>
         </div>
 
-        <form action="{{ url_for('equipamentos_app.equipamentos') }}" method="POST">
+        <form action="{{ url_for('equipamentos_app.localizar') }}" method="POST">
             <div class="input-group">
                 <input type="text" id="numeroEquipamento" name="numeroEquipamento" class="form-control" autocomplete="on" placeholder="Pesquisar pelo número do equipamento" />
                 <span class="input-group-btn">
@@ -129,8 +142,7 @@
                 </span>
             </div>
         </form>
-
-        <a class="btn btn-primary h1" data-toggle="modal" data-target="#cadastrar">Novo Equipamento</a>
+        <a href="" class="btn btn-primary h1" data-toggle="modal" data-target="#cadastrar">Novo Equipamento</a>
 
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -145,6 +157,7 @@
         {% endwith %}
 
         <div class="table-responsive">
+            {% if equipamentos != None and equipamentos != Null %}
             <table class="table table-sm table-hover table-striped">
                 <thead class="thead-light">
                     <tr>
@@ -156,20 +169,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in equipamentos %}
+                    {% for equipamento in equipamentos %}
                     <tr>
-                        <td>{{ item['numeroEquipamento'] }}</td>
-                        <td>{{ item['marca']  }}</td>
-                        <td>{{ item['modelo'] }}</td>
-                        <td>{{ item['situacao']}}</td>
+                        <td>{{ equipamento['numeroEquipamento'] }}</td>
+                        <td>{{ equipamento['marca']  }}</td>
+                        <td>{{ equipamento['modelo'] }}</td>
+                        <td>{{ equipamento['situacao']}}</td>
                         <td class="actions">
-                            <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar{{ item['numeroEquipamento'] }}">Editar</a>
-                            <a href="/equipamentos/remover/{{ item['numeroEquipamento'] }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo deletar este equipamento?')">Deletar</a>
+                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar{{ equipamento['numeroEquipamento'] }}">Editar</a>
+                            <a href="/equipamentos/remover/{{ equipamento['numeroEquipamento'] }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo deletar este equipamento?')">Deletar</a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </div>
         <!--<a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>-->
     </div>

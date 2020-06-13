@@ -1,6 +1,7 @@
 from datetime import datetime
 import sqlite3
 from model.solicitarEmprestimo import SolicitarEmprestimo
+from model.usuario import Usuario
 from contextlib import closing
 
 db_name = "BaseDeDados.db"
@@ -15,14 +16,14 @@ def listarEmp():
         rows = cursor.fetchall()
         emprestimos = []
         for (id,id_emprestimo,id_equipamento,id_usuario,dtSolicitacao,dtEmprestimo,dtDevolucao,status,nome,numeroMatricula,departamento,email,telefone,numeroEquipamento,marca,modelo,situacao) in rows:
-            dEmp=dtEmprestimo.replace('T',' ')
-            dataHoraEmp_obj = datetime.strptime(dEmp, '%Y-%m-%d %H:%M')
-            dataHoraEmp = dataHoraEmp_obj.strftime('%d/%m/%Y - %H:%M')
+            #dEmp=dtEmprestimo.replace('T',' ')
+            #dataHoraEmp_obj = datetime.strptime(dEmp, '%Y.%m.%d %H:%M')
+            #dataHoraEmp = dataHoraEmp_obj.strftime('%d/%m/%Y - %H:%M')
             
-            dDev=dtDevolucao.replace('T',' ')
-            dataHoraDev_obj = datetime.strptime(dDev, '%Y-%m-%d %H:%M')
-            dataHoraDev = dataHoraDev_obj.strftime('%d/%m/%Y - %H:%M')
-            emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dataHoraEmp, "dtDevolucao":dataHoraDev, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
+            #dDev=dtDevolucao.replace('T',' ')
+            #dataHoraDev_obj = datetime.strptime(dDev, '%Y-%m-%d %H:%M')
+            #dataHoraDev = dataHoraDev_obj.strftime('%d/%m/%Y - %H:%M')
+            emprestimos.append(SolicitarEmprestimo.criar({"id":id,"id_emprestimo":id_emprestimo,"id_equipamento":id_equipamento, "id_usuario":id_usuario,"dtSolicitacao":dtSolicitacao, "dtEmprestimo":dtEmprestimo, "dtDevolucao":dtDevolucao, "status":status,"nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento, "email":email, "telefone":telefone,"numeroEquipamento":numeroEquipamento,"marca":marca,"modelo":modelo,"situacao":situacao }))
         return emprestimos
 
 def listarEqui():
@@ -33,6 +34,15 @@ def listarEqui():
         for (numeroEquipamento, marca, modelo) in rows:
             equipamentos.append({"numeroEquipamento":numeroEquipamento, "marca":marca, "modelo":modelo})
         return equipamentos
+
+def listarUser():
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT * from usuarios")
+        rows = cursor.fetchall()
+        registros = []
+        for (id, nome, numeroMatricula, departamento, email, telefone) in rows:
+            registros.append(Usuario.criar({ "id":id, "nome":nome,"numeroMatricula":numeroMatricula,"departamento":departamento,"email":email, "telefone":telefone}))
+        return registros
 
 def equipDisponivel():
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
@@ -73,16 +83,16 @@ def consultar(id):
 
 def cadastrar(nova_solicitacao):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        if len(nova_solicitacao['numeroEquipamento'].split(','))>1:
+        if len(nova_solicitacao['numeroEquipamento'][1:-1].split(',')) > 1:
             sql = f"INSERT INTO emprestimos (id_usuario, dtEmprestimo, dtDevolucao) VALUES ( (select id from usuarios where numeroMatricula = ?),?,?)" 
             result = cursor.execute(sql, (int(nova_solicitacao['numeroMatricula']), nova_solicitacao['dtEmprestimo'], nova_solicitacao['dtDevolucao']))
             connection.commit()
             cursor.execute(f"SELECT LAST_INSERT_ROWID() AS id")
             row = cursor.fetchone()
-            nE=nova_solicitacao['numeroEquipamento'].split(',')
+            nE=nova_solicitacao['numeroEquipamento'].strip("[]").replace("'","").replace(" ","").split(",")
             for n in nE:
                 sql2 = f"INSERT INTO solicitaEmprestimo (id_emprestimo, id_equipamento) VALUES (?,(select id from equipamentos where numeroEquipamento = ?))"
-                result2 = cursor.execute(sql2, (row[0], int(n)))
+                result2 = cursor.execute(sql2, (row[0], int(n.split(";")[0])))
                 connection.commit()
         else:
             sql = f"INSERT INTO emprestimos (id_usuario, dtEmprestimo, dtDevolucao) VALUES ( (select id from usuarios where numeroMatricula = ?),?,?)" 
@@ -90,8 +100,9 @@ def cadastrar(nova_solicitacao):
             connection.commit()
             cursor.execute(f"SELECT LAST_INSERT_ROWID() AS id")
             row = cursor.fetchone()
+            nE=nova_solicitacao['numeroEquipamento'].strip("[]").replace("'","").replace(" ","").split(",")
             sql2 = f"INSERT INTO solicitaEmprestimo (id_emprestimo, id_equipamento) VALUES (?,(select id from equipamentos where numeroEquipamento = ?))"
-            result2 = cursor.execute(sql2, (row[0], nova_solicitacao['numeroEquipamento']))
+            result2 = cursor.execute(sql2, (row[0], int(nE[0].split(';')[0])))
             connection.commit()
         if cursor.lastrowid:
             return SolicitarEmprestimo.criar(nova_solicitacao)

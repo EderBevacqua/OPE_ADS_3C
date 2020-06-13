@@ -17,9 +17,17 @@ def listar():
             registros.append(Equipamento.criar({"id":id, "numeroEquipamento": numeroEquipamento, "marca": marca, "modelo": modelo, "situacao": situacao}))
         return registros
 
+def consultarId(id):
+    with closing(con()) as connection, closing(connection.cursor()) as cursor:
+        cursor.execute(f"SELECT * FROM {model_name} WHERE id = ?", (int(id),))
+        row = cursor.fetchone()
+        if row == None:
+            return None
+        return Equipamento.criar({"id":row[0], "numeroEquipamento": row[1], "marca": row[2], "modelo": row[3], "situacao": row[4]})
+
 def consultar(numeroEquipamento):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"SELECT * FROM {model_name} WHERE numeroEquipamento = ?", (int(numeroEquipamento),))
+        cursor.execute(f"SELECT * FROM {model_name} WHERE numeroEquipamento = ?", (numeroEquipamento,))
         row = cursor.fetchone()
         if row == None:
             return None
@@ -31,7 +39,7 @@ def cadastrar(equipamento):
         result = cursor.execute(sql, (equipamento.numeroEquipamento, equipamento.marca, equipamento.modelo, equipamento.situacao))
         connection.commit()
         if cursor.lastrowid:
-            return equipamento.__dict__()
+            return equipamento.dictEquipamento()
         else:
             return None
 

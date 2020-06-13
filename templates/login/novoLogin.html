@@ -5,9 +5,6 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
 
     <link href="/static/css/custom.css" rel="stylesheet">
     <link rel='shortcut icon' href='/static/imagens/favicon.ico.png' />
@@ -40,10 +37,10 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="/login">Login</a>
+                                <a href="/login" tabindex="1">Login</a>
                             </div>
                             <div class="col-xs-6">
-                                <a href="/novoLogin" class="active">Novo login</a>
+                                <a href="/novoLogin" tabindex="2" class="active">Novo login</a>
                             </div>
                         </div>
                         <hr>
@@ -51,32 +48,41 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form id="register-form" action="/novoLogin" method="post" role="form">
+                                <form class="was-validated" id="register-form" action="/novoLogin" method="post" role="form">
                                     <div class="form-group">
-                                        <input type="text" name="nome" id="nome" tabindex="1" class="form-control" placeholder="Nome" autocomplete="on" required>
+                                        <label for="nome">Nome:*</label>
+                                        <input class="form-control" type="text" tabindex="3" pattern="[a-zA-Z]+$" id="nome" name="nome" placeholder="Nome" min="5" max="50" autocomplete="on" required>
+                                        <span class="validity"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" name="email" id="email" tabindex="2" class="form-control" placeholder="Email" autocomplete="on" required>
+                                        <label for="numeroMatricula">Número da Matrícula:*</label>
+                                        <input class="form-control" type="number" tabindex="4" pattern="[0-9]" id="numeroMatricula" name="numeroMatricula" placeholder="Número da Matrícula" autocomplete="on" required>
+                                        <span class="validity"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" id="numeroMatricula" name="numeroMatricula" tabindex="3" placeholder="Número da Matrícula" autocomplete="on" required>
+                                        <label for="departamento">Departamento:*</label>
+                                        <input class="form-control" type="text" tabindex="5" id="departamento" name="departamento" placeholder="Departamento" autocomplete="on" required>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" id="departamento" name="departamento" tabindex="4" placeholder="Departamento" autocomplete="on" required>
+                                        <label for="email">Email:*</label>
+                                        <input class="form-control" type="email" tabindex="6" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" id="email" name="email" placeholder="email@email.com" autocomplete="on" required>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" id="telefone" name="telefone" tabindex="5" placeholder="Telefone (00)99999-9999" autocomplete="on" required>
+                                        <label for="telefone">Número do telefone:*</label>
+                                        <input class="form-control" type="tel" tabindex="7" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" id="telefone" name="telefone" placeholder="11-99999-9999" autocomplete="on" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="senha" id="senha" tabindex="6" class="form-control" placeholder="Senha">
+                                        <label for="telefone">Nova senha:*</label>
+                                        <input type="password" name="senha" id="senha" tabindex="8" class="form-control" placeholder="Senha" autocomplete="on" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="confirmarSenha" id="confirmarSenha" tabindex="7" class="form-control" placeholder="Confirmar senha">
+                                        <label for="telefone">Confirmar senha:*</label>
+                                        <input type="password" name="confirmarSenha" id="confirmarSenha" tabindex="9" class="form-control" placeholder="Confirmar senha" autocomplete="on" required>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="submit" name="register-submit" id="register-submit" tabindex="8" class="form-control btn btn-register" value="Cadastrar">
+                                                <input type="submit" name="register-submit" id="register-submit" tabindex="10" class="form-control btn btn-register" value="Cadastrar">
                                             </div>
                                         </div>
                                     </div>

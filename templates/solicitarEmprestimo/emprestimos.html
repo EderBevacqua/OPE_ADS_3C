@@ -15,7 +15,7 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             {% if current_user.isAdmin == 1 %}
-                            <a class="btn btn-primary h1" data-toggle="modal" data-target="#addEquipamento{{ emprestimo.id_emprestimo }}">Adicionar Equipamento</a>
+                            <a href="" class="btn btn-primary h1" data-toggle="modal" data-target="#addEquipamento{{ emprestimo.id_emprestimo }}">Adicionar Equipamento</a>
                             {% endif %}
                             <table class="table table-sm table-hover table-striped">
                                 <thead class="thead-light">
@@ -36,7 +36,7 @@
                                         <td>{{ equip.modelo }}</td>
                                         {% if current_user.isAdmin == 1 %}
                                         <td class="actions">
-                                            <a href="/emprestimos/removerEquipamento/{{ emprestimo.id_emprestimo }}/{{ equip.numeroEquipamento }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo remover equipamento n {{equip.numeroEquipamento}}?')">Remover</a>
+                                            <a href="/emprestimos/removerEquipamento/{{ emprestimo.id_emprestimo }}/{{ equip.numeroEquipamento }}" class="btn btn-danger btn-xs" onclick="return confirm('Deseja mesmo remover equipamento n {{equip.numeroEquipamento}} do empréstimo?')">Remover</a>
                                         </td>
                                         {% endif %}
                                     </tr>
@@ -112,7 +112,7 @@
                         <i class="fa fa-dashboard"></i>  <a href="/emprestimos/dashboard">Dashboard</a>
                     </li>
                     <li class="active">
-                        <i class="fa fa-table"></i> Empréstimo
+                        <i class="fa fa-list-alt"></i> Empréstimo
                     </li>
                 </ol>
             </div>
@@ -161,7 +161,7 @@
                         <td style="font-weight:bold;" class="bg-warning">{{ emp.status }}</td>
                         {% endif %}
                         <td class="actions">
-                            <a class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp.id }}">Detalhes</a>
+                            <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#detalhes{{ emp.id }}">Detalhes</a>
                             {% if current_user.isAdmin == 1 %}
                             <a href="/emprestimos/aprovar/{{ emp.id_emprestimo }}" class="btn btn-success btn-xs" onclick="return confirm('APROVAR empréstimo do(a) {{emp.nome}}?')">Aprovar</a>
                             <a href="/emprestimos/reprovar/{{ emp.id_emprestimo }}" class="btn btn-danger btn-xs" onclick="return confirm('REPROVAR empréstimo do(a) {{emp.nome}}?')">Reprovar</a>

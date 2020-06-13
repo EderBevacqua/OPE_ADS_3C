@@ -1,67 +1,100 @@
-/*@media only screen and (max-device-width: 900px) {
-    * {
-        font-size:10pt;
+@media only screen and (max-device-width: 1130px) {
+    table {
+        font-size: 9pt;
+    }
+
+    .actions .btn {
+        font-size: 8pt;
+    }
+
+    td.actions {
+        display: inline-flex;
     }
 }
 
-header h1 {
-    background: #808080;
-    color: white;
-    text-shadow: 2px 2px 4px #000000;
-    padding:20px;
-}
-
- {
-    box-sizing: border-box;
-}
-
-    :focus {
-        outline: none;
+@media only screen and (max-device-width: 950px) {
+    table {
+        font-size: 8pt;
     }
 
-body {
-    font-family: Arial;
-    background-color: lightgray;
-    padding: 50px;
-    margin-bottom: 46px;
+    .actions .btn {
+        font-size: 7pt;
+    }
 }
 
-#divHome {
-    background-color: blue;
+@media only screen and (max-device-width: 860px) {
+    table {
+        font-size: 7pt;
+    }
+
+    .actions .btn {
+        font-size: 6pt;
+    }
+}
+
+
+@media only screen and (max-device-width: 550px) {
+    .actions .btn {
+        font-size: 8px;
+    }
+
+    td.actions {
+        display: inline-flex;
+    }
+
+    .login-html .tab {
+        font-size: 12pt;
+    }
+}
+
+@media only screen and (max-device-width: 390px) {
+    .login-html .tab {
+        font-size: 9pt;
+    }
+}
+
+
+.table {
     text-align: center;
 }
-a {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    color: initial;
-    padding:3px;
- }
-    a:link {
-        text-decoration:none;
-    }
-    a:hover,button:hover {
-        background:#ff0000;
-        color:#ffffff;
-        
-    }
-*/
 
-.table{
-    text-align: center;
-}
-
-.table th {
-    text-align: center;
-}
+    .table th {
+        text-align: center;
+    }
 
 #mensagens {
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 a.btn {
-    color:white;
+    color: white;
 }
+
+
+input.data {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+}
+
+    input.data::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+        text-align: right;
+    }
+
+    input.data:-moz-placeholder { /* Firefox 18- */
+        text-align: right;
+    }
+
+    input.data::-moz-placeholder { /* Firefox 19+ */
+        text-align: right;
+    }
+
+    input.data:-ms-input-placeholder { /* IE10+ */
+        text-align: right;
+    }
+
 
 /*.login {
     margin: 20px auto;

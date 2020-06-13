@@ -20,7 +20,7 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method== 'POST':
-        email = request.form['email']
+        email = request.form['email'].lower()
         senha = request.form['senha']
         if email and senha:
             #remember = True if request.form['remember_me'] else False
@@ -36,7 +36,37 @@ def login():
                     return render_template("login.html", mensagens='Usuário e senha não conferem')
             return render_template("login.html", mensagens='Usuário não encontrado')
         return render_template("login.html", mensagens='Preencha os campos Email e Senha')
-    
+
+
+@login_app.route('/novoLogin', methods=["POST"])
+def novoLogin():
+    #if request.method=="GET":
+    #    return render_template('novoLogin.html')
+    if request.method=="POST":
+        nome = request.form['nome']
+        email = request.form['emailCad']
+        numeroMatricula = request.form['numeroMatricula']
+        departamento = request.form['departamento']
+        telefone = request.form['telefone']
+        senha = request.form['senhaCad']
+        confirmarSenha = request.form['confirmarSenha']
+        novoLogin = {"nome":nome, "email":email, "numeroMatricula":numeroMatricula, "departamento":departamento, "telefone":telefone }
+        if not service_loadUserEmail(email):
+            if not service_validaMatriculaUsuario(numeroMatricula):
+                if senha == confirmarSenha:
+                    novoCadastro = {"nome":nome, "email":email, "numeroMatricula":numeroMatricula, "departamento":departamento, "telefone":telefone, "senha":generate_password_hash(senha, method='sha256') }
+                    service_cadastrarNovoLogin(novoCadastro)
+                    return render_template("login.html", mensagens='Conta cadastrada, faça o login')
+                else:
+                    #flash('As senhas não conferem')
+                    return render_template("login.html", mensagens='As senhas não conferem', novoLogin=novoLogin)
+            else:
+                #flash('Número da matrícula ja cadastrada')
+                return render_template("login.html", mensagens='Número da matrícula ja cadastrada', novoLogin=novoLogin )
+        else:
+            #flash('Email ja cadastrado')
+            return render_template("login.html", mensagens='Email ja cadastrado', novoLogin=novoLogin)
+
 @login_app.route("/ativarConta", methods=["GET","POST"])
 def ativarConta():
     if request.method == "GET":
@@ -56,35 +86,6 @@ def ativarConta():
             flash('As senhas não conferem')
             return redirect('/ativarConta')
         
-
-@login_app.route('/novoLogin', methods=["POST", "GET"])
-def novoLogin():
-    if request.method=="GET":
-        return render_template('novoLogin.html')
-    if request.method=="POST":
-        nome = request.form['nome']
-        email = request.form['email']
-        numeroMatricula = request.form['numeroMatricula']
-        departamento = request.form['departamento']
-        telefone = request.form['telefone']
-        senha = request.form['senha']
-        confirmarSenha = request.form['confirmarSenha']
-        if not service_loadUserEmail(email):
-            if not service_validaMatriculaUsuario(numeroMatricula):
-                if senha == confirmarSenha:
-                    novoCadastro = {"nome":nome, "email":email, "numeroMatricula":numeroMatricula, "departamento":departamento, "telefone":telefone, "senha":generate_password_hash(senha, method='sha256') }
-                    service_cadastrarNovoLogin(novoCadastro)
-                    return redirect("/login")
-                else:
-                    flash('As senhas não conferem')
-                    return redirect("/novoLogin")
-            else:
-                flash('Número da matrícula ja cadastrada')
-                return redirect('/novoLogin')
-        else:
-            flash('Email ja cadastrado')
-            return redirect("/novoLogin")
-
 
 @login_app.route("/logout")
 @login_required

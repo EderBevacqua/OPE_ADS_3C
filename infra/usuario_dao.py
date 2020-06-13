@@ -19,13 +19,13 @@ def listar():
             registros.append(PerfilUsuario.criar({ "id":id, "id_usuario":id_usuario,"senha":senha,"ultimoAcesso":ultimoAcesso,"contaAtiva":contaAtiva, "isAdmin":isAdmin, "nome":nome, "numeroMatricula":numeroMatricula, "departamento":departamento, "email":email, "telefone":telefone}))
         return registros
 
-def consultar(numeroMatricula):
+def consultar(valor):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"SELECT * FROM {model_name} WHERE numeroMatricula = ?", (int(numeroMatricula),))
+        cursor.execute(f"select p.id_usuario,u.nome, u.numeroMatricula, u.departamento, u.email, u.telefone, p.ultimoAcesso,p.isAdmin from perfilUsuario as p inner join usuarios as u on p.id_usuario = u.id where u.numeroMatricula = ? or u.nome = ? or u.email = ?", (valor,valor,valor,))
         row = cursor.fetchone()
         if row == None:
             return None
-        return Usuario.criar({"id":row[0], "nome":row[1], "numeroMatricula": row[2], "departamento": row[3], "email": row[4], "telefone":row[5]})
+        return PerfilUsuario.criar({ "id":"", "id_usuario":row[0],"senha":"","ultimoAcesso":row[6],"contaAtiva":"", "isAdmin":row[7], "nome":row[1], "numeroMatricula":row[2], "departamento":row[3], "email":row[4], "telefone":row[5]})
 
 def cadastrar(usuario):
     with closing(con()) as connection, closing(connection.cursor()) as cursor:
