@@ -24,11 +24,11 @@
 
 @media only screen and (max-device-width: 860px) {
     table {
-        font-size: 7pt;
+        font-size: 8pt;
     }
 
     .actions .btn {
-        font-size: 6pt;
+        font-size: 7pt;
     }
 }
 

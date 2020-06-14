@@ -3,19 +3,11 @@ $(document).ready(function() {
         $('#mensagens').hide();
     }, 2500);
 
-    $('#datetimepicker1').datetimepicker({
-        autoclose: true,
-        format: 'd/m/Y H:i',
-        lang: 'pt-BR'
-    });
+    $('#datetimepicker1').DateTimePicker();
 
-    $('#datetimepicker2').datetimepicker({
-        autoclose: true,
-        format: 'd/m/Y H:i',
-        lang: 'pt-BR'
-    });
+    $('#datetimepicker2').DateTimePicker();
 
-
+    
 });
 
 function soEquip() {

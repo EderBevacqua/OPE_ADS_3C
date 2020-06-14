@@ -13,7 +13,9 @@
     <link rel='shortcut icon' href='/static/imagens/favicon.ico.png' />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="/static/datetimepicker-master/jquery.datetimepicker.css" />
+    <!--<link rel="stylesheet" type="text/css" href="/static/datetimepicker-master/jquery.datetimepicker.css" />-->
+
+    <link rel="stylesheet" type="text/css" href="/static/DateTimePicker/src/DateTimePicker.css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,9 +23,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    {% block imports %}
-    {% endblock %}
-
     <!-- Bootstrap Core CSS -->
     <link href="/static/css/bootstrap.css" rel="stylesheet">
 
@@ -123,16 +122,29 @@
 
     </div>
     <!-- /#wrapper -->
-
-      <!-- jQuery -->
+    <!-- jQuery -->
     <script src="/static/js/jquery.js"></script>
 
     <!--dateTimePicker-->
-    <!--<script src="/static/datetimepicker-master/jquery.js"></script>-->
-    <script src="/static/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
+    <!--<script src="/static/datetimepicker-master/jquery.js"></script>
+    <script src="/static/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>-->
 
+
+
+
+    <script type="text/javascript" src="/static/DateTimePicker/src/DateTimePicker.js"></script>
+
+    <!--[if lt IE 9]>
+     <link rel="stylesheet" type="text/css" href="DateTimePicker-ltie9.css" />
+     <script type="text/javascript" src="DateTimePicker-ltie9.js"></script>
+    <![endif]-->
+    <!-- For i18n Support -->
+    <script type="text/javascript" src="/static/DateTimePicker/dist/i18n/DateTimePicker-i18n.js"></script>
+
+    <!--MASKARA TELEFONE-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <!--MASKARA TELEFONE-->
   
-
     <!-- Bootstrap Core JavaScript -->
     <script src="/static/js/bootstrap.min.js"></script>
 

@@ -1,5 +1,8 @@
 {% extends 'site_template.html' %}
 
+    {% block imports %}
+    {% endblock %}
+
 {% block body %}
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -163,11 +166,11 @@
                 <div class="form-group">
                     <label for="dtEmprestimo">Data e hora do Empréstimo:*</label>
                     {% if dtEmprestimo %}
-                    <div class='input-group'>
-                        <input class="form-control" type="text" id="datetimepicker1" name="dtEmprestimo" value="{{ dtEmprestimo }}" readonly>
-                    </div>
+                    <input class="form-control" type="text" data-field="datetime" name="dtEmprestimo" value="{{ dtEmprestimo }}" readonly>
+                    <div id="datetimepicker1"></div>
                     {% else %}
-                    <input class="form-control data" type="text" id="datetimepicker1" name="dtEmprestimo" placeholder="&#xf073;" readonly>
+                    <input class="form-control data" type="text" data-field="datetime" name="dtEmprestimo" placeholder="&#xf073;" readonly>
+                    <div id="datetimepicker1"></div>
                     {% endif %}
                     {% for error in formSolicitarEmprestimo.dtEmprestimo.errors %}
                     <span style="color: red;">{{ error }}</span>
@@ -176,9 +179,11 @@
                 <div class="form-group">
                     <label for="dtDevolucao">Data e Hora da Devolução do Empréstimo:*</label>
                     {% if dtDevolucao %}
-                    <input class="form-control" type="text" id="datetimepicker2" name="dtDevolucao" value="{{ dtDevolucao }}" readonly>
+                    <input class="form-control" type="text" data-field="datetime" name="dtDevolucao" value="{{ dtDevolucao }}" readonly>
+                    <div id="datetimepicker2"></div>
                     {% else %}
-                    <input class="form-control data" type="text" id="datetimepicker2" name="dtDevolucao" placeholder="&#xf073;" readonly>
+                    <input class="form-control data" type="text" data-field="datetime" name="dtDevolucao" placeholder="&#xf073;" readonly>
+                    <div id="datetimepicker2"></div>
                     {% endif %}
                     {% for error in formSolicitarEmprestimo.dtDevolucao.errors %}
                     <span style="color: red;">{{ error }}</span>
@@ -195,4 +200,6 @@
         </div>
     </div>
 </div>
+
+
 {% endblock body %}

@@ -1,3 +1,16 @@
+@media only screen and (max-device-width: 900px) {
+    * {
+        font-size: large;
+    }
+}
+
+.login-wrap img {
+    position: absolute;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+}
+
+
 body {
     margin: 0;
     color: #6a6f8c;
@@ -25,15 +38,22 @@ a {
 }
 
 .login-wrap {
+    margin: auto;
+    max-width: 525px;
+    min-height: 900px;
+    position: relative;
+   
+}
+
+/*.login-wrap {
     width: 100%;
     margin: auto;
     max-width: 525px;
     min-height: 670px;
     position: relative;
-    background: url("/static/imagens/binary-960_678.jpg") no-repeat center;
+   background: url("/static/imagens/binary-960_678.jpg") no-repeat center;
     box-shadow: 0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
-}
-
+}*/
 .login-html {
     width: 100%;
     height: 100%;

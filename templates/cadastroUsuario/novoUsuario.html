@@ -31,7 +31,7 @@
         </div>
         <div class="form-group">
             <label for="telefone">Número do telefone:</label>
-            <input class="form-control" type="text" id="telefone" name="telefone" placeholder="Número do telefone" autocomplete="on" required>
+            <input class="form-control" type="text" id="telefone" name="telefone" onkeypress="$(this).mask('(00) 00000-0009');" placeholder="Número do telefone" autocomplete="on" required>
             <div class="valid-feedback">ok</div>
             <div class="invalid-feedback">
                 Telefone

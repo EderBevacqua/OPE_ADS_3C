@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\infra",
+    "\\model",
+    "\\services",
+    "\\static",
+    "\\static\\css",
+    "\\static\\js",
+    "\\templates",
+    "\\templates\\cadastroUsuario",
+    "\\templates\\solicitarEmprestimo"
+  ],
+  "SelectedNode": "\\templates\\solicitarEmprestimo\\solicitarEmprestimo.html",
+  "PreviewInSolutionExplorer": false
+}
