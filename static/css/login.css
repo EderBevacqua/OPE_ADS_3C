@@ -11,6 +11,33 @@
 }
 
 
+
+
+#global-login-form #form-login ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+    #global-login-form #form-login ul li {
+        position: relative;
+        margin-bottom: 1em;
+    }
+
+        #global-login-form #form-login ul li button#show_password {
+            position: absolute;
+            bottom: 2px;
+            right: 0;
+            border: none;
+            background-color: transparent;
+            font-size: 30px;
+            color:gray;
+        }
+
+        #global-login-form #form-login ul li button[type=submit] {
+            margin-top: 1em;
+        }
+
+
 body {
     margin: 0;
     color: #6a6f8c;
@@ -42,7 +69,6 @@ a {
     max-width: 525px;
     min-height: 900px;
     position: relative;
-   
 }
 
 /*.login-wrap {

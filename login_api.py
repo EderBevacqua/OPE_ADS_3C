@@ -50,11 +50,11 @@ def novoLogin():
         telefone = request.form['telefone']
         senha = request.form['senhaCad']
         confirmarSenha = request.form['confirmarSenha']
-        novoLogin = {"nome":nome, "email":email, "numeroMatricula":numeroMatricula, "departamento":departamento, "telefone":telefone }
+        novoLogin = {"nome":nome, "email":email.lower(), "numeroMatricula":numeroMatricula, "departamento":departamento, "telefone":telefone }
         if not service_loadUserEmail(email):
             if not service_validaMatriculaUsuario(numeroMatricula):
                 if senha == confirmarSenha:
-                    novoCadastro = {"nome":nome, "email":email, "numeroMatricula":numeroMatricula, "departamento":departamento, "telefone":telefone, "senha":generate_password_hash(senha, method='sha256') }
+                    novoCadastro = {"nome":nome, "email":email.lower(), "numeroMatricula":numeroMatricula, "departamento":departamento, "telefone":telefone, "senha":generate_password_hash(senha, method='sha256') }
                     service_cadastrarNovoLogin(novoCadastro)
                     return render_template("login.html", mensagens='Conta cadastrada, faça o login')
                 else:

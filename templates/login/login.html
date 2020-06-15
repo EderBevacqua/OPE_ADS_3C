@@ -10,6 +10,8 @@
     <link href="/static/css/login.css" rel="stylesheet">
     <link href="/static/css/main.css" rel="stylesheet">
 
+    <!--Fonts-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 </head>
@@ -49,27 +51,38 @@
             <input id="tab-2" type="radio" name="tab" class="sign-up">
             <label for="tab-2" class="tab">Novo Login</label>
             <div class="login-form">
-                <div class="sign-in-htm">
-                    <form class="was-validated" action="/login" method="post">
-                        <div class="group">
-                            <label for="email" class="label">Email:*</label>
-                            <input type="email" class="input" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="email@email.com" value="" autocomplete="off" required>
-                        </div>
-                        <div class="group">
-                            <label for="senha" class="label">Senha:*</label>
-                            <input type="password" class="input" id="senha" name="senha" data-type="password" autocomplete="off" required>
-                        </div>
-                        <div class="group">
-                            <input id="checkLemnbrar" type="checkbox" class="check" checked>
-                            <label for="checkLemnbrar"><span class="icon"></span> Lembrar Login</label>
-                        </div>
-                        <div class="group">
-                            <input type="submit" class="button" value="Entrar">
-                        </div>
-                        <!--<div class="hr"></div>
-                        <div class="foot-lnk">
-                            <a href="#forgot">Esqueci minha senha?</a>
-                        </div>-->
+                <div class="sign-in-htm" id="global-login-form">
+                    <form class="was-validated" id="form-login" action="/login" method="post">
+                        <ul>
+                            <li>
+                                <div class="group">
+                                    <label for="email" class="label">Email:*</label>
+                                    <input type="email" class="input" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="email@email.com" value="" autocomplete="off" required>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group" id="input">
+                                    <label for="senha" class="label">Senha:*</label>
+                                    <input type="password" class="input passw" id="senha" name="senha" data-type="password" autocomplete="off" required>
+                                    <button type="button" id="show_password" name="show_password" class="fa fa-eye-slash" aria-hidden="true"></button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group">
+                                    <input id="checkLemnbrar" type="checkbox" class="check" checked>
+                                    <label for="checkLemnbrar"><span class="icon"></span> Lembrar Login</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group">
+                                    <input type="submit" class="button" value="Entrar">
+                                </div>
+                                <!--<div class="hr"></div>
+                                <div class="foot-lnk">
+                                    <a href="#forgot">Esqueci minha senha?</a>
+                                </div>-->
+                            </li>
+                        </ul>
                     </form>
                 </div>
 
@@ -98,11 +111,11 @@
                         </div>
                         <div class="group">
                             <label for="senhaCad" class="label">Senha:*</label>
-                            <input id="senhaCad" name="senhaCad" type="password" class="input" data-type="password" autocomplete="off" required>
+                            <input id="senhaCad" name="senhaCad" type="password" class="input passw" data-type="password" autocomplete="off" required>
                         </div>
                         <div class="group">
                             <label for="confirmarSenha" class="label">Repetir a senha:*</label>
-                            <input id="confirmarSenha" name="confirmarSenha" type="password" class="input" data-type="password" autocomplete="off" required>
+                            <input id="confirmarSenha" name="confirmarSenha" type="password" class="input passw" data-type="password" autocomplete="off" required>
                         </div>
 
                         <div class="group">
@@ -113,7 +126,7 @@
 
                         <div class="group">
                             <label for="nome" class="label">Nome:*</label>
-                            <input id="nome" name="nome" type="text" class="input" pattern="[a-z A-Z]+$" value="" autocomplete="off" required>
+                            <input id="nome" name="nome" type="text" class="input" pattern="[A-Za-z\s]+$" value="" autocomplete="off" required>
                         </div>
                         <div class="group">
                             <label for="numeroMatricula" class="label">Número Matrícula:*</label>
@@ -133,11 +146,11 @@
                         </div>
                         <div class="group">
                             <label for="senhaCad" class="label">Senha:*</label>
-                            <input id="senhaCad" name="senhaCad" type="password" class="input" data-type="password" autocomplete="off" required>
+                            <input id="senhaCad" name="senhaCad" type="password" class="input" data-type="password passw" autocomplete="off" required>
                         </div>
                         <div class="group">
                             <label for="confirmarSenha" class="label">Repetir a senha:*</label>
-                            <input id="confirmarSenha" name="confirmarSenha" type="password" class="input" data-type="password" autocomplete="off" required>
+                            <input id="confirmarSenha" name="confirmarSenha" type="password" class="input passw" data-type="password" autocomplete="off" required>
                         </div>
                         <div class="group">
                             <input type="submit" class="button" value="Cadastrar">
@@ -156,12 +169,12 @@
     <!-- jQuery -->
     <script src="/static/js/jquery.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <!--MASKARA TELEFONE-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <!--MASKARA TELEFONE-->
-
     <!--Meu Js-->
-    <script src="/static/js/scripts.js"></script>
+    <script src="/static/js/scriptsLogin.js"></script>
 
 </body>
 
