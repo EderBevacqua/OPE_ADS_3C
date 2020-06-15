@@ -61,10 +61,10 @@ def init():
         popularDbEquipamento(cursor, 11, 1111, 'TEC TOY' ,'Master System','ATIVO')
         popularDbEquipamento(cursor, 12, 1212, 'TEC TOY' ,'pense bem','ATIVO')
 
-        popularDbUsuario(cursor, 1, "ADMINISTRADOR", 1, 'TECNOLOGIA', 'admin@admin.com','11-99999-9999')
-        popularDbUsuario(cursor, 2, "Jose",  222, 'Diretoria', 'diretor1@diretor.com','11-99999-9999')
-        popularDbUsuario(cursor, 3, "Maria", 333, 'Eletronica', 'professor1@professor1.com', '11-99999-9999')
-        popularDbUsuario(cursor, 4, "Salomao", 444, 'Ciencias Espaciais', 'professor2@professor2.com', '11-99999-9999')
+        popularDbUsuario(cursor, 1, "ADMINISTRADOR", 1, 'TECNOLOGIA', 'admin@admin.com','(11) 99999-9999')
+        popularDbUsuario(cursor, 2, "Jose",  222, 'Diretoria', 'diretor1@diretor.com','(11) 99999-9999')
+        popularDbUsuario(cursor, 3, "Maria", 333, 'Eletronica', 'professor1@professor1.com', '(11) 2222-2222')
+        popularDbUsuario(cursor, 4, "Salomao", 444, 'Ciencias Espaciais', 'professor2@professor2.com', '(11) 99999-9999')
         popularDbUsuario(cursor, 5, "Matheus", 555, 'Copa', 'copa@copa.com', '11-99999-9999')
         
         popularDbPerfilUsuario(cursor, 1, 1,generate_password_hash('admin', method='sha256'), '2020-03-15 06:00', 1, 1)

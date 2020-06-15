@@ -18,7 +18,7 @@
                             <form class="was-validated" action="/usuarios/atualizar/{{ usuario['numeroMatricula'] }}" method="POST">
                                 <div class="form-group">
                                     <label for="nome">Nome:*</label>
-                                    <input class="form-control" type="text" pattern="[a-zA-Z]+$" id="nome" name="nome" placeholder="Nome" value="{{ usuario['nome'] }}" autocomplete="on" required>
+                                    <input class="form-control" type="text" pattern="[a-z A-Z]+$" id="nome" name="nome" placeholder="Nome" value="{{ usuario['nome'] }}" autocomplete="on" required>
                                     <div class="valid-feedback">ok</div>
                                     <div class="invalid-feedback">Digite seu nome(Apenas letras)</div>
                                 </div>
@@ -40,9 +40,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="telefone">Número do telefone:*</label>
-                                    <input class="form-control" type="tel" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" id="telefone" name="telefone" placeholder="11-99999-9999" value="{{ usuario['telefone'] }}" autocomplete="on" required>
-                                    <div class="valid-feedback">ok</div>
-                                    <div class="invalid-feedback">"11-99999-9999"</div>
+                                    <input class="form-control" type="text" id="telefone" name="telefone" onkeypress="mask(this, mphone);" onblur="mask(this, mphone);" value="{{ usuario['telefone'] }}" autocomplete="on" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="modelo">Administrador:*</label>
@@ -90,7 +88,7 @@
                             <form class="was-validated" action="{{url_for('cadastroUsuario_app.cadastrar')}}" method="POST">
                                 <div class="form-group">
                                     <label for="nome">Nome:*</label>
-                                    <input class="form-control" type="text" pattern="[a-zA-Z]+$" id="nome" name="nome" placeholder="Nome" min="5" max="50" autocomplete="on" required>
+                                    <input class="form-control" type="text" pattern="[a-z A-Z]+$" id="nome" name="nome" placeholder="Nome" min="5" max="50" autocomplete="on" required>
                                     <span class="validity"></span>
                                 </div>
                                 <div class="form-group">
@@ -108,7 +106,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="telefone">Número do telefone:*</label>
-                                    <input class="form-control" type="tel" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" id="telefone" name="telefone" placeholder="11-99999-9999" autocomplete="on" required>
+                                    <input class="form-control" type="text" id="telefone" name="telefone" onkeypress="mask(this, mphone);" onblur="mask(this, mphone);" autocomplete="on" required>
                                 </div>
                                 <!--<div class="form-group">
                                     <label for="modelo">Administrador:*</label>

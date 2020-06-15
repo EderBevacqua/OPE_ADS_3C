@@ -1,7 +1,6 @@
 {% extends 'site_template.html' %}
 
-    {% block imports %}
-    {% endblock %}
+
 
 {% block body %}
 <div id="page-wrapper">
@@ -201,5 +200,14 @@
     </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<script>
+    $(document).ready(function () {
+        $('#datetimepicker1').DateTimePicker();
+
+        $('#datetimepicker2').DateTimePicker();
+    });
+</script>
 
 {% endblock body %}
