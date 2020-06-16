@@ -34,7 +34,7 @@
         <form class="was-validated" action="/usuarios/atualizar/{{ current_user.numeroMatricula }}" method="POST">
             <div class="form-group">
                 <label for="nome">Nome:*</label>
-                <input class="form-control" type="text" pattern="[a-z A-Z]+$" id="nome" name="nome" placeholder="Nome" value="{{ current_user.nome }}" autocomplete="on" required>
+                <input class="form-control" type="text" pattern="[A-Za-z\s]+$" id="nome" name="nome" placeholder="Nome" value="{{ current_user.nome }}" autocomplete="on" required>
                 <div class="valid-feedback">ok</div>
                 <div class="invalid-feedback">Digite seu nome(Apenas letras)</div>
             </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="form-group">
                 <label for="telefone">Número do telefone:*</label>
-                <input class="form-control" type="text" id="telefone" name="telefone" onkeypress="mask(this, mphone);" onblur="mask(this, mphone);" value="{{ current_user.telefone }}" autocomplete="on" required>
+                <input class="form-control" type="text" id="telefone" name="telefone" onkeydown="mask(this, mphone);" value="{{ current_user.telefone }}" autocomplete="on" required>
             </div>
             <div class="form-group">
                 <label for="modelo">Administrador:</label>

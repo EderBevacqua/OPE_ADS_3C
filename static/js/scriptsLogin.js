@@ -3,19 +3,6 @@ $(document).ready(function () {
         $('#mensagens').hide();
     }, 2500);
 
-    $('#password-eye').on('touchstart mouseenter', function () {
-        $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-        $('#senha').attr('type', 'text');
-        $('#senha').attr('data-type', 'text');
-
-    });
-
-    $('#password-eye').on('mouseleave', function () {
-        $(this).removeClass("fa-eye").addClass("fa-eye-slash");
-        $('#senha').attr('type', 'password');
-        $('#senha').attr('data-type', 'password');
-
-    });
 });
 
 function mask(o, f) {
@@ -41,3 +28,17 @@ function mphone(v) {
     }
     return r;
 }
+
+var password = document.getElementById('password-eye');
+
+password.addEventListener("mouseenter", function (event) {
+    $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+    $('#senha').attr('type', 'text');
+    $('#senha').attr('data-type', 'text');
+}, false);
+
+password.addEventListener("mouseleave", function (event) {
+    $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+    $('#senha').attr('type', 'password');
+    $('#senha').attr('data-type', 'password');
+}, false);
