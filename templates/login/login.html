@@ -51,38 +51,24 @@
             <input id="tab-2" type="radio" name="tab" class="sign-up">
             <label for="tab-2" class="tab">Novo Login</label>
             <div class="login-form">
-                <div class="sign-in-htm" id="global-login-form">
+                <div class="sign-in-htm">
                     <form class="was-validated" id="form-login" action="/login" method="post">
-                        <ul>
-                            <li>
-                                <div class="group">
-                                    <label for="email" class="label">Email:*</label>
-                                    <input type="email" class="input" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="email@email.com" value="" autocomplete="off" required>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="group" id="input">
-                                    <label for="senha" class="label">Senha:*</label>
-                                    <input type="password" class="input passw" id="senha" name="senha" data-type="password" autocomplete="off" required>
-                                    <button type="button" id="show_password" name="show_password" class="fa fa-eye-slash" aria-hidden="true"></button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="group">
-                                    <input id="checkLemnbrar" type="checkbox" class="check" checked>
-                                    <label for="checkLemnbrar"><span class="icon"></span> Lembrar Login</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="group">
-                                    <input type="submit" class="button" value="Entrar">
-                                </div>
-                                <!--<div class="hr"></div>
-                                <div class="foot-lnk">
-                                    <a href="#forgot">Esqueci minha senha?</a>
-                                </div>-->
-                            </li>
-                        </ul>
+                        <div class="group">
+                            <label for="email" class="label">Email:*</label>
+                            <input type="email" class="input" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="email@email.com" value="" autocomplete="off" required>
+                        </div>
+                        <div class="group">
+                            <label for="senha" class="label">Senha:*</label>
+                            <input type="password" class="input" id="senha" name="senha" data-type="password" autocomplete="off" required>
+                            <span id="password-eye" toggle="#password-field" class="fa fa-lg fa-fw fa-eye-slash password-eye-icon"></span>
+                        </div>
+                        <div class="group">
+                            <input id="checkLemnbrar" type="checkbox" class="check" checked>
+                            <label for="checkLemnbrar"><span class="icon"></span> Lembrar Login</label>
+                        </div>
+                        <div class="group">
+                            <input type="submit" class="button" value="Entrar">
+                        </div>
                     </form>
                 </div>
 
@@ -107,7 +93,7 @@
                         </div>
                         <div class="group">
                             <label for="telefone" class="label">Número do telefone:*</label>
-                            <input class="input" type="tel" onkeypress="mask(this, mphone);" onblur="mask(this, mphone);" id="telefone" name="telefone" value="{{ novoLogin['telefone'] }}" autocomplete="off" required>
+                            <input class="input" type="tel" pattern="\d*" onkeydown="mask(this, mphone);" id="telefone" name="telefone" value="{{ novoLogin['telefone'] }}" autocomplete="off" required>
                         </div>
                         <div class="group">
                             <label for="senhaCad" class="label">Senha:*</label>
@@ -171,7 +157,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <!--MASKARA TELEFONE-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>-->
     <!--MASKARA TELEFONE-->
     <!--Meu Js-->
     <script src="/static/js/scriptsLogin.js"></script>

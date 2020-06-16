@@ -3,18 +3,19 @@ $(document).ready(function () {
         $('#mensagens').hide();
     }, 2500);
 
-    $('#show_password').hover(function (e) {
-        e.preventDefault();
-        if ($('#senha').attr('type') == 'password') {
-            $('#senha').attr('type', 'text');
-            $('#senha').attr('data-type', 'text');
-            $('#show_password').attr('class', 'fa fa-eye');
-        } else {
-            $('#senha').attr('type', 'password');
-            $('#senha').attr('data-type', 'password');
-            $('#show_password').attr('class', 'fa fa-eye-slash');
-        }
-    });
+    $('#password-eye').hover(function () {
+        $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+        $('#senha').attr('type', 'text');
+        $('#senha').attr('data-type', 'text');
+
+    }, function () {
+        $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+        $('#senha').attr('type', 'password');
+        $('#senha').attr('data-type', 'password');
+    }
+    );
+
+
 });
 
 function mask(o, f) {
