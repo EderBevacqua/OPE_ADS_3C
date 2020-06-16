@@ -3,19 +3,19 @@ $(document).ready(function () {
         $('#mensagens').hide();
     }, 2500);
 
-    $('#password-eye').hover(function () {
+    $('#password-eye').on('touchstart mouseenter', function () {
         $(this).removeClass("fa-eye-slash").addClass("fa-eye");
         $('#senha').attr('type', 'text');
         $('#senha').attr('data-type', 'text');
 
-    }, function () {
+    });
+
+    $('#password-eye').on('mouseleave', function () {
         $(this).removeClass("fa-eye").addClass("fa-eye-slash");
         $('#senha').attr('type', 'password');
         $('#senha').attr('data-type', 'password');
-    }
-    );
 
-
+    });
 });
 
 function mask(o, f) {
