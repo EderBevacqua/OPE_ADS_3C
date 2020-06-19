@@ -52,17 +52,18 @@ def cadastrar():
         return redirect('/')
     try:
         if request.method == 'POST':
-            if not "situacao" in request.form:
-                novo_equipamento = {"id":"", "numeroEquipamento":request.form["numeroEquipamento"], "marca" :request.form["marca"], "modelo" :request.form["modelo"], "situacao" :"ATIVO"}
+            novo_equipamento = {"id":"", "numeroEquipamento":request.form["numeroEquipamento"], "marca" :request.form["marca"], "modelo" :request.form["modelo"], "situacao" :request.form["situacao"]}
+            if service_localiza(request.form["numeroEquipamento"]) == None:
+                equipamento = service_criar(novo_equipamento)
+                if equipamento == None:
+                    flash('Equipamento não pode ser cadastrado!')
+                    return redirect("/equipamentos")
+                else:
+                    flash('Equipamento cadastrado')
+                    return redirect('/equipamentos')
             else:
-                novo_equipamento = {"id":"", "numeroEquipamento":request.form["numeroEquipamento"], "marca" :request.form["marca"], "modelo" :request.form["modelo"], "situacao" :request.form["situacao"]}
-            equipamento = service_criar(novo_equipamento)
-            if equipamento == None:
-                flash('Equipamento não pode ser cadastrado!')
+                flash('Já existe um equipamento cadastrado com esse número!')
                 return redirect("/equipamentos")
-            else:
-                flash('Equipamento cadastrado')
-                return redirect('/equipamentos')
         return render_template("cadastrar.html")
     except ValueError:
         flash('Digite um NÚMERO válido para o equipamento')

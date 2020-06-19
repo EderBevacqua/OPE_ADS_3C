@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="departamento">Departamento:*</label>
-                                    <input class="form-control" type="text" id="departamento" name="departamento" placeholder="Departamento" value="{{ usuario['departamento'] }}" autocomplete="on" required>
+                                    <input class="form-control" type="text" id="departamento" pattern="[A-Za-z\s]+$" name="departamento" placeholder="Departamento" value="{{ usuario['departamento'] }}" autocomplete="on" required>
                                     <!--<div class="valid-feedback">ok</div>
                                     <div class="invalid-feedback">Digite seu departamento</div>-->
                                 </div>
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="telefone">Número do telefone:*</label>
-                                    <input class="form-control" type="text" id="telefone" name="telefone" onkeypress="mask(this, mphone);" onblur="mask(this, mphone);" value="{{ usuario['telefone'] }}" autocomplete="on" required>
+                                    <input class="form-control" type="text" id="telefone" name="telefone" onkeydown="mask(this, mphone);" value="{{ usuario['telefone'] }}" autocomplete="on" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="modelo">Administrador:*</label>
@@ -88,7 +88,7 @@
                             <form class="was-validated" action="{{url_for('cadastroUsuario_app.cadastrar')}}" method="POST">
                                 <div class="form-group">
                                     <label for="nome">Nome:*</label>
-                                    <input class="form-control" type="text" pattern="[a-z A-Z]+$" id="nome" name="nome" placeholder="Nome" min="5" max="50" autocomplete="on" required>
+                                    <input class="form-control" type="text" pattern="[A-Za-z\s]+$" id="nome" name="nome" placeholder="Nome" min="5" max="50" autocomplete="on" required>
                                     <span class="validity"></span>
                                 </div>
                                 <div class="form-group">
@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="departamento">Departamento:*</label>
-                                    <input class="form-control" type="text" id="departamento" name="departamento" placeholder="Departamento" autocomplete="on" required>
+                                    <input class="form-control" type="text" pattern="[A-Za-z\s]+$" id="departamento" name="departamento" placeholder="Departamento" autocomplete="on" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email:*</label>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="telefone">Número do telefone:*</label>
-                                    <input class="form-control" type="text" id="telefone" name="telefone" onkeypress="mask(this, mphone);" onblur="mask(this, mphone);" autocomplete="on" required>
+                                    <input class="form-control" type="text" id="telefone" name="telefone" onkeydown="mask(this, mphone);" autocomplete="on" required>
                                 </div>
                                 <!--<div class="form-group">
                                     <label for="modelo">Administrador:*</label>
@@ -120,11 +120,11 @@
                                     <label for="modelo">Administrador:*</label>
                                     <div class="form-group form-check">
                                         <label class="form-check-label">
-                                            <input class="form-check-label" type="radio" id="isAdmin" name="isAdmin" value="1" checked>SIM
+                                            <input class="form-check-label" type="radio" id="isAdmin" name="isAdmin" value="1">SIM
                                         </label>
                                         <br />
                                         <label class="form-check-label">
-                                            <input class="form-check-label" type="radio" id="isAdmin" name="isAdmin" value="0">NÃO
+                                            <input class="form-check-label" type="radio" id="isAdmin" name="isAdmin" value="0" checked>NÃO
                                         </label>
                                     </div>
                                 </div>
@@ -217,7 +217,6 @@
             </table>
             {% endif %}
         </div>
-        <!--<a class="btn btn-primary" href="{{url_for('index')}}">Voltar</a>-->
     </div>
 </div>
 

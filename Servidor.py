@@ -36,11 +36,6 @@ app.config.from_object(DevelopmentConfig)
 def user_loader(user_id):
     return service_carregarUsuario(user_id)
 
-@app.route('/')
-@login_required
-def index():
-    return render_template('index.html')
-
 dados_db.init()
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)

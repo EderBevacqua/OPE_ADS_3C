@@ -43,8 +43,7 @@ def aprovar(id):
         connection.commit()
         cursor.execute(f"SELECT changes() FROM emprestimos")
         row = cursor.fetchone()
-        cursor.execute(f"update equipamentos set situacao='INATIVO' where id in (select eq.id from equipamentos as eq inner join solicitaEmprestimo as sE on sE.id_equipamento = eq.id inner join emprestimos as em on sE.id_emprestimo = em.id where sE.id_emprestimo = ?)", (int(id),))
-        connection.commit()
+        
         if row[0] ==1:
             return True
 
@@ -59,26 +58,7 @@ def reprovar(id):
         connection.commit()
         if row[0] ==1:
             return True
-
-#DashBoard
-def empMesAprovados():
-    with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"select count(id) as qtd from emprestimos where dtEmprestimo >= DateTime('Now', '-1 months', 'LocalTime') and status='APROVADO' ")
-        rows = cursor.fetchall()
-        return rows[0][0]
-
-def empMesReprovados():
-    with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"select count(id) as qtd from emprestimos where dtEmprestimo >= DateTime('Now', '-1 months', 'LocalTime') and status='REPROVADO' ")
-        rows = cursor.fetchall()
-        return rows[0][0]
-
-def empMesPendentes():
-    with closing(con()) as connection, closing(connection.cursor()) as cursor:
-        cursor.execute(f"select count(id) as qtd from emprestimos where dtEmprestimo >= DateTime('Now', '-1 months', 'LocalTime') and status='PENDENTE' ")
-        rows = cursor.fetchall()
-        return rows[0][0]
-
+        
 
 def consultar(id):
    pass

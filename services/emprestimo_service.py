@@ -6,10 +6,7 @@ from infra.emprestimo_dao import \
     consultar as dao_consultar, \
     cadastrar as dao_cadastrar, \
     alterar as dao_alterar, \
-    remover as dao_remover, \
-    empMesAprovados as dao_empMesAprovados, \
-    empMesReprovados as dao_empMesReprovados, \
-    empMesPendentes as dao_empMesPendentes
+    remover as dao_remover
 
 from model.emprestimo import Emprestimo
 from model.solicitarEmprestimo import SolicitarEmprestimo
@@ -45,19 +42,6 @@ def listar():
 
 def listarEmp():
     return dao_listarEmp()
-
-#DashBoard
-def empMesAprovados():
-    return dao_empMesAprovados()
-
-def empMesReprovados():
-    return dao_empMesReprovados()
-
-def empMesPendentes():
-    return dao_empMesPendentes()
-
-
-
 
 def localizar(id):
     pass

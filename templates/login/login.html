@@ -85,7 +85,7 @@
                         </div>
                         <div class="group">
                             <label for="departamento" class="label">Departamento:*</label>
-                            <input class="input" type="text" id="departamento" name="departamento" value="{{ novoLogin['departamento'] }}" autocomplete="off" required>
+                            <input class="input" type="text" pattern="[A-Za-z\s]+$" id="departamento" name="departamento" value="{{ novoLogin['departamento'] }}" autocomplete="off" required>
                         </div>
                         <div class="group">
                             <label for="emailCad" class="label">Email:*</label>
@@ -93,7 +93,7 @@
                         </div>
                         <div class="group">
                             <label for="telefone" class="label">Número do telefone:*</label>
-                            <input class="input" type="tel" pattern="\d*" onkeydown="mask(this, mphone);" id="telefone" name="telefone" value="{{ novoLogin['telefone'] }}" autocomplete="off" required>
+                            <input class="input" type="tel" onkeydown="mask(this, mphone);" id="telefone" name="telefone" value="{{ novoLogin['telefone'] }}" autocomplete="off" required>
                         </div>
                         <div class="group">
                             <label for="senhaCad" class="label">Senha:*</label>

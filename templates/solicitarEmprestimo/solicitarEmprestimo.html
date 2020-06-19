@@ -17,7 +17,17 @@
                     </li>
                 </ol>
             </div>
+
         </div>
+        <!-- Mensagens -->
+        {% if mensagem %}
+        <div id="mensagens" class=flashes>
+            <div class="modal-content">
+                {{ mensagem }}
+            </div>
+        </div>
+        {% endif %}
+        <!-- Fim Mensagens -->
         <div id="page-wrapper">
             <!-- Modal addEquipamento -->
             <div class="modal fade" id="addEquipamento" role="dialog">
@@ -89,6 +99,7 @@
                 </div>
             </div>
             <!-- fim addEquipamento -->
+
 
             <form class="was-validated" action="/solicitarEmprestimo/cadastrar" method="POST" novalidate>
                 {{ formSolicitarEmprestimo.csrf_token }}
@@ -189,13 +200,10 @@
                     {% endfor %}
                 </div>
 
-                <button class="btn btn-success" type="submit">Cadastrar</button> | <a class="btn btn-danger" href="{{url_for('index')}}">Cancelar</a>
+                <button class="btn btn-success" type="submit">Cadastrar</button> | <a class="btn btn-danger" href="{{url_for('solicitarEmprestimo_app.dashboard')}}">Cancelar</a>
             </form>
             <br />
             <h10 class="center">*Campos obrigatórios</h10>
-        </div>
-        <div id="mensagens">
-            {{mensagem}}
         </div>
     </div>
 </div>

@@ -13,9 +13,40 @@ from services.solicitarEmprestimo_service import \
     localizar as service_localiza, \
     criar as service_criar, \
     remover as service_remover, \
-    atualizar as service_atualiza
+    atualizar as service_atualiza, \
+    empMesAprovados as service_empMesAprovados, \
+    empMesReprovados as service_empMesReprovados, \
+    empMesPendentes as service_empMesPendentes, \
+    empAprovados as service_empAprovados, \
+    empReprovados as service_empReprovados, \
+    empPendentes as service_empPendentes, \
+    empUserAprovados as service_empUserAprovados, \
+    empUserReprovados as service_empUserReprovados, \
+    empUserPendentes as service_empUserPendentes, \
+    equipAtivo as service_equipAtivo, \
+    equipInativo as service_equipInativo
 
 solicitarEmprestimo_app = Blueprint('solicitarEmprestimo_app', __name__, template_folder='templates/solicitarEmprestimo')
+
+#def Content():
+#    TOPIC_DICT = {"Basics":[["Introduction to Python","/introduction-to-python-programming/"],
+#                            ["Print functions and Strings","/python-tutorial-print-function-strings/"],
+#                            ["Math basics with Python 3","/math-basics-python-3-beginner-tutorial/"]],
+#                  "Web Dev":[]}
+
+#    return TOPIC_DICT
+
+#TOPIC_DICT = Content()
+
+@solicitarEmprestimo_app.route('/', methods=['GET'])
+@login_required
+def dashboard():
+    if current_user.isAdmin == 1:
+        return render_template('dashboard.html',empAprovados=service_empAprovados(),empReprovados=service_empReprovados(),empPendentes=service_empPendentes(),empMesAprovados=service_empMesAprovados(),empMesReprovados=service_empMesReprovados(),empMesPendentes=service_empMesPendentes(),equipAtivo=service_equipAtivo(),equipInativo=service_equipInativo())
+    else:
+        return render_template('dashboard.html',empUserAprovados=service_empUserAprovados(current_user.id_usuario),empUserReprovados=service_empUserReprovados(current_user.id_usuario),empUserPendentes=service_empUserPendentes(current_user.id_usuario))
+
+
 
 @solicitarEmprestimo_app.route('/emprestimos/adicionarEquipamento/<int:id_emprestimo>', methods=['POST'])
 def adicionarEquipamento(id_emprestimo):
@@ -66,7 +97,26 @@ def solicitarEmprestimo():
 
     if '/solicitarEmprestimo/cadastrar' == rule.rule:
         try:
+            selectUser = request.form['nome'], request.form['numeroMatricula']
+            equips = request.form['numeroEquipamento'].strip("[]").replace("'","").replace(" ","").split(",")
+            dtEmprestimo = request.form['dtEmprestimo']
+            dtDevolucao = request.form['dtDevolucao']
+            now = datetime.now()
+            #now = now.strftime('%d-%m-%Y %H:%M')
+            dataHoraEmp_obj = datetime.strptime(formSolicitarEmprestimo.dtEmprestimo.data, '%d-%m-%Y %H:%M')
+            #dataHoraEmp = dataHoraEmp_obj.strftime('%d/%m/%Y %H:%M')
+            
+            dataHoraDev_obj = datetime.strptime(formSolicitarEmprestimo.dtDevolucao.data, '%d-%m-%Y %H:%M')
+            #dataHoraDev = dataHoraDev_obj.strftime('%d/%m/%Y %H:%M')
             if formSolicitarEmprestimo.validate_on_submit():
+                if dataHoraEmp_obj < now:
+                    mensagem = 'A data do Empréstimo é menor do que a data atual!'
+                    return render_template("solicitarEmprestimo/solicitarEmprestimo.html", mensagem=mensagem, equips=equips, dtEmprestimo=dtEmprestimo, dtDevolucao=dtDevolucao, equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)
+                if dataHoraEmp_obj > dataHoraDev_obj:
+                    mensagem = 'A data de DEVOLUÇÃO DEVE SER MAIOR do que a data do empréstimo!'
+                    return render_template("solicitarEmprestimo/solicitarEmprestimo.html",mensagem=mensagem, equips=equips,dtEmprestimo=dtEmprestimo, dtDevolucao=dtDevolucao,  equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)
+
+
                 nova_solicitacao = {'id':'', 'id_emprestimo':'', 'id_equipamento':'', 'id_usuario':'', 'dtSolicitacao':'', 'dtEmprestimo':formSolicitarEmprestimo.dtEmprestimo.data, 'dtDevolucao':formSolicitarEmprestimo.dtDevolucao.data, 'status':'', 'nome':formSolicitarEmprestimo.nome.data, 'numeroMatricula':formSolicitarEmprestimo.numeroMatricula.data, 'departamento':'', 'email':'', 'telefone':'', 'numeroEquipamento':formSolicitarEmprestimo.numeroEquipamento.data, 'marca':'','modelo':'', 'situacao':''}
                 solicitacao = service_criar(nova_solicitacao)
                 if solicitacao == None:
@@ -81,7 +131,6 @@ def solicitarEmprestimo():
             
             if request.form['numeroEquipamento']:
                 equips = request.form['numeroEquipamento'].strip("[]").replace("'","").replace(" ","").split(",")
-                #equips = request.form['numeroEquipamento']
                 return render_template("solicitarEmprestimo/solicitarEmprestimo.html", dtEmprestimo=dtEmprestimo, dtDevolucao=dtDevolucao, equips=equips, equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)
             else:
                 return render_template("solicitarEmprestimo/solicitarEmprestimo.html", dtEmprestimo=dtEmprestimo, dtDevolucao=dtDevolucao, equipamentos=service_equipDisponivel(), usuarios=service_listarUser(), formSolicitarEmprestimo=formSolicitarEmprestimo, selectUser=selectUser)

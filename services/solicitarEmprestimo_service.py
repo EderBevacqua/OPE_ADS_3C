@@ -8,7 +8,18 @@ from infra.solicitarEmprestimo_dao import \
     consultar as dao_consultar, \
     cadastrar as dao_cadastrar, \
     alterar as dao_alterar, \
-    remover as dao_remover
+    remover as dao_remover, \
+    empMesAprovados as dao_empMesAprovados, \
+    empMesReprovados as dao_empMesReprovados, \
+    empMesPendentes as dao_empMesPendentes, \
+    empAprovados as dao_empAprovados, \
+    empReprovados as dao_empReprovados, \
+    empPendentes as dao_empPendentes, \
+    empUserAprovados as dao_empUserAprovados, \
+    empUserReprovados as dao_empUserReprovados, \
+    empUserPendentes as dao_empUserPendentes, \
+    equipAtivo as dao_equipAtivo, \
+    equipInativo as dao_equipInativo
 
 from model.solicitarEmprestimo import SolicitarEmprestimo
 from model.equipamento import Equipamento
@@ -51,6 +62,44 @@ def equipDisponivel():
 
 def listarUser():
     return [Usuario.__dict__() for Usuario in dao_listarUser()]
+
+#DashBoard
+def empAprovados():
+    return dao_empAprovados()
+
+def empReprovados():
+    return dao_empReprovados()
+
+def empPendentes():
+    return dao_empPendentes()
+
+def empMesAprovados():
+    return dao_empMesAprovados()
+
+def empMesReprovados():
+    return dao_empMesReprovados()
+
+def empMesPendentes():
+    return dao_empMesPendentes()
+
+#DashBoard User
+def empUserAprovados(id):
+    return dao_empUserAprovados(id)
+
+def empUserReprovados(id):
+    return dao_empUserReprovados(id)
+
+def empUserPendentes(id):
+    return dao_empUserPendentes(id)
+
+
+#DashBoard equipamentos
+def equipAtivo():
+    return dao_equipAtivo()
+
+def equipInativo():
+    return dao_equipInativo()
+
 
 def localizar(numeroSolicEmprestimo):
     SolicEmprestimo = dao_consultar(numeroSolicEmprestimo)

@@ -36,9 +36,15 @@ def cadastrar():
         return redirect('/')
     try:
         if request.method == 'POST':
+            if service_localiza(request.form["numeroMatricula"]) != None:
+                flash('Número da matrícula ja cadastrado!')
+                return redirect('/usuarios')
+            if service_localiza(request.form["email"].lower()) != None:
+                 flash('Email ja cadastrado!')
+                 return redirect('/usuarios')
             novo_usuario = { "id":"", "nome": request.form["nome"], "numeroMatricula":request.form["numeroMatricula"], "departamento" :request.form["departamento"], "email":request.form["email"].lower(), "telefone":request.form["telefone"],"isAdmin":request.form["isAdmin"]}
             usuario = service_criar(novo_usuario)
-            if usuario != True:
+            if usuario != None:
                 flash("Usuario nao pode ser cadastrado!")
                 return redirect("/usuarios")
             else:

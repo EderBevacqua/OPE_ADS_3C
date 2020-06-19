@@ -9,21 +9,9 @@ from services.emprestimo_service import \
     localizar as service_localiza, \
     criar as service_criar, \
     remover as service_remover, \
-    atualizar as service_atualiza, \
-    empMesAprovados as service_empMesAprovados, \
-    empMesReprovados as service_empMesReprovados, \
-    empMesPendentes as service_empMesPendentes
+    atualizar as service_atualiza
 
 emprestimo_app = Blueprint('emprestimo_app', __name__, template_folder='templates/emprestimo')
-
-def Content():
-    TOPIC_DICT = {"Basics":[["Introduction to Python","/introduction-to-python-programming/"],
-                            ["Print functions and Strings","/python-tutorial-print-function-strings/"],
-                            ["Math basics with Python 3","/math-basics-python-3-beginner-tutorial/"]],
-                  "Web Dev":[]}
-
-    return TOPIC_DICT
-TOPIC_DICT = Content()
 
 @emprestimo_app.route('/api/emprestimos', methods=['GET'])
 def emprestimosApi():
@@ -33,12 +21,6 @@ def emprestimosApi():
 @login_required
 def emprestimoss():
     return render_template('emprestimo/emprestimos.html', emprestimos = service_listarEmp())
-
-
-@emprestimo_app.route('/emprestimos/dashboard', methods=['GET'])
-@login_required
-def dashboardEmp():
-    return render_template('emprestimo/dashboard.html',TOPIC_DICT=TOPIC_DICT,empMesAprovados=service_empMesAprovados(),empMesReprovados=service_empMesReprovados(),empMesPendentes=service_empMesPendentes())
 
 @emprestimo_app.route('/emprestimos/aprovar/<int:id_emprestimo>', methods=['POST','GET'])
 def aprovar(id_emprestimo):
