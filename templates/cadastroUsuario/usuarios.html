@@ -18,7 +18,7 @@
                             <form class="was-validated" action="/usuarios/atualizar/{{ usuario['numeroMatricula'] }}" method="POST">
                                 <div class="form-group">
                                     <label for="nome">Nome:*</label>
-                                    <input class="form-control" type="text" pattern="[a-z A-Z]+$" id="nome" name="nome" placeholder="Nome" value="{{ usuario['nome'] }}" autocomplete="on" required>
+                                    <input class="form-control" type="text" pattern="[A-Za-z\s]+$" id="nome" name="nome" placeholder="Nome" value="{{ usuario['nome'] }}" autocomplete="on" required>
                                     <div class="valid-feedback">ok</div>
                                     <div class="invalid-feedback">Digite seu nome(Apenas letras)</div>
                                 </div>

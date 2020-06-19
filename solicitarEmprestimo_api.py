@@ -62,7 +62,7 @@ def adicionarEquipamento(id_emprestimo):
                 return redirect('/emprestimos')
         flash('Nenhum equipamento adicionado')
         return redirect("/emprestimos")
-    return redirect("/index")
+    return redirect("/emprestimos")
 
 @solicitarEmprestimo_app.route('/emprestimos/removerEquipamento/<int:id_emprestimo>/<int:id_equipamento>', methods=['POST','GET'])
 def removerEquipamento(id_emprestimo,id_equipamento):
@@ -71,7 +71,7 @@ def removerEquipamento(id_emprestimo,id_equipamento):
         if rm != None:
             flash('Equipamento removido do empréstimo')
             return redirect('/emprestimos')
-    return redirect("/index")
+    return redirect("/emprestimos")
 
 @solicitarEmprestimo_app.route('/emprestimos', methods=['POST','GET'])
 @login_required

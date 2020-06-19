@@ -61,6 +61,8 @@ def addEquipamento(idEmp,nEquip):
         connection.commit()
         cursor.execute(f"SELECT changes() FROM emprestimos")
         r = cursor.fetchone()
+        cursor.execute(f"update equipamentos set situacao='INATIVO' where id in (select eq.id from equipamentos as eq inner join solicitaEmprestimo as sE on sE.id_equipamento = eq.id inner join emprestimos as em on sE.id_emprestimo = em.id where sE.id_emprestimo = ?)", (int(idEmp),))
+        connection.commit()
         if r[0] >= 1:
            return True
 
@@ -71,6 +73,8 @@ def removeEquip(id_emprestimo,nEquip):
         connection.commit()
         cursor.execute(f"SELECT changes() FROM {model_name}")
         r = cursor.fetchone()
+        cursor.execute(f"update equipamentos set situacao='ATIVO' where numeroEquipamento = ?", (int(nEquip),))
+        connection.commit()
         if r[0] >= 1:
            return True
 
